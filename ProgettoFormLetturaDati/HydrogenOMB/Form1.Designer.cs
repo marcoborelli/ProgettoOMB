@@ -50,6 +50,7 @@
             this.stopBut.TabIndex = 1;
             this.stopBut.Text = "TERMINA";
             this.stopBut.UseVisualStyleBackColor = true;
+            this.stopBut.Click += new System.EventHandler(this.stopBut_Click);
             // 
             // timerLab
             // 
