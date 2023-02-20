@@ -23,25 +23,14 @@ namespace HydrogenOMB {
         SerialPort portaSeriale = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
 
         private void Form1_Load(object sender, EventArgs e) {
+            timer1.Stop();
             portaSeriale.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             timer1.Enabled = false;
-            DataGridViewColumn delta = new DataGridViewTextBoxColumn();
-            delta.HeaderText = "DELTA";
-            dataGridView1.Columns.Add(delta);
 
-            DataGridViewColumn timer = new DataGridViewTextBoxColumn();
-            timer.HeaderText = "TIMER";
-            dataGridView1.Columns.Add(timer);
-
-            DataGridViewColumn tr1 = new DataGridViewTextBoxColumn();
-            tr1.HeaderText = "TRIMMER 1";
-            dataGridView1.Columns.Add(tr1);
-
-            DataGridViewColumn tr2 = new DataGridViewTextBoxColumn();
-            tr2.HeaderText = "TRIMMER 2";
-            dataGridView1.Columns.Add(tr2);
-
-            this.dataGridView1.Rows.Insert(0, "ciao", "ciao1", "ciao2", "ciao3");
+            dataGridView1.Columns.Add("delta", "DELTA");
+            dataGridView1.Columns.Add("timer","TIMER");
+            dataGridView1.Columns.Add("tr1", "TRIMMER 1");
+            dataGridView1.Columns.Add("tr2", "TRIMMER 2");
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
@@ -51,10 +40,12 @@ namespace HydrogenOMB {
 
         private void stopBut_Click(object sender, EventArgs e) {/*termina*/
             portaSeriale.Close();
+            timer1.Stop();
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/
-            //timer1.Enabled = true;
+            timer1.Start();
+            tempo = DateTime.Now;
             oraInizio = tempo;
             portaSeriale.Open();
         }

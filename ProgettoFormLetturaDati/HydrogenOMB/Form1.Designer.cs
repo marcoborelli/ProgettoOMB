@@ -67,7 +67,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(196, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(420, 441);
+            this.dataGridView1.Size = new System.Drawing.Size(444, 441);
             this.dataGridView1.TabIndex = 3;
             // 
             // timer1
@@ -80,7 +80,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 481);
+            this.ClientSize = new System.Drawing.Size(652, 481);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.timerLab);
             this.Controls.Add(this.stopBut);
