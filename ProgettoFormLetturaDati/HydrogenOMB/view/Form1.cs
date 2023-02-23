@@ -17,49 +17,48 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        bool first = true;
-        DateTime tempo = DateTime.Now, tempoOld = DateTime.Now, oraInizio;
-        TimeSpan deltaTempo;
+        DateTime oraInizio;
 
         //SerialPort portaSeriale = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
         SerialPortReader serialReader;
-        DataManager viewMan;
+        DataManager dataMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             timer1.Stop();
             stopBut.Enabled = false;
-            //portaSeriale.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             timer1.Enabled = false;
 
             dataGridView1.Columns.Add("delta", "DELTA");
-            dataGridView1.Columns.Add("timer","MINUTI");
+            dataGridView1.Columns.Add("timer","TIME");
             dataGridView1.Columns.Add("tr1", "TRIMMER 1");
             dataGridView1.Columns.Add("tr2", "TRIMMER 2");
 
-            viewMan = new DataManager(this);
-            serialReader = new SerialPortReader("COM3", viewMan);
+            dataMan = new DataManager(this);
+            serialReader = new SerialPortReader("COM3", dataMan);
     }
 
         private void timer1_Tick(object sender, EventArgs e) {
-            deltaTempo = DateTime.Now - oraInizio;
+            TimeSpan deltaTempo = DateTime.Now - oraInizio;
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
         }
 
         private void stopBut_Click(object sender, EventArgs e) {/*termina*/
-            //portaSeriale.Close();
-            serialReader.Stop();
             timer1.Stop();
+            serialReader.Stop();
+
             stopBut.Enabled = false;
             startBut.Enabled = true;
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/
-            timer1.Start();
+            dataGridView1.Rows.Clear();
             oraInizio = DateTime.Now;
+
+            timer1.Start();
+            serialReader.Start();
+
             stopBut.Enabled = true;
             startBut.Enabled = false;
-            //portaSeriale.Open();
-            serialReader.Start();
         }
 
         public void PrintRow(int rowIndex, string[] fields) {

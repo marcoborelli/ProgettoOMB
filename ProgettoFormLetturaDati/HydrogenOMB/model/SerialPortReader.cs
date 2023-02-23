@@ -99,13 +99,13 @@ namespace HydrogenOMB {
                 fields = new string[] { "-", "-" };
             }
 
-            string MinSecMilTime = $"{Now.Minute}:{Now.Second}:{Now.Millisecond}";
+            string HourMinSecMilTime = $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}";
             if (First) {/*because first time i have no delta-time */
-                final = $";{MinSecMilTime};{fields[0]};{fields[1]}";
+                final = $";{HourMinSecMilTime};{fields[0]};{fields[1]}";
                 First = false;
             } else {
                 DeltaTime = Now - OldTime;
-                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds};{MinSecMilTime};{fields[0]};{fields[1]}";
+                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds};{HourMinSecMilTime};{fields[0]};{fields[1]}";
             }
             DManager.PrintOnForm(0, final);
             OldTime = Now;
