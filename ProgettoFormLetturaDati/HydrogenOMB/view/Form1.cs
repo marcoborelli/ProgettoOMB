@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Data;
@@ -22,7 +23,7 @@ namespace HydrogenOMB {
 
         //SerialPort portaSeriale = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
         SerialPortReader serialReader;
-        ViewManager viewMan;
+        DataManager viewMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             timer1.Stop();
@@ -35,7 +36,7 @@ namespace HydrogenOMB {
             dataGridView1.Columns.Add("tr1", "TRIMMER 1");
             dataGridView1.Columns.Add("tr2", "TRIMMER 2");
 
-            viewMan = new ViewManager(dataGridView1,this);
+            viewMan = new DataManager(this);
             serialReader = new SerialPortReader("COM3", viewMan);
     }
 
@@ -59,6 +60,15 @@ namespace HydrogenOMB {
             startBut.Enabled = false;
             //portaSeriale.Open();
             serialReader.Start();
+        }
+
+        public void PrintRow(int rowIndex, string[] fields) {
+            if (InvokeRequired) { // after we've done all the processing, 
+                this.Invoke(new MethodInvoker(delegate {
+                    dataGridView1.Rows.Insert(rowIndex, fields);
+                }));
+                return;
+            }
         }
 
     }

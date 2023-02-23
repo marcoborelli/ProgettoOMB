@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="model\SerialPortReader.cs" />
-    <Compile Include="model\ViewManager.cs" />
+    <Compile Include="model\DataManager.cs" />
     <Compile Include="view\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
