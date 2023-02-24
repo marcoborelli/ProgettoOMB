@@ -20,3 +20,4 @@ C:\Users\principale\source\repos\HydrogenOMB\ProgettoFormLetturaDati\HydrogenOMB
 C:\Users\principale\source\repos\HydrogenOMB\ProgettoFormLetturaDati\HydrogenOMB\obj\Debug\HydrogenOMB.csproj.CoreCompileInputs.cache
 C:\Users\principale\source\repos\HydrogenOMB\ProgettoFormLetturaDati\HydrogenOMB\obj\Debug\HydrogenOMB.exe
 C:\Users\principale\source\repos\HydrogenOMB\ProgettoFormLetturaDati\HydrogenOMB\obj\Debug\HydrogenOMB.pdb
+C:\Users\principale\source\repos\HydrogenOMB\ProgettoFormLetturaDati\HydrogenOMB\obj\Debug\HydrogenOMB.csproj.ResolveComReference.cache

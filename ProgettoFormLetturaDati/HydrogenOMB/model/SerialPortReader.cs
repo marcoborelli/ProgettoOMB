@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace HydrogenOMB {
     public class SerialPortReader {
         private SerialPort _port;
+        private FileManager _fManager;
         private DataManager _dManager;
         private DateTime _startTime, _now, _oldTime;
         private TimeSpan _deltaTime;
@@ -18,6 +19,7 @@ namespace HydrogenOMB {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
             _port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             DManager = dManager;
+            FManager = new FileManager();
             First = true;
         }
 
@@ -36,6 +38,18 @@ namespace HydrogenOMB {
                     _dManager = value;
                 } else {
                     throw new Exception("Inserire un ViewManager valido");
+                }
+            }
+        }
+        public FileManager FManager {
+            get {
+                return _fManager;
+            }
+            set {
+                if (value != null) {
+                    _fManager = value;
+                } else {
+                    throw new Exception("Errore col FileManager");
                 }
             }
         }
@@ -82,10 +96,12 @@ namespace HydrogenOMB {
         /*fine properties*/
 
         public void Start() {
-            _port.Open(); /* Begin communications*/
+            Port.Open(); /* Begin communications*/
+            FManager.StartNewFile();
         }
         public void Stop() {
-            _port.Close();
+            Port.Close();
+            FManager.Close();
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
@@ -107,7 +123,10 @@ namespace HydrogenOMB {
                 DeltaTime = Now - OldTime;
                 final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds};{HourMinSecMilTime};{fields[0]};{fields[1]}";
             }
+
             DManager.PrintOnForm(0, final);
+            FManager.Write(First, final);
+
             OldTime = Now;
         }
     }
