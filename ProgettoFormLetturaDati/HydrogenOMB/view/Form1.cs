@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Data;
@@ -19,23 +21,28 @@ namespace HydrogenOMB {
 
         DateTime oraInizio;
 
-        //SerialPort portaSeriale = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
         SerialPortReader serialReader;
         DataManager dataMan;
+        FileManager fileMan;
 
         private void Form1_Load(object sender, EventArgs e) {
+            string comPorte = "";
+            using (StreamReader sr = new StreamReader("settings.conf")) {
+                comPorte = sr.ReadLine();
+            }
             timer1.Stop();
             stopBut.Enabled = false;
             timer1.Enabled = false;
 
             dataGridView1.Columns.Add("delta", "DELTA");
-            dataGridView1.Columns.Add("timer","TIME");
+            dataGridView1.Columns.Add("timer", "TIME");
             dataGridView1.Columns.Add("tr1", "TRIMMER 1");
             dataGridView1.Columns.Add("tr2", "TRIMMER 2");
 
             dataMan = new DataManager(this);
-            serialReader = new SerialPortReader("COM3", dataMan);
-    }
+            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}File");
+            serialReader = new SerialPortReader(comPorte, dataMan, fileMan);
+        }
 
         private void timer1_Tick(object sender, EventArgs e) {
             TimeSpan deltaTempo = DateTime.Now - oraInizio;
@@ -48,6 +55,8 @@ namespace HydrogenOMB {
 
             stopBut.Enabled = false;
             startBut.Enabled = true;
+
+            Process.Start(@"c:\users\");
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/

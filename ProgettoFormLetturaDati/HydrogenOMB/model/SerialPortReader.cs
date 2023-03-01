@@ -15,11 +15,11 @@ namespace HydrogenOMB {
         private TimeSpan _deltaTime;
         private bool _first;
 
-        public SerialPortReader(string ComPorta, DataManager dManager) {
+        public SerialPortReader(string ComPorta, DataManager dManager, FileManager fManager) {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
-            _port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
+            Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             DManager = dManager;
-            FManager = new FileManager();
+            FManager = fManager;
             First = true;
         }
 

@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace HydrogenOMB {
     public class FileManager {
-        private string _fileName;
+        private string _fileName, _path;
         private byte _times;
+        private char _separator;
 
-        private Application _app;
-        private Workbook _wb;
-        private Worksheet _ws;
-        private Range _range;
+        private Excel.Application _app;
+        private Excel.Workbook _wb;
+        private Excel.Worksheet _ws;
+        private Excel.Range _range;
         object misValue = System.Reflection.Missing.Value;
 
-        public FileManager() {
+        public FileManager(char separator, string path) {
+            Separator = separator;
+            Path = path;
         }
 
         /*properties*/
@@ -28,7 +32,31 @@ namespace HydrogenOMB {
                 if (!string.IsNullOrEmpty(value)) {
                     _fileName = value;
                 } else {
-                    throw new Exception("Invalida FileName");
+                    throw new Exception("Invalid FileName");
+                }
+            }
+        }
+        public string Path {
+            get {
+                return _path;
+            }
+            set {
+                if (!string.IsNullOrEmpty(value)) {
+                    _path = value;
+                } else {
+                    throw new Exception("Invalid Path");
+                }
+            }
+        }
+        public char Separator {
+            get {
+                return _separator;
+            }
+            set {
+                if ($"{value}" != "" && value != ' ') {
+                    _separator = value;
+                } else {
+                    throw new Exception("Invalid Char Separer");
                 }
             }
         }
@@ -40,7 +68,7 @@ namespace HydrogenOMB {
                 _times = value;
             }
         }
-        private Application App {
+        private Excel.Application App {
             get {
                 return _app;
             }
@@ -52,7 +80,7 @@ namespace HydrogenOMB {
                 }
             }
         }
-        private Workbook Wb {
+        private Excel.Workbook Wb {
             get {
                 return _wb;
             }
@@ -64,7 +92,7 @@ namespace HydrogenOMB {
                 }
             }
         }
-        private Worksheet Ws {
+        private Excel.Worksheet Ws {
             get {
                 return _ws;
             }
@@ -76,7 +104,7 @@ namespace HydrogenOMB {
                 }
             }
         }
-        private Range Rng {
+        private Excel.Range Rng {
             get {
                 return _range;
             }
@@ -93,7 +121,7 @@ namespace HydrogenOMB {
         public void StartNewFile() {
             FileName = $"{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}_{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}";
 
-            App = new Application();/*starts excel app*/
+            App = new Excel.Application();/*starts excel app*/
             App.DisplayAlerts = false;/*it allows to not require everytime confirm to rewrite file*/
             App.SheetsInNewWorkbook = 1; /*there is only 1 sheet*/
 
@@ -118,7 +146,7 @@ namespace HydrogenOMB {
                 }
 
                 if (Times == 5) { /*every 5 times I auto-salve file*/
-                    Wb.SaveAs($@"{AppDomain.CurrentDomain.BaseDirectory}File\{FileName}.xlsx");
+                    Wb.SaveAs($@"{Path}\{FileName}.xlsx");
                     Times = 0;
                 }
                 Times++;
