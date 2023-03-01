@@ -21,19 +21,24 @@ namespace HydrogenOMB {
 
         DateTime oraInizio;
         string[] campi = new string[] { "DELTA", "TIME", "TRIMMER 1", "TRIMMER 2" };
+        string configurationFileName = "settings.conf", directoryName="File";
 
         SerialPortReader serialReader;
         DataManager dataMan;
         FileManager fileMan;
 
         private void Form1_Load(object sender, EventArgs e) {
+            CheckFileAndFolder();
+
             string comPorte = "";
-            using (StreamReader sr = new StreamReader("settings.conf")) {
+            using (StreamReader sr = new StreamReader(configurationFileName)) {
                 comPorte = sr.ReadLine();
             }
             timer1.Stop();
+
             stopBut.Enabled = false;
             timer1.Enabled = false;
+            checkOpenExplorer.Checked = true;
 
             dataGridView1.Columns.Add("delta", campi[0]);
             dataGridView1.Columns.Add("timer", campi[1]);
@@ -41,7 +46,7 @@ namespace HydrogenOMB {
             dataGridView1.Columns.Add("tr2", campi[3]);
 
             dataMan = new DataManager(this);
-            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}File", campi);
+            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
             serialReader = new SerialPortReader(comPorte, dataMan, fileMan);
         }
 
@@ -79,6 +84,17 @@ namespace HydrogenOMB {
                     dataGridView1.Rows.Insert(rowIndex, fields);
                 }));
                 return;
+            }
+        }
+
+        private void CheckFileAndFolder() {
+            if (!File.Exists(configurationFileName)) {
+                using (StreamWriter sw = new StreamWriter(configurationFileName)) {
+                    sw.WriteLine("COM3");
+                }
+            }
+            if (!Directory.Exists(directoryName)) {
+                Directory.CreateDirectory(directoryName);
             }
         }
 
