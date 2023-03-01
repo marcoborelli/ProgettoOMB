@@ -109,7 +109,7 @@ namespace HydrogenOMB {
 
             Now = DateTime.Now;
             string final;
-            string[] fields = _port.ReadLine().Split(';');
+            string[] fields = Port.ReadLine().Split(';');
 
             if (fields.Length != 2) {
                 fields = new string[] { "-", "-" };

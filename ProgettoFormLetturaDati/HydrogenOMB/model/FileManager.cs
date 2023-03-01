@@ -11,6 +11,7 @@ namespace HydrogenOMB {
         private string _fileName, _path;
         private byte _times;
         private char _separator;
+        private List<string> _fields;
 
         private Excel.Application _app;
         private Excel.Workbook _wb;
@@ -18,9 +19,11 @@ namespace HydrogenOMB {
         private Excel.Range _range;
         object misValue = System.Reflection.Missing.Value;
 
-        public FileManager(char separator, string path) {
+        public FileManager(char separator, string path, string[] campi) {
+            _fields = new List<string>();
             Separator = separator;
             Path = path;
+            Fields.AddRange(campi);
         }
 
         /*properties*/
@@ -28,7 +31,7 @@ namespace HydrogenOMB {
             get {
                 return _fileName;
             }
-            set {
+            private set {
                 if (!string.IsNullOrEmpty(value)) {
                     _fileName = value;
                 } else {
@@ -40,7 +43,7 @@ namespace HydrogenOMB {
             get {
                 return _path;
             }
-            set {
+            private set {
                 if (!string.IsNullOrEmpty(value)) {
                     _path = value;
                 } else {
@@ -52,12 +55,17 @@ namespace HydrogenOMB {
             get {
                 return _separator;
             }
-            set {
+            private set {
                 if ($"{value}" != "" && value != ' ') {
                     _separator = value;
                 } else {
                     throw new Exception("Invalid Char Separer");
                 }
+            }
+        }
+        public List<string> Fields {
+            get {
+                return _fields;
             }
         }
         private byte Times {
@@ -139,8 +147,12 @@ namespace HydrogenOMB {
                     }
 
                     for (int i = 0; i < val.Length; i++) {
+                        if (i < 2) {
+                            Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
+                        }
                         Ws.Cells[1, i + 1] = val[i];
                     }
+
                 } catch {
                     throw new Exception("Not valid string");
                 }
@@ -153,6 +165,11 @@ namespace HydrogenOMB {
             }
         }
         public void Close() {
+            AddLine();
+            for (int i = 0; i < Fields.Count; i++) {
+                Ws.Cells[1, i + 1] = Fields[i];
+            }
+
             Wb.SaveAs($@"{AppDomain.CurrentDomain.BaseDirectory}File\{FileName}.xlsx");
 
             Wb.Close();

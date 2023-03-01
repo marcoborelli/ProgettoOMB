@@ -20,6 +20,7 @@ namespace HydrogenOMB {
         }
 
         DateTime oraInizio;
+        string[] campi = new string[] { "DELTA", "TIME", "TRIMMER 1", "TRIMMER 2" };
 
         SerialPortReader serialReader;
         DataManager dataMan;
@@ -34,13 +35,13 @@ namespace HydrogenOMB {
             stopBut.Enabled = false;
             timer1.Enabled = false;
 
-            dataGridView1.Columns.Add("delta", "DELTA");
-            dataGridView1.Columns.Add("timer", "TIME");
-            dataGridView1.Columns.Add("tr1", "TRIMMER 1");
-            dataGridView1.Columns.Add("tr2", "TRIMMER 2");
+            dataGridView1.Columns.Add("delta", campi[0]);
+            dataGridView1.Columns.Add("timer", campi[1]);
+            dataGridView1.Columns.Add("tr1", campi[2]);
+            dataGridView1.Columns.Add("tr2", campi[3]);
 
             dataMan = new DataManager(this);
-            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}File");
+            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}File", campi);
             serialReader = new SerialPortReader(comPorte, dataMan, fileMan);
         }
 
@@ -56,7 +57,9 @@ namespace HydrogenOMB {
             stopBut.Enabled = false;
             startBut.Enabled = true;
 
-            Process.Start(@"c:\users\");
+            if (checkOpenExplorer.Checked) {
+                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}File");
+            }
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/
