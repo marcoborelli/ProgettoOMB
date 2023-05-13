@@ -8,8 +8,10 @@ using System.Windows.Forms;
 namespace HydrogenOMB {
     public class DataManager {
         private Form1 _associatedForm;
-        public DataManager(Form1 form) {
+        private char _separator;
+        public DataManager(Form1 form, char separator) {
             AssociatedForm = form;
+            Separator = separator;
         }
 
         /*properties*/
@@ -25,10 +27,22 @@ namespace HydrogenOMB {
                 }
             }
         }
+        public char Separator {
+            get {
+                return _separator;
+            }
+            private set {
+                if ($"{value}" != "" && value != ' ') {
+                    _separator = value;
+                } else {
+                    throw new Exception("Invalid Char Separer");
+                }
+            }
+        }
         /*fine properties*/
 
         public void PrintOnForm(int index, string row) {
-            string[] campi = row.Split(';');
+            string[] campi = row.Split(Separator);
             if (campi.Length != 4) {
                 campi = new string[] { "-", "-", "-", "-" };
             }
