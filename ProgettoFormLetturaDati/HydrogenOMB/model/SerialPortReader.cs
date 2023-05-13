@@ -14,9 +14,11 @@ namespace HydrogenOMB {
         private DateTime _startTime, _now, _oldTime;
         private TimeSpan _deltaTime;
         private bool _first;
+        private char _separator;
 
-        public SerialPortReader(string ComPorta, DataManager dManager, FileManager fManager) {
+        public SerialPortReader(string ComPorta,char separator, DataManager dManager, FileManager fManager) {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
+            Separator = separator;
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             DManager = dManager;
             FManager = fManager;
@@ -93,6 +95,18 @@ namespace HydrogenOMB {
                 _first = value;
             }
         }
+        public char Separator {
+            get {
+                return _separator;
+            }
+            private set {
+                if ($"{value}" != "" && value != ' ') {
+                    _separator = value;
+                } else {
+                    throw new Exception("Invalid Char Separer");
+                }
+            }
+        }
         /*fine properties*/
 
         public void Start() {
@@ -106,10 +120,11 @@ namespace HydrogenOMB {
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
+            string tmp = Port.ReadLine();
 
             Now = DateTime.Now;
             string final;
-            string[] fields = Port.ReadLine().Split(';');
+            string[] fields = tmp.Split(Separator);
 
             if (fields.Length != 2) {
                 fields = new string[] { "-", "-" };
@@ -117,11 +132,11 @@ namespace HydrogenOMB {
 
             string HourMinSecMilTime = $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}";
             if (First) {/*because first time i have no delta-time */
-                final = $";{HourMinSecMilTime};{fields[0]};{fields[1]}";
+                final = $"{Separator}{HourMinSecMilTime}{Separator}{fields[0]}{Separator}{fields[1]}";
                 First = false;
             } else {
                 DeltaTime = Now - OldTime;
-                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds};{HourMinSecMilTime};{fields[0]};{fields[1]}";
+                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}{Separator}{HourMinSecMilTime}{Separator}{fields[0]}{Separator}{fields[1]}";
             }
 
             DManager.PrintOnForm(0, final);

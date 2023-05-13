@@ -139,30 +139,32 @@ namespace HydrogenOMB {
             Ws.Name = "Size";
         }
         public void Write(bool first, string newLine) {
-            if (!String.IsNullOrWhiteSpace(newLine)) {
-                try {
-                    string[] val = newLine.Split(';');
-                    if (!first) {
-                        AddLine();
-                    }
-
-                    for (int i = 0; i < val.Length; i++) {
-                        if (i < 2) {
-                            Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
-                        }
-                        Ws.Cells[1, i + 1] = val[i];
-                    }
-
-                } catch {
-                    throw new Exception("Not valid string");
-                }
-
-                if (Times == 5) { /*every 5 times I auto-salve file*/
-                    Wb.SaveAs($@"{Path}\{FileName}.xlsx");
-                    Times = 0;
-                }
-                Times++;
+            if (String.IsNullOrWhiteSpace(newLine)) {
+                return;
             }
+
+            try {
+                string[] val = newLine.Split(Separator);
+                if (!first) {
+                    AddLine();
+                }
+
+                for (int i = 0; i < val.Length; i++) {
+                    if (i < 2) { /*only first 2 columns are string*/
+                        Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
+                    }
+                    Ws.Cells[1, i + 1] = val[i];
+                }
+
+            } catch {
+                throw new Exception("Not valid string");
+            }
+
+            if (Times == 5) { /*every 5 times I auto-salve file*/
+                Wb.SaveAs($@"{Path}\{FileName}.xlsx");
+                Times = 0;
+            }
+            Times++;
         }
         public void Close() {
             AddLine();

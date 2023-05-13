@@ -21,7 +21,7 @@ namespace HydrogenOMB {
 
         DateTime oraInizio;
         string[] campi = new string[] { "DELTA", "TIME", "TRIMMER 1", "TRIMMER 2" };
-        string configurationFileName = "settings.conf", directoryName="File";
+        string configurationFileName = "settings.conf", directoryName = "File";
 
         SerialPortReader serialReader;
         DataManager dataMan;
@@ -63,14 +63,13 @@ namespace HydrogenOMB {
             startBut.Enabled = true;
 
             if (checkOpenExplorer.Checked) {
-                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}File");
+                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
             }
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/
             dataGridView1.Rows.Clear();
             oraInizio = DateTime.Now;
-
             timer1.Start();
             serialReader.Start();
 

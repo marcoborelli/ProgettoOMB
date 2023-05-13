@@ -13,11 +13,11 @@ namespace HydrogenOMB {
         }
 
         /*properties*/
-        private Form1 AssociatedForm {
+        public Form1 AssociatedForm {
             get {
                 return _associatedForm;
             }
-            set {
+            private set {
                 if (value != null) {
                     _associatedForm = value;
                 } else {
@@ -33,6 +33,10 @@ namespace HydrogenOMB {
                 campi = new string[] { "-", "-", "-", "-" };
             }
             AssociatedForm.PrintRow(index, campi);
+        }
+
+        public void StartMeasurement() {
+
         }
     }
 }
