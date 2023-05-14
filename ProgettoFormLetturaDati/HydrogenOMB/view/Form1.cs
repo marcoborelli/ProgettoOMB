@@ -20,8 +20,8 @@ namespace HydrogenOMB {
         }
 
         DateTime oraInizio;
-        string[] campi = new string[] { "DELTA", "TIME", "TRIMMER 1", "TRIMMER 2" };
-        string configurationFileName = "settings.conf", directoryName = "File";
+        string[] campi = new string[] { "DELTA", "TIME", "ANGLE", "TRIMMER" };
+        const string configurationFileName = "settings.conf", directoryName = "File";
 
         SerialPortReader serialReader;
         DataManager dataMan;
@@ -42,12 +42,12 @@ namespace HydrogenOMB {
 
             dataGridView1.Columns.Add("delta", campi[0]);
             dataGridView1.Columns.Add("timer", campi[1]);
-            dataGridView1.Columns.Add("tr1", campi[2]);
+            dataGridView1.Columns.Add("ang", campi[2]);
             dataGridView1.Columns.Add("tr2", campi[3]);
 
-            dataMan = new DataManager(this);
+            dataMan = new DataManager(this, ';');
             fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
-            serialReader = new SerialPortReader(comPorte, dataMan, fileMan);
+            serialReader = new SerialPortReader(comPorte,';', dataMan, fileMan);
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
