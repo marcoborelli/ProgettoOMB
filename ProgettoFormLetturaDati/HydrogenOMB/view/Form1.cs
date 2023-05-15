@@ -23,6 +23,8 @@ namespace HydrogenOMB {
         string[] campi = new string[] { "DELTA", "TIME", "ANGLE", "TRIMMER" };
         const string configurationFileName = "settings.conf", directoryName = "File";
 
+        Settings s = new Settings(configurationFileName, directoryName);
+
         SerialPortReader serialReader;
         DataManager dataMan;
         FileManager fileMan;
@@ -84,6 +86,10 @@ namespace HydrogenOMB {
                 }));
                 return;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e) {/*settings*/
+            s.Show();
         }
 
         private void CheckFileAndFolder() {

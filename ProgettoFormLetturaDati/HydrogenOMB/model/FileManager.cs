@@ -135,7 +135,7 @@ namespace HydrogenOMB {
 
             Wb = App.Workbooks.Add(misValue);
 
-            Ws = Wb.Worksheets[1]; /*firts (and unique) sheet*/
+            Ws = (Excel.Worksheet)Wb.Worksheets[1]; /*firts (and unique) sheet*/
             Ws.Name = "Size";
         }
         public void Write(bool first, string newLine) {
@@ -150,9 +150,9 @@ namespace HydrogenOMB {
                 }
 
                 for (int i = 0; i < val.Length; i++) {
-                    if (i < 2) { /*only first 2 columns are string*/
-                        Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
-                    }
+                    //if (i < 2) { /*only first 2 columns are string*/
+                        //Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
+                    //}
                     Ws.Cells[1, i + 1] = val[i];
                 }
 
@@ -179,7 +179,7 @@ namespace HydrogenOMB {
         }
 
         private void AddLine() {
-            Rng = Ws.Rows[1];
+            Rng = (Excel.Range)Ws.Rows[1];
             Rng.Insert();
         }
     }

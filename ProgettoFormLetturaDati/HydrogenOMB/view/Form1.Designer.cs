@@ -30,6 +30,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkOpenExplorer = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,18 +80,29 @@
             // checkOpenExplorer
             // 
             this.checkOpenExplorer.AutoSize = true;
-            this.checkOpenExplorer.Location = new System.Drawing.Point(15, 436);
+            this.checkOpenExplorer.Location = new System.Drawing.Point(12, 395);
             this.checkOpenExplorer.Name = "checkOpenExplorer";
             this.checkOpenExplorer.Size = new System.Drawing.Size(120, 17);
             this.checkOpenExplorer.TabIndex = 4;
             this.checkOpenExplorer.Text = "OPEN EXPLORER ";
             this.checkOpenExplorer.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(62, 286);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(45, 45);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "SETT";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 481);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.checkOpenExplorer);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.timerLab);
@@ -113,6 +125,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkOpenExplorer;
+        private System.Windows.Forms.Button button1;
     }
 }
 
