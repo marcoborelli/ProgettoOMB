@@ -22,6 +22,7 @@ namespace HydrogenOMB {
         DateTime oraInizio;
         string[] campi = new string[] { "DELTA", "TIME", "ANGLE", "TRIMMER" };
         const string configurationFileName = "settings.conf", directoryName = "File";
+        const char separ = ';';
 
         Settings s = new Settings(configurationFileName, directoryName);
 
@@ -33,9 +34,15 @@ namespace HydrogenOMB {
             CheckFileAndFolder();
 
             string comPorte = "";
-            using (StreamReader sr = new StreamReader(configurationFileName)) {
-                comPorte = sr.ReadLine();
+            byte gradiMax = 0;
+
+            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            using (BinaryReader reader = new BinaryReader(p)) {
+                comPorte = reader.ReadString();
+                gradiMax = reader.ReadByte();
             }
+            p.Close();
+
             timer1.Stop();
 
             stopBut.Enabled = false;
@@ -47,9 +54,11 @@ namespace HydrogenOMB {
             dataGridView1.Columns.Add("ang", campi[2]);
             dataGridView1.Columns.Add("tr2", campi[3]);
 
-            dataMan = new DataManager(this, ';');
-            fileMan = new FileManager(';', $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
-            serialReader = new SerialPortReader(comPorte,';', dataMan, fileMan);
+            dataMan = new DataManager(this, separ, 1);
+            fileMan = new FileManager(separ, $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
+            serialReader = new SerialPortReader(comPorte, separ, 1, gradiMax, dataMan, fileMan);
+
+            serialReader.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
@@ -58,7 +67,7 @@ namespace HydrogenOMB {
         }
 
         private void stopBut_Click(object sender, EventArgs e) {/*termina*/
-            timer1.Stop();
+            /*timer1.Stop();
             serialReader.Stop();
 
             stopBut.Enabled = false;
@@ -66,17 +75,17 @@ namespace HydrogenOMB {
 
             if (checkOpenExplorer.Checked) {
                 Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
-            }
+            }*/
         }
 
         private void startBut_Click(object sender, EventArgs e) { /*inizia*/
-            dataGridView1.Rows.Clear();
+            /*dataGridView1.Rows.Clear();
             oraInizio = DateTime.Now;
             timer1.Start();
             serialReader.Start();
 
             stopBut.Enabled = true;
-            startBut.Enabled = false;
+            startBut.Enabled = false;*/
         }
 
         public void PrintRow(int rowIndex, string[] fields) {
@@ -103,5 +112,24 @@ namespace HydrogenOMB {
             }
         }
 
+        public void StartMeasure() {
+            dataGridView1.Rows.Clear();
+            oraInizio = DateTime.Now;
+            timer1.Start();
+
+            stopBut.Enabled = true;
+            startBut.Enabled = false;
+        }
+
+        public void StopMeasure() {
+            timer1.Stop();
+
+            stopBut.Enabled = false;
+            startBut.Enabled = true;
+
+            if (checkOpenExplorer.Checked) {
+                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
+            }
+        }
     }
 }

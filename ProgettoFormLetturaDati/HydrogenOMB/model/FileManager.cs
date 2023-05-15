@@ -129,13 +129,13 @@ namespace HydrogenOMB {
         public void StartNewFile() {
             FileName = $"{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}_{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}";
 
-            App = new Excel.Application();/*starts excel app*/
-            App.DisplayAlerts = false;/*it allows to not require everytime confirm to rewrite file*/
-            App.SheetsInNewWorkbook = 1; /*there is only 1 sheet*/
+            App = new Excel.Application();//starts excel app
+            App.DisplayAlerts = false;//it allows to not require everytime confirm to rewrite file
+            App.SheetsInNewWorkbook = 1; //there is only 1 sheet
 
             Wb = App.Workbooks.Add(misValue);
 
-            Ws = (Excel.Worksheet)Wb.Worksheets[1]; /*firts (and unique) sheet*/
+            Ws = (Excel.Worksheet)Wb.Worksheets[1]; //firts (and unique) sheet
             Ws.Name = "Size";
         }
         public void Write(bool first, string newLine) {

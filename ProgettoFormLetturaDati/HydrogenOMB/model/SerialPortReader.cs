@@ -13,16 +13,23 @@ namespace HydrogenOMB {
         private DataManager _dManager;
         private DateTime _startTime, _now, _oldTime;
         private TimeSpan _deltaTime;
-        private bool _first;
+        private bool _first, _started, _endOpen;
         private char _separator;
+        private byte _numeroParametri, _gradiMax;
+        private int _gradiAttuali;
 
-        public SerialPortReader(string ComPorta,char separator, DataManager dManager, FileManager fManager) {
+        public SerialPortReader(string ComPorta, char separator, byte numParametri,byte gradiMassimi, DataManager dManager, FileManager fManager) {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
             Separator = separator;
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
             DManager = dManager;
             FManager = fManager;
             First = true;
+            Started = false;
+            EndOpen = false;
+            NumeroParametri = numParametri;
+            GradiMax = gradiMassimi;
+            GradiAttuali = 0;
         }
 
         /*properties*/
@@ -95,6 +102,22 @@ namespace HydrogenOMB {
                 _first = value;
             }
         }
+        private bool Started {
+            get {
+                return _started;
+            }
+            set {
+                _started = value;
+            }
+        }
+        private bool EndOpen {
+            get {
+                return _endOpen;
+            }
+            set {
+                _endOpen = value;
+            }
+        }
         public char Separator {
             get {
                 return _separator;
@@ -107,11 +130,34 @@ namespace HydrogenOMB {
                 }
             }
         }
+        public byte NumeroParametri {
+            get {
+                return _numeroParametri;
+            }
+            private set {
+                _numeroParametri = value;
+            }
+        }
+        public byte GradiMax {
+            get {
+                return _gradiMax;
+            }
+            private set {
+                _gradiMax = value;
+            }
+        }
+        public int GradiAttuali {
+            get {
+                return _gradiAttuali;
+            }
+            private set {
+                _gradiAttuali = value;
+            }
+        }
         /*fine properties*/
 
         public void Start() {
             Port.Open(); /* Begin communications*/
-            FManager.StartNewFile();
         }
         public void Stop() {
             Port.Close();
@@ -122,27 +168,58 @@ namespace HydrogenOMB {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
             string tmp = Port.ReadLine();
 
+            if (tmp.ToUpper() == "START") {
+                FManager.StartNewFile();
+                Started = true;
+                return;
+            } else if (tmp.ToUpper() == "ENDOPEN") {
+                EndOpen = true;
+                return;
+            } else if (tmp.ToUpper() == "END") {
+                this.Stop();
+                return;
+            }
+
+            if (!Started || GradiAttuali >= GradiMax || GradiAttuali < 0) {
+                return;
+            }
+
             Now = DateTime.Now;
             string final;
             string[] fields = tmp.Split(Separator);
 
-            if (fields.Length != 2) {
-                fields = new string[] { "-", "-" };
+            if (fields.Length != NumeroParametri) {
+                fields = new string[NumeroParametri];
+                for (byte i = 0; i < NumeroParametri; i++) {
+                    fields[i] = "-";
+                }
             }
 
             string HourMinSecMilTime = $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}";
+            string parametri = $"{Separator}";
+            for (byte i = 0; i< NumeroParametri; i++) {
+                parametri += $"{fields[i]}{Separator}";
+            }
+            parametri = parametri.Substring(0, parametri.Length - 1);
+
             if (First) {/*because first time i have no delta-time */
-                final = $"{Separator}{HourMinSecMilTime}{Separator}{fields[0]}{Separator}{fields[1]}";
+                final = $"{Separator}{HourMinSecMilTime}{parametri}";
                 First = false;
             } else {
                 DeltaTime = Now - OldTime;
-                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}{Separator}{HourMinSecMilTime}{Separator}{fields[0]}{Separator}{fields[1]}";
+                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}{Separator}{HourMinSecMilTime}{parametri}";
             }
 
             DManager.PrintOnForm(0, final);
             FManager.Write(First, final);
 
             OldTime = Now;
+
+            if (!EndOpen) {
+                GradiAttuali++;
+            } else {
+                GradiAttuali--;
+            }
         }
     }
 }
