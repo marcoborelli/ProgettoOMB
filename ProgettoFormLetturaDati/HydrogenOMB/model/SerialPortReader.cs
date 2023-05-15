@@ -18,7 +18,7 @@ namespace HydrogenOMB {
         private byte _numeroParametri, _gradiMax;
         private int _gradiAttuali;
 
-        public SerialPortReader(string ComPorta, char separator, byte numParametri,byte gradiMassimi, DataManager dManager, FileManager fManager) {
+        public SerialPortReader(string ComPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
             Separator = separator;
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
@@ -167,22 +167,31 @@ namespace HydrogenOMB {
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
             string tmp = Port.ReadLine();
-
-            if (tmp.ToUpper() == "START") {
+            //MessageBox.Show($"\"{tmp}\"");
+            if (tmp.ToUpper() == "START\r") {
                 FManager.StartNewFile();
+                //MessageBox.Show("sono dentro");
                 Started = true;
                 return;
-            } else if (tmp.ToUpper() == "ENDOPEN") {
+            } else if (tmp.ToUpper() == "ENDOPEN\r") {
                 EndOpen = true;
                 return;
-            } else if (tmp.ToUpper() == "END") {
+            } else if (tmp.ToUpper() == "STOP\r" || tmp.ToUpper() == "FSTOP\r") {
                 this.Stop();
                 return;
+            }
+
+            if (!EndOpen) {
+                GradiAttuali++;
+            } else {
+                GradiAttuali--;
             }
 
             if (!Started || GradiAttuali >= GradiMax || GradiAttuali < 0) {
                 return;
             }
+
+            //MessageBox.Show($"UUU: \"{tmp}\"");
 
             Now = DateTime.Now;
             string final;
@@ -196,10 +205,12 @@ namespace HydrogenOMB {
             }
 
             string HourMinSecMilTime = $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}";
-            string parametri = $"{Separator}";
-            for (byte i = 0; i< NumeroParametri; i++) {
+
+            string parametri = $"{Separator}{GradiAttuali}{Separator}";
+            for (byte i = 0; i < NumeroParametri; i++) {
                 parametri += $"{fields[i]}{Separator}";
             }
+
             parametri = parametri.Substring(0, parametri.Length - 1);
 
             if (First) {/*because first time i have no delta-time */
@@ -214,12 +225,6 @@ namespace HydrogenOMB {
             FManager.Write(First, final);
 
             OldTime = Now;
-
-            if (!EndOpen) {
-                GradiAttuali++;
-            } else {
-                GradiAttuali--;
-            }
         }
     }
 }

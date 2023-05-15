@@ -15,6 +15,10 @@ void loop() {
 
     byte loops = 0;
     do {
+      if (loops == 100) {
+        Serial.println("endOpen");
+        loops--;
+      }
       Serial.println(analogRead(A1));
       loops++;/*per ora simulo che ogni mezzo sec giro di 1 grado*/
       delay(500);

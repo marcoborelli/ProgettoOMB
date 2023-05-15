@@ -150,9 +150,9 @@ namespace HydrogenOMB {
                 }
 
                 for (int i = 0; i < val.Length; i++) {
-                    //if (i < 2) { /*only first 2 columns are string*/
-                        //Ws.Cells[1, i + 1].NumberFormat = "@";/*string format only with time*/
-                    //}
+                    if (i < 2) { //only first 2 columns are string
+                        Ws.Cells[1, i + 1].NumberFormat = "@";//string format only with time
+                    }
                     Ws.Cells[1, i + 1] = val[i];
                 }
 
