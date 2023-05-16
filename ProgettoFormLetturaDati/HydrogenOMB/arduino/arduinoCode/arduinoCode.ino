@@ -17,9 +17,9 @@ void loop() {
     do {
       if (loops == 100) {
         Serial.println("endOpen");
-        loops--;
+      } else {
+        Serial.println(analogRead(A1));
       }
-      Serial.println(analogRead(A1));
       loops++;/*per ora simulo che ogni mezzo sec giro di 1 grado*/
       delay(500);
     } while (loops < 200 && digitalRead(buttonStop) == LOW);
