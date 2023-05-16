@@ -137,9 +137,10 @@ namespace HydrogenOMB {
         public void Start() {
             Port.Open(); /* Begin communications*/
         }
-        public void Stop() {
+        public void Stop(string m) {
             Port.Close();
             FManager.Close();
+            DManager.StopMeasurement(m);
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
@@ -148,14 +149,18 @@ namespace HydrogenOMB {
 
             if (tmp.ToUpper() == "START\r") {
                 FManager.StartNewFile();
+                DManager.StartMeasurement();
                 Started = true;
                 return;
             } else if (tmp.ToUpper() == "ENDOPEN\r") {
                 DeltaGradi = (sbyte)-DeltaGradi;
                 Console.WriteLine($"{DeltaGradi}");
                 return;
-            } else if (tmp.ToUpper() == "STOP\r" || tmp.ToUpper() == "FSTOP\r") {
-                this.Stop();
+            } else if (tmp.ToUpper() == "STOP\r" ) {
+                this.Stop("Misurazione terminata con successo");
+                return;
+            } else if (tmp.ToUpper() == "FSTOP\r") {
+                this.Stop("Misurazione fermata");
                 return;
             }
 

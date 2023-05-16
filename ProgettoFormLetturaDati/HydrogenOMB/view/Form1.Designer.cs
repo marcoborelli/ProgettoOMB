@@ -24,8 +24,6 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            this.startBut = new System.Windows.Forms.Button();
-            this.stopBut = new System.Windows.Forms.Button();
             this.timerLab = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -34,30 +32,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // startBut
-            // 
-            this.startBut.Location = new System.Drawing.Point(12, 12);
-            this.startBut.Name = "startBut";
-            this.startBut.Size = new System.Drawing.Size(178, 54);
-            this.startBut.TabIndex = 0;
-            this.startBut.Text = "INIZIA";
-            this.startBut.UseVisualStyleBackColor = true;
-            this.startBut.Click += new System.EventHandler(this.startBut_Click);
-            // 
-            // stopBut
-            // 
-            this.stopBut.Location = new System.Drawing.Point(12, 136);
-            this.stopBut.Name = "stopBut";
-            this.stopBut.Size = new System.Drawing.Size(178, 54);
-            this.stopBut.TabIndex = 1;
-            this.stopBut.Text = "TERMINA";
-            this.stopBut.UseVisualStyleBackColor = true;
-            this.stopBut.Click += new System.EventHandler(this.stopBut_Click);
-            // 
             // timerLab
             // 
             this.timerLab.AutoSize = true;
-            this.timerLab.Location = new System.Drawing.Point(12, 95);
+            this.timerLab.Location = new System.Drawing.Point(404, 476);
             this.timerLab.Name = "timerLab";
             this.timerLab.Size = new System.Drawing.Size(41, 13);
             this.timerLab.TabIndex = 2;
@@ -67,7 +45,7 @@
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(196, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(444, 441);
             this.dataGridView1.TabIndex = 3;
@@ -80,7 +58,7 @@
             // checkOpenExplorer
             // 
             this.checkOpenExplorer.AutoSize = true;
-            this.checkOpenExplorer.Location = new System.Drawing.Point(12, 395);
+            this.checkOpenExplorer.Location = new System.Drawing.Point(244, 476);
             this.checkOpenExplorer.Name = "checkOpenExplorer";
             this.checkOpenExplorer.Size = new System.Drawing.Size(120, 17);
             this.checkOpenExplorer.TabIndex = 4;
@@ -89,7 +67,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(62, 286);
+            this.button1.Location = new System.Drawing.Point(12, 459);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(45, 45);
             this.button1.TabIndex = 5;
@@ -101,13 +79,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 481);
+            this.ClientSize = new System.Drawing.Size(473, 527);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkOpenExplorer);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.timerLab);
-            this.Controls.Add(this.stopBut);
-            this.Controls.Add(this.startBut);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -118,9 +94,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button startBut;
-        private System.Windows.Forms.Button stopBut;
         private System.Windows.Forms.Label timerLab;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Timer timer1;

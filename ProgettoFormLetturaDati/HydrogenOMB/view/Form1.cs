@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Access.Dao;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -45,7 +46,6 @@ namespace HydrogenOMB {
 
             timer1.Stop();
 
-            stopBut.Enabled = false;
             timer1.Enabled = false;
             checkOpenExplorer.Checked = true;
 
@@ -64,28 +64,6 @@ namespace HydrogenOMB {
         private void timer1_Tick(object sender, EventArgs e) {
             TimeSpan deltaTempo = DateTime.Now - oraInizio;
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
-        }
-
-        private void stopBut_Click(object sender, EventArgs e) {/*termina*/
-            /*timer1.Stop();
-            serialReader.Stop();
-
-            stopBut.Enabled = false;
-            startBut.Enabled = true;
-
-            if (checkOpenExplorer.Checked) {
-                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
-            }*/
-        }
-
-        private void startBut_Click(object sender, EventArgs e) { /*inizia*/
-            /*dataGridView1.Rows.Clear();
-            oraInizio = DateTime.Now;
-            timer1.Start();
-            serialReader.Start();
-
-            stopBut.Enabled = true;
-            startBut.Enabled = false;*/
         }
 
         public void PrintRow(int rowIndex, string[] fields) {
@@ -113,23 +91,29 @@ namespace HydrogenOMB {
         }
 
         public void StartMeasure() {
-            dataGridView1.Rows.Clear();
             oraInizio = DateTime.Now;
-            timer1.Start();
 
-            stopBut.Enabled = true;
-            startBut.Enabled = false;
+            if (InvokeRequired) { // after we've done all the processing, 
+                this.Invoke(new MethodInvoker(delegate {
+                    timer1.Start();
+                    dataGridView1.Rows.Clear();
+                }));
+                return;
+            }
         }
 
-        public void StopMeasure() {
-            timer1.Stop();
-
-            stopBut.Enabled = false;
-            startBut.Enabled = true;
-
-            if (checkOpenExplorer.Checked) {
-                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
+        public void StopMeasure(string message) {
+            if (InvokeRequired) { // after we've done all the processing, 
+                this.Invoke(new MethodInvoker(delegate {
+                    timer1.Stop();
+                    if (checkOpenExplorer.Checked) {
+                        MessageBox.Show("OOOOO");
+                        Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
+                    }
+                }));
+                return;
             }
+            MessageBox.Show(message);
         }
     }
 }
