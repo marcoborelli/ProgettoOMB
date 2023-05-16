@@ -138,9 +138,9 @@ namespace HydrogenOMB {
             Port.Open(); /* Begin communications*/
         }
         public void Stop(string m) {
-            Port.Close();
-            FManager.Close();
-            DManager.StopMeasurement(m);
+            Port.Close();//chiudo la porta
+            FManager.Close();//chiudo e salvo il file di excel
+            DManager.StopMeasurement(m);//agisco sulla form (fermo timer e esce messageBox)
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
@@ -154,7 +154,6 @@ namespace HydrogenOMB {
                 return;
             } else if (tmp.ToUpper() == "ENDOPEN\r") {
                 DeltaGradi = (sbyte)-DeltaGradi;
-                Console.WriteLine($"{DeltaGradi}");
                 return;
             } else if (tmp.ToUpper() == "STOP\r" ) {
                 this.Stop("Misurazione terminata con successo");
@@ -167,12 +166,12 @@ namespace HydrogenOMB {
             if (!Started)
                 return;
 
-            GradiAttuali += DeltaGradi;
+            GradiAttuali += DeltaGradi;//dato che c'è limite imponibile via software su angoli da ricevere devo comunque aumentare perchè sennò non aumenta più
             if ((GradiAttuali + DeltaGradi) >= GradiMax || (GradiAttuali + DeltaGradi) < 0) {
                 return;
             }
 
-            string[] fields = tmp.Split(Separator);
+            string[] fields = tmp.Split(Separator);//in caso ci siano più campi
             ControlloNumeriCampi(ref fields);
 
             Now = DateTime.Now;
@@ -190,8 +189,8 @@ namespace HydrogenOMB {
                 final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}{Separator}{HourMinSecMilTime}{parametri}";
             }
 
-            DManager.PrintOnForm(0, final);
-            FManager.Write(First, final);
+            DManager.PrintOnForm(0, final);//per stampare sulla form
+            FManager.Write(First, final);//per stampare su file excel
 
             OldTime = Now;
         }

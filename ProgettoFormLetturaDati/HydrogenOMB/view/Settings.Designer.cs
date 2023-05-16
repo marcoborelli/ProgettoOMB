@@ -27,6 +27,7 @@
             this.trackBarGradi = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkOpenExplorer = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarGradi)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,11 +69,23 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "MAX GRADI:";
             // 
+            // checkOpenExplorer
+            // 
+            this.checkOpenExplorer.AutoSize = true;
+            this.checkOpenExplorer.Location = new System.Drawing.Point(15, 101);
+            this.checkOpenExplorer.Name = "checkOpenExplorer";
+            this.checkOpenExplorer.Size = new System.Drawing.Size(134, 17);
+            this.checkOpenExplorer.TabIndex = 5;
+            this.checkOpenExplorer.Text = "OPEN IN EXPLORER ";
+            this.checkOpenExplorer.UseVisualStyleBackColor = true;
+            this.checkOpenExplorer.CheckedChanged += new System.EventHandler(this.checkOpenExplorer_CheckedChanged);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(315, 118);
+            this.ClientSize = new System.Drawing.Size(259, 140);
+            this.Controls.Add(this.checkOpenExplorer);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBarGradi);
@@ -93,5 +106,6 @@
         private System.Windows.Forms.TrackBar trackBarGradi;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkOpenExplorer;
     }
 }

@@ -19,6 +19,22 @@ namespace HydrogenOMB {
             ConfigurationFileName = configurationFileNamee;
             DirectoryName = directoryNamee;
         }
+        private void Settings_Load(object sender, EventArgs e) {
+            comboBoxPorta.DropDownStyle = ComboBoxStyle.DropDownList;
+            for (byte i = 1; i < 7; i++) {
+                comboBoxPorta.Items.Add($"COM{i}");
+            }
+
+            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            using (BinaryReader reader = new BinaryReader(p)) {
+                comboBoxPorta.Text = reader.ReadString();
+                trackBarGradi.Value = (reader.ReadByte() - 90) / 5;
+                checkOpenExplorer.Checked = reader.ReadBoolean();
+            }
+            p.Close();
+            trackBarGradi_Scroll(sender, e);
+            first = false;
+        }
 
         /*properties*/
         public string ConfigurationFileName {
@@ -45,6 +61,7 @@ namespace HydrogenOMB {
                 }
             }
         }
+        /*fine properties*/
 
         private void trackBarGradi_Scroll(object sender, EventArgs e) {
             label2.Text = $"{testoLabel}{(trackBarGradi.Value * 5) + 90}";
@@ -61,9 +78,17 @@ namespace HydrogenOMB {
             p.Close();
         }
 
-        private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
-            e.Cancel = true;
-            this.Visible = false;
+        private void checkOpenExplorer_CheckedChanged(object sender, EventArgs e) {
+            if (first) {
+                return;
+            }
+
+            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            p.Seek((comboBoxPorta.Text.Length + 1)+sizeof(byte), SeekOrigin.Begin);
+            using (BinaryWriter writer = new BinaryWriter(p)) {
+                writer.Write(checkOpenExplorer.Checked);
+            }
+            p.Close();
         }
 
         private void comboBoxPorta_SelectedIndexChanged(object sender, EventArgs e) {
@@ -78,22 +103,9 @@ namespace HydrogenOMB {
             p.Close();
         }
 
-        /*fine properties*/
-
-        private void Settings_Load(object sender, EventArgs e) {
-            comboBoxPorta.DropDownStyle = ComboBoxStyle.DropDownList;
-            for (byte i = 1; i < 7; i++) {
-                comboBoxPorta.Items.Add($"COM{i}");
-            }
-
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            using (BinaryReader reader = new BinaryReader(p)) {
-                comboBoxPorta.Text = reader.ReadString();
-                trackBarGradi.Value = (reader.ReadByte() - 90) / 5;
-            }
-            p.Close();
-            trackBarGradi_Scroll(sender, e);
-            first = false;
+        private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
+            e.Cancel = true;
+            this.Visible = false;
         }
     }
 }

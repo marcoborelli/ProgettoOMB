@@ -25,7 +25,12 @@ namespace HydrogenOMB {
         const string configurationFileName = "settings.conf", directoryName = "File";
         const char separ = ';';
 
-        Settings s = new Settings(configurationFileName, directoryName);
+        string comPorte = "";
+        byte gradiMax = 0;
+        bool openFileExplorer = true;
+
+
+        Settings s = new Settings(configurationFileName, directoryName);//form delle impostazioni
 
         SerialPortReader serialReader;
         DataManager dataMan;
@@ -34,20 +39,17 @@ namespace HydrogenOMB {
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
 
-            string comPorte = "";
-            byte gradiMax = 0;
-
             var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             using (BinaryReader reader = new BinaryReader(p)) {
                 comPorte = reader.ReadString();
                 gradiMax = reader.ReadByte();
+                openFileExplorer = reader.ReadBoolean();
             }
             p.Close();
 
             timer1.Stop();
 
             timer1.Enabled = false;
-            checkOpenExplorer.Checked = true;
 
             dataGridView1.Columns.Add("delta", campi[0]);
             dataGridView1.Columns.Add("timer", campi[1]);
@@ -81,9 +83,7 @@ namespace HydrogenOMB {
 
         private void CheckFileAndFolder() {
             if (!File.Exists(configurationFileName)) {
-                using (StreamWriter sw = new StreamWriter(configurationFileName)) {
-                    sw.WriteLine("COM3");
-                }
+                RicreaFileConf();
             }
             if (!Directory.Exists(directoryName)) {
                 Directory.CreateDirectory(directoryName);
@@ -93,7 +93,7 @@ namespace HydrogenOMB {
         public void StartMeasure() {
             oraInizio = DateTime.Now;
 
-            if (InvokeRequired) { // after we've done all the processing, 
+            if (InvokeRequired) { 
                 this.Invoke(new MethodInvoker(delegate {
                     timer1.Start();
                     dataGridView1.Rows.Clear();
@@ -103,17 +103,27 @@ namespace HydrogenOMB {
         }
 
         public void StopMeasure(string message) {
-            if (InvokeRequired) { // after we've done all the processing, 
+            if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
                 this.Invoke(new MethodInvoker(delegate {
                     timer1.Stop();
-                    if (checkOpenExplorer.Checked) {
-                        MessageBox.Show("OOOOO");
+                    if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
                 }));
                 return;
             }
             MessageBox.Show(message);
+        }
+
+        private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default
+            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            p.Seek(0, SeekOrigin.Begin);
+            using (BinaryWriter writer = new BinaryWriter(p)) {
+                writer.Write("COM3");
+                writer.Write(100);
+                writer.Write(true);
+            }
+            p.Close();
         }
     }
 }
