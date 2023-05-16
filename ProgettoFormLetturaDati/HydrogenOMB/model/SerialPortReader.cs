@@ -195,7 +195,7 @@ namespace HydrogenOMB {
             OldTime = Now;
         }
 
-        private string AggiuntaParametriInPiu(string[] field) {
+        private string AggiuntaParametriInPiu(string[] field) {//restituisce la stringa finale con i parametri in fila separati da un separatore
             string p = "";
             for (byte i = 0; i < NumeroParametri; i++) {
                 p += $"{field[i]}{Separator}";

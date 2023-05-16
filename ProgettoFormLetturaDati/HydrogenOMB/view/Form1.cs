@@ -109,10 +109,10 @@ namespace HydrogenOMB {
                     if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
+                    MessageBox.Show(message);
                 }));
                 return;
             }
-            MessageBox.Show(message);
         }
 
         private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default
