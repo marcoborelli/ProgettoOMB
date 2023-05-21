@@ -56,6 +56,9 @@ namespace HydrogenOMB {
             serialReader = new SerialPortReader(comPorte, separ, 1, gradiMax, dataMan, fileMan);
 
             serialReader.Start();
+
+            textBoxModelValvue.Enabled = textBoxModelValvue.Enabled = false;
+
             MessageBox.Show($"Porta {comPorte} aperta correttamente");
         }
 

@@ -42,7 +42,7 @@
             this.timerLab.Location = new System.Drawing.Point(404, 476);
             this.timerLab.Name = "timerLab";
             this.timerLab.Size = new System.Drawing.Size(41, 13);
-            this.timerLab.TabIndex = 2;
+            this.timerLab.TabIndex = 5;
             this.timerLab.Text = "TIMER";
             // 
             // dataGridView1
@@ -64,7 +64,7 @@
             this.button1.Location = new System.Drawing.Point(12, 466);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(45, 46);
-            this.button1.TabIndex = 5;
+            this.button1.TabIndex = 4;
             this.button1.Text = "SETT";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -75,7 +75,7 @@
             this.label1.Location = new System.Drawing.Point(91, 469);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 13);
-            this.label1.TabIndex = 6;
+            this.label1.TabIndex = 5;
             this.label1.Text = "VALVE NAME:";
             // 
             // label2
@@ -84,7 +84,7 @@
             this.label2.Location = new System.Drawing.Point(91, 495);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 13);
-            this.label2.TabIndex = 7;
+            this.label2.TabIndex = 5;
             this.label2.Text = "VALVE MODEL:";
             // 
             // textBoxNameValvue
@@ -92,21 +92,21 @@
             this.textBoxNameValvue.Location = new System.Drawing.Point(185, 466);
             this.textBoxNameValvue.Name = "textBoxNameValvue";
             this.textBoxNameValvue.Size = new System.Drawing.Size(100, 20);
-            this.textBoxNameValvue.TabIndex = 8;
+            this.textBoxNameValvue.TabIndex = 0;
             // 
             // textBoxModelValvue
             // 
             this.textBoxModelValvue.Location = new System.Drawing.Point(185, 492);
             this.textBoxModelValvue.Name = "textBoxModelValvue";
             this.textBoxModelValvue.Size = new System.Drawing.Size(100, 20);
-            this.textBoxModelValvue.TabIndex = 9;
+            this.textBoxModelValvue.TabIndex = 1;
             // 
             // buttonOpenPort
             // 
             this.buttonOpenPort.Location = new System.Drawing.Point(291, 466);
             this.buttonOpenPort.Name = "buttonOpenPort";
             this.buttonOpenPort.Size = new System.Drawing.Size(73, 46);
-            this.buttonOpenPort.TabIndex = 10;
+            this.buttonOpenPort.TabIndex = 2;
             this.buttonOpenPort.Text = "OPEN PORT";
             this.buttonOpenPort.UseVisualStyleBackColor = true;
             this.buttonOpenPort.Click += new System.EventHandler(this.buttonOpenPort_Click);
@@ -124,6 +124,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.timerLab);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "OMB";

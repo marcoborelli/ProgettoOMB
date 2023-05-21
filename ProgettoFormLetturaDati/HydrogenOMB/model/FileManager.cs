@@ -164,7 +164,7 @@ namespace HydrogenOMB {
                         Ws.Cells[Contatore, i + 1].NumberFormat = "@";//string format only with time
                         Ws.Cells[Contatore, i + 1] = val[i];
                     } else {
-                        Ws.Cells[Contatore, i + 1] = int.Parse(val[i]);
+                        Ws.Cells[Contatore, i + 1] = int.Parse(val[i]);//sennò non se li salva come intero e non li legge nel grafico
                     }
                 }
                 Contatore++;
