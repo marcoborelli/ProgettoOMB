@@ -9,7 +9,7 @@ namespace HydrogenOMB {
     public class DataManager {
         private Form1 _associatedForm;
         private char _separator;
-        private byte _numeroParametri;
+        public byte NumeroParametri { get; private set; }
 
         public DataManager(Form1 form, char separator, byte numParametri) {
             AssociatedForm = form;
@@ -26,7 +26,7 @@ namespace HydrogenOMB {
                 if (value != null) {
                     _associatedForm = value;
                 } else {
-                    throw new Exception("Inserire una form valida da associare");
+                    throw new Exception("You must insert a valid Form");
                 }
             }
         }
@@ -38,22 +38,14 @@ namespace HydrogenOMB {
                 if ($"{value}" != "" && value != ' ') {
                     _separator = value;
                 } else {
-                    throw new Exception("Invalid Char Separer");
+                    throw new Exception("Invalid Char Separator");
                 }
-            }
-        }
-        public byte NumeroParametri {
-            get {
-                return _numeroParametri;
-            }
-            private set {
-                _numeroParametri = value;
             }
         }
         /*fine properties*/
 
         public void PrintOnForm(int index, string row) {
-            string[] campi = row.Split(Separator);
+            string[] campi = row.Split(Separator); //3 perchè: 1=ora 2=delta 3=angolo
             if (campi.Length != 3 + NumeroParametri) {
                 campi = new string[3 + NumeroParametri];
                 for (byte i = 0; i < campi.Length; i++) {

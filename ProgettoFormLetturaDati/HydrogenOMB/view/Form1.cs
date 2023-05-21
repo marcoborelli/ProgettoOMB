@@ -21,14 +21,13 @@ namespace HydrogenOMB {
         }
 
         DateTime oraInizio;
-        string[] campi = new string[] { "DELTA", "TIME", "ANGLE", "TRIMMER" };
+        string[] campi = new string[] { "delta", "time", "angle", "trimmer" };
         const string configurationFileName = "settings.conf", directoryName = "File";
         const char separ = ';';
 
         string comPorte = "";
         byte gradiMax = 0;
         bool openFileExplorer = true;
-
 
         Settings s = new Settings(configurationFileName, directoryName);//form delle impostazioni
 
@@ -38,23 +37,14 @@ namespace HydrogenOMB {
 
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
-
-            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            using (BinaryReader reader = new BinaryReader(p)) {
-                comPorte = reader.ReadString();
-                gradiMax = reader.ReadByte();
-                openFileExplorer = reader.ReadBoolean();
-            }
-            p.Close();
+            LeggiImpostazioni();
 
             timer1.Stop();
-
             timer1.Enabled = false;
 
-            dataGridView1.Columns.Add("delta", campi[0]);
-            dataGridView1.Columns.Add("timer", campi[1]);
-            dataGridView1.Columns.Add("ang", campi[2]);
-            dataGridView1.Columns.Add("tr2", campi[3]);
+            for (byte i = 0; i < campi.Length; i++) {
+                dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
+            }
 
             dataMan = new DataManager(this, separ, 1);
             fileMan = new FileManager(separ, $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
@@ -77,7 +67,7 @@ namespace HydrogenOMB {
             }
         }
 
-        private void button1_Click(object sender, EventArgs e) {/*settings*/
+        private void button1_Click(object sender, EventArgs e) {//settings
             s.Show();
         }
 
@@ -93,7 +83,7 @@ namespace HydrogenOMB {
         public void StartMeasure() {
             oraInizio = DateTime.Now;
 
-            if (InvokeRequired) { 
+            if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     timer1.Start();
                     dataGridView1.Rows.Clear();
@@ -122,6 +112,15 @@ namespace HydrogenOMB {
                 writer.Write("COM3");
                 writer.Write(100);
                 writer.Write(true);
+            }
+            p.Close();
+        }
+        private void LeggiImpostazioni() {
+            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            using (BinaryReader reader = new BinaryReader(p)) {
+                comPorte = reader.ReadString();
+                gradiMax = reader.ReadByte();
+                openFileExplorer = reader.ReadBoolean();
             }
             p.Close();
         }

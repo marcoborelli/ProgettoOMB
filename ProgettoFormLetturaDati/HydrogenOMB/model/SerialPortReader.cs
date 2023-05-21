@@ -12,24 +12,30 @@ namespace HydrogenOMB {
         private SerialPort _port;
         private FileManager _fManager;
         private DataManager _dManager;
-        private DateTime _startTime, _now, _oldTime;
-        private TimeSpan _deltaTime;
         private char _separator;
-        private byte _numeroParametri, _gradiMax;
-        private int _gradiAttuali;
         private bool First, Started;
-        private sbyte DeltaGradi;
+        private DateTime Now { get; set; }
+        private DateTime OldTime { get; set; }
+        private TimeSpan DeltaTime { get; set; }
+        public byte NumeroParametri { get; private set; }
+        public byte GradiMax { get; private set; }
+        public int GradiAttuali { get; private set; }
+        public sbyte DeltaGradi { get; set; }
+
 
         public SerialPortReader(string ComPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
             _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
-            Separator = separator;
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
+
             DManager = dManager;
             FManager = fManager;
-            First = true;
-            Started = false;
+
+            Separator = separator;
             NumeroParametri = numParametri;
             GradiMax = gradiMassimi;
+
+            First = true;
+            Started = false;
             GradiAttuali = 0;
             DeltaGradi = 1;
         }
@@ -48,7 +54,7 @@ namespace HydrogenOMB {
                 if (value != null) {
                     _dManager = value;
                 } else {
-                    throw new Exception("Inserire un ViewManager valido");
+                    throw new Exception("You must insert a valid DataManager");
                 }
             }
         }
@@ -60,40 +66,8 @@ namespace HydrogenOMB {
                 if (value != null) {
                     _fManager = value;
                 } else {
-                    throw new Exception("Errore col FileManager");
+                    throw new Exception("You must insert a valid FileManager");
                 }
-            }
-        }
-        public DateTime StartTime {
-            get {
-                return _startTime;
-            }
-            private set {
-                _startTime = value;
-            }
-        }
-        private DateTime Now {
-            get {
-                return _now;
-            }
-            set {
-                _now = value;
-            }
-        }
-        private DateTime OldTime {
-            get {
-                return _oldTime;
-            }
-            set {
-                _oldTime = value;
-            }
-        }
-        private TimeSpan DeltaTime {
-            get {
-                return _deltaTime;
-            }
-            set {
-                _deltaTime = value;
             }
         }
         public char Separator {
@@ -104,32 +78,8 @@ namespace HydrogenOMB {
                 if ($"{value}" != "" && value != ' ') {
                     _separator = value;
                 } else {
-                    throw new Exception("Invalid Char Separer");
+                    throw new Exception("Invalid Char Separator");
                 }
-            }
-        }
-        public byte NumeroParametri {
-            get {
-                return _numeroParametri;
-            }
-            private set {
-                _numeroParametri = value;
-            }
-        }
-        public byte GradiMax {
-            get {
-                return _gradiMax;
-            }
-            private set {
-                _gradiMax = value;
-            }
-        }
-        public int GradiAttuali {
-            get {
-                return _gradiAttuali;
-            }
-            private set {
-                _gradiAttuali = value;
             }
         }
         /*fine properties*/
@@ -140,7 +90,7 @@ namespace HydrogenOMB {
         public void Stop(string m) {
             Port.Close();//chiudo la porta
             FManager.Close();//chiudo e salvo il file di excel
-            DManager.StopMeasurement(m);//agisco sulla form (fermo timer e esce messageBox)
+            DManager.StopMeasurement(m);//agisco sulla form (fermo timer ed esce messageBox)
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
@@ -167,7 +117,7 @@ namespace HydrogenOMB {
                 return;
 
             GradiAttuali += DeltaGradi;//dato che c'è limite imponibile via software su angoli da ricevere devo comunque aumentare perchè sennò non aumenta più
-            if ((GradiAttuali + DeltaGradi) >= GradiMax || (GradiAttuali + DeltaGradi) < 0) {
+            if ((GradiAttuali - DeltaGradi) >= GradiMax || (GradiAttuali - DeltaGradi) < 0) {
                 return;
             }
 

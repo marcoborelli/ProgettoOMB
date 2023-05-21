@@ -12,7 +12,7 @@ using System.IO;
 namespace HydrogenOMB {
     public partial class Settings : Form {
         string configurationFileName, directoryName;
-        bool first = true;
+        bool first = true, modified = false;
         const string testoLabel = "MAX GRADI: ";
         public Settings(string configurationFileNamee, string directoryNamee) {
             InitializeComponent();
@@ -25,14 +25,9 @@ namespace HydrogenOMB {
                 comboBoxPorta.Items.Add($"COM{i}");
             }
 
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            using (BinaryReader reader = new BinaryReader(p)) {
-                comboBoxPorta.Text = reader.ReadString();
-                trackBarGradi.Value = (reader.ReadByte() - 90) / 5;
-                checkOpenExplorer.Checked = reader.ReadBoolean();
-            }
-            p.Close();
-            trackBarGradi_Scroll(sender, e);
+            InizializzaValori();
+
+            trackBarGradi_Scroll(sender, e);//perchè sennò non si aggiorna
             first = false;
         }
 
@@ -45,7 +40,7 @@ namespace HydrogenOMB {
                 if (!string.IsNullOrWhiteSpace(value)) {
                     configurationFileName = value;
                 } else {
-                    throw new Exception("Inserire un nome del file di config valido");
+                    throw new Exception("You must insert a valid ConfigurationFileName");
                 }
             }
         }
@@ -57,55 +52,57 @@ namespace HydrogenOMB {
                 if (!string.IsNullOrWhiteSpace(value)) {
                     directoryName = value;
                 } else {
-                    throw new Exception("Inserire un nome della directory valido");
+                    throw new Exception("You must insert a valid DirectoryName");
                 }
             }
         }
         /*fine properties*/
 
         private void trackBarGradi_Scroll(object sender, EventArgs e) {
-            label2.Text = $"{testoLabel}{(trackBarGradi.Value * 5) + 90}";
-
-            if (first) {
-                return;
-            }
-
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            p.Seek(comboBoxPorta.Text.Length+1, SeekOrigin.Begin);
-            using (BinaryWriter writer = new BinaryWriter(p)) {
-                writer.Write((trackBarGradi.Value * 5) + 90);
-            }
-            p.Close();
+            label2.Text = $"{testoLabel}{(trackBarGradi.Value * 5) + 90}";//+90 perchè il min è 90, *5 perchè aumenta di 5 in 5
+            SettaModificato();
         }
 
         private void checkOpenExplorer_CheckedChanged(object sender, EventArgs e) {
-            if (first) {
-                return;
-            }
-
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            p.Seek((comboBoxPorta.Text.Length + 1)+sizeof(byte), SeekOrigin.Begin);
-            using (BinaryWriter writer = new BinaryWriter(p)) {
-                writer.Write(checkOpenExplorer.Checked);
-            }
-            p.Close();
+            SettaModificato();
         }
 
         private void comboBoxPorta_SelectedIndexChanged(object sender, EventArgs e) {
-            if (first) {
-                return;
-            }
-
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            using (BinaryWriter writer = new BinaryWriter(p)) {
-                writer.Write(comboBoxPorta.Text);
-            }
-            p.Close();
+            SettaModificato();
         }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
+            if (modified) {
+                Console.WriteLine("uwu");
+                var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                p.Seek(0, SeekOrigin.Begin);
+                using (BinaryWriter writer = new BinaryWriter(p)) {
+                    writer.Write(comboBoxPorta.Text);
+                    writer.Write((trackBarGradi.Value * 5) + 90);
+                    writer.Write(checkOpenExplorer.Checked);
+                }
+                p.Close();
+            }
+            modified = false;
+
             this.Visible = false;
+        }
+
+        private void InizializzaValori() {
+            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            using (BinaryReader reader = new BinaryReader(p)) {
+                comboBoxPorta.Text = reader.ReadString();
+                trackBarGradi.Value = (reader.ReadByte() - 90) / 5;
+                checkOpenExplorer.Checked = reader.ReadBoolean();
+            }
+            p.Close();
+        }
+        private void SettaModificato() {
+            if (first) {
+                return;
+            }
+            modified = true;
         }
     }
 }
