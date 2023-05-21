@@ -74,7 +74,6 @@ namespace HydrogenOMB {
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
             if (modified) {
-                Console.WriteLine("uwu");
                 var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 p.Seek(0, SeekOrigin.Begin);
                 using (BinaryWriter writer = new BinaryWriter(p)) {
@@ -85,7 +84,6 @@ namespace HydrogenOMB {
                 p.Close();
             }
             modified = false;
-
             this.Visible = false;
         }
 

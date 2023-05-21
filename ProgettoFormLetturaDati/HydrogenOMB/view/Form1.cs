@@ -1,17 +1,15 @@
-﻿using Microsoft.Office.Interop.Access.Dao;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Data;
-//using System.Drawing;
-using System.IO.Ports;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
 using System.Windows.Forms;
+/*using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO.Ports;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;*/
 
 
 namespace HydrogenOMB {
@@ -22,7 +20,7 @@ namespace HydrogenOMB {
 
         DateTime oraInizio;
         string[] campi = new string[] { "delta", "time", "angle", "trimmer" };
-        const string configurationFileName = "settings.conf", directoryName = "File";
+        const string configurationFileName = "settings.conf", directoryName = "File", templateFileName="base";
         const char separ = ';';
 
         string comPorte = "";
@@ -45,17 +43,20 @@ namespace HydrogenOMB {
             for (byte i = 0; i < campi.Length; i++) {
                 dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
             }
-
-            dataMan = new DataManager(this, separ, 1);
-            fileMan = new FileManager(separ, $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", campi);
-            serialReader = new SerialPortReader(comPorte, separ, 1, gradiMax, dataMan, fileMan);
-
-            serialReader.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
             TimeSpan deltaTempo = DateTime.Now - oraInizio;
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
+        }
+        private void buttonOpenPort_Click(object sender, EventArgs e) {
+            string[] datiValvola = new string[] { textBoxNameValvue.Text, textBoxModelValvue.Text};
+            dataMan = new DataManager(this, separ, 1);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi, datiValvola);
+            serialReader = new SerialPortReader(comPorte, separ, 1, gradiMax, dataMan, fileMan);
+
+            serialReader.Start();
+            MessageBox.Show($"Porta {comPorte} aperta correttamente");
         }
 
         public void PrintRow(int rowIndex, string[] fields) {

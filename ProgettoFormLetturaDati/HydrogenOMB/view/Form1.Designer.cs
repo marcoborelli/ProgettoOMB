@@ -28,6 +28,11 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxNameValvue = new System.Windows.Forms.TextBox();
+            this.textBoxModelValvue = new System.Windows.Forms.TextBox();
+            this.buttonOpenPort = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,19 +61,66 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 459);
+            this.button1.Location = new System.Drawing.Point(12, 466);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(45, 45);
+            this.button1.Size = new System.Drawing.Size(45, 46);
             this.button1.TabIndex = 5;
             this.button1.Text = "SETT";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(91, 469);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "VALVE NAME:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(91, 495);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(85, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "VALVE MODEL:";
+            // 
+            // textBoxNameValvue
+            // 
+            this.textBoxNameValvue.Location = new System.Drawing.Point(185, 466);
+            this.textBoxNameValvue.Name = "textBoxNameValvue";
+            this.textBoxNameValvue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxNameValvue.TabIndex = 8;
+            // 
+            // textBoxModelValvue
+            // 
+            this.textBoxModelValvue.Location = new System.Drawing.Point(185, 492);
+            this.textBoxModelValvue.Name = "textBoxModelValvue";
+            this.textBoxModelValvue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxModelValvue.TabIndex = 9;
+            // 
+            // buttonOpenPort
+            // 
+            this.buttonOpenPort.Location = new System.Drawing.Point(291, 466);
+            this.buttonOpenPort.Name = "buttonOpenPort";
+            this.buttonOpenPort.Size = new System.Drawing.Size(73, 46);
+            this.buttonOpenPort.TabIndex = 10;
+            this.buttonOpenPort.Text = "OPEN PORT";
+            this.buttonOpenPort.UseVisualStyleBackColor = true;
+            this.buttonOpenPort.Click += new System.EventHandler(this.buttonOpenPort_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 527);
+            this.Controls.Add(this.buttonOpenPort);
+            this.Controls.Add(this.textBoxModelValvue);
+            this.Controls.Add(this.textBoxNameValvue);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.timerLab);
@@ -87,6 +139,11 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxNameValvue;
+        private System.Windows.Forms.TextBox textBoxModelValvue;
+        private System.Windows.Forms.Button buttonOpenPort;
     }
 }
 
