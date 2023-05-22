@@ -135,10 +135,6 @@ namespace HydrogenOMB {
             }
             First = false;
 
-            for (int i = 0; i < fields.Count; i++)
-                Console.Write($"{fields[i]}; ");
-            Console.WriteLine();
-
             DManager.PrintOnForm(0, fields);//per stampare sulla form
             FManager.Write(First, fields);//per stampare su file excel
 

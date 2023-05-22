@@ -57,7 +57,7 @@ namespace HydrogenOMB {
 
             serialReader.Start();
 
-            textBoxModelValvue.Enabled = textBoxModelValvue.Enabled = false;
+            textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
 
             MessageBox.Show($"Porta {comPorte} aperta correttamente");
         }

@@ -22,7 +22,7 @@ namespace HydrogenOMB {
         private Excel.Range _range;
         //object misValue = System.Reflection.Missing.Value;
 
-        public FileManager(string path, string templFile, char separator, string[] campi, string[] datiValvola) {
+        public FileManager( string path,  string templFile, char separator, string[] campi, string[] datiValvola) {
             _fields = new List<string>(campi);
             _datiValvola = new List<string>(datiValvola);
 
@@ -140,6 +140,9 @@ namespace HydrogenOMB {
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
             Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
 
+            Ws = Wb.Worksheets[3];
+            Ws.EnableCalculation = false;
+
             Ws = Wb.Worksheets[1];
             for (int i = 0; i < DatiValvola.Count; i++) { //aggiunta nome e modello della valvola
                 Ws.Cells[i + 1, 2] = DatiValvola[i];
@@ -151,7 +154,7 @@ namespace HydrogenOMB {
                 Ws.Cells[1, i + 1] = Fields[i].ToUpper();
             }
         }
-        public void Write(bool first, List<string> newLine) {
+        public void Write(bool first, List <string> newLine) {
             try {
                 byte cnt = (byte)newLine.Count;
                 for (int i = 0; i < cnt; i++) {
@@ -174,6 +177,8 @@ namespace HydrogenOMB {
             Times++;
         }
         public void Close() {
+            Ws = Wb.Worksheets[3];
+            Ws.EnableCalculation = true;
             Wb.SaveAs($@"{Path}\{FileName}.xlsx");
 
             Wb.Close();

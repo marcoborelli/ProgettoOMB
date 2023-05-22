@@ -29,7 +29,7 @@ void loop() {
     }
     loops++; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
 
-    delay(500);
+    delay(125);
     if (loops >= 200) {
       lettura = false;
       Serial.println("stop");
