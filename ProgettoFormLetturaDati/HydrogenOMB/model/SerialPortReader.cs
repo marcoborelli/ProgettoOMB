@@ -91,19 +91,19 @@ namespace HydrogenOMB {
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
-            string tmp = Port.ReadLine();
+            string tmp = Port.ReadLine().ToUpper();
 
-            if (tmp.ToUpper() == "START\r") {
+            if (tmp == "START\r") {
                 FManager.StartNewFile();
                 DManager.StartMeasurement();
                 Started = true;
                 return;
-            } else if (tmp.ToUpper() == "ENDOPEN\r") {
+            } else if (tmp == "ENDOPEN\r") {
                 return;
-            } else if (tmp.ToUpper() == "STOP\r") {
+            } else if (tmp == "STOP\r") {
                 this.Stop("Misurazione terminata con successo");
                 return;
-            } else if (tmp.ToUpper() == "FSTOP\r") {
+            } else if (tmp == "FSTOP\r") {
                 this.Stop("Misurazione fermata");
                 return;
             }
@@ -116,7 +116,7 @@ namespace HydrogenOMB {
                 CampiDefault(ref fields);
             }
 
-            if (int.Parse(fields[0]) > GradiMax) {
+            if (int.Parse(fields[0]) > GradiMax) {//nel caso in cui i gradi (presenti all'indice 0 per il momento) siano maggiori del limite imposto via software
                 return;
             }
 
@@ -132,7 +132,7 @@ namespace HydrogenOMB {
             First = false;
 
             DManager.PrintOnForm(0, fields);//per stampare sulla form
-            FManager.Write(First, fields);//per stampare su file excel
+            FManager.Write(fields);//per stampare su file excel
 
             OldTime = Now;
         }

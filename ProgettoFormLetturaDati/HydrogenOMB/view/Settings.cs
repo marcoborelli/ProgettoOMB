@@ -37,11 +37,7 @@ namespace HydrogenOMB {
                 return configurationFileName;
             }
             set {
-                if (!string.IsNullOrWhiteSpace(value)) {
-                    configurationFileName = value;
-                } else {
-                    throw new Exception("You must insert a valid ConfigurationFileName");
-                }
+                InserisciSeStringaValida(ref configurationFileName, value, "ConfigurationFileName");
             }
         }
         public string DirectoryName {
@@ -49,11 +45,7 @@ namespace HydrogenOMB {
                 return directoryName;
             }
             set {
-                if (!string.IsNullOrWhiteSpace(value)) {
-                    directoryName = value;
-                } else {
-                    throw new Exception("You must insert a valid DirectoryName");
-                }
+                InserisciSeStringaValida(ref directoryName, value, "DirectoryName");
             }
         }
         /*fine properties*/
@@ -101,6 +93,13 @@ namespace HydrogenOMB {
                 return;
             }
             modified = true;
+        }
+        private void InserisciSeStringaValida(ref string campo, string val, string perErrore) {
+            if (!String.IsNullOrWhiteSpace(val)) {
+                campo = val;
+            } else {
+                throw new Exception($"Invalid \"{perErrore}\"");
+            }
         }
     }
 }

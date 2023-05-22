@@ -154,7 +154,7 @@ namespace HydrogenOMB {
                 Ws.Cells[1, i + 1] = Fields[i].ToUpper();
             }
         }
-        public void Write(bool first, List <string> newLine) {
+        public void Write(List <string> newLine) {
             try {
                 byte cnt = (byte)newLine.Count;
                 for (int i = 0; i < cnt; i++) {
@@ -170,7 +170,7 @@ namespace HydrogenOMB {
                 throw new Exception("Not valid string");
             }
 
-            if (Times == 5) { /*every 5 times I auto-salve file*/
+            if (Times == 10) { /*every 10 times I auto-salve file*/
                 Wb.SaveAs($@"{Path}\{FileName}.xlsx");
                 Times = 0;
             }
