@@ -6,6 +6,7 @@ bool previousStateBF = false;
 byte bStop = 0;
 bool lettura = false;
 byte loops = 0;
+int delta = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -22,15 +23,16 @@ void loop() {
   if (lettura) {
     if (loops == 100) {
       Serial.println("endOpen");
+      delta = -1;
     } else {
       Serial.print(loops);
       Serial.print(";");
       Serial.println(analogRead(A1));
     }
-    loops++; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
+    loops+=delta; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
 
-    delay(125);
-    if (loops >= 200) {
+    delay(250);
+    if (loops <= 0) {
       lettura = false;
       Serial.println("stop");
     } else if (digitalRead(buttonStop) == HIGH) {

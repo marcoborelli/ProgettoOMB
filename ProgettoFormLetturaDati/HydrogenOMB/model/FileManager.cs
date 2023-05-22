@@ -140,7 +140,7 @@ namespace HydrogenOMB {
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
             Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
 
-            Ws = Wb.Worksheets[3];
+            Ws = Wb.Worksheets[3];//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
             Ws.EnableCalculation = false;
 
             Ws = Wb.Worksheets[1];

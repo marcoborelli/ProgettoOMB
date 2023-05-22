@@ -57,7 +57,7 @@
             this.label1.Location = new System.Drawing.Point(12, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 13);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 3;
             this.label1.Text = "PORTA COM";
             // 
             // label2
@@ -75,7 +75,7 @@
             this.checkOpenExplorer.Location = new System.Drawing.Point(15, 101);
             this.checkOpenExplorer.Name = "checkOpenExplorer";
             this.checkOpenExplorer.Size = new System.Drawing.Size(134, 17);
-            this.checkOpenExplorer.TabIndex = 5;
+            this.checkOpenExplorer.TabIndex = 2;
             this.checkOpenExplorer.Text = "OPEN IN EXPLORER ";
             this.checkOpenExplorer.UseVisualStyleBackColor = true;
             this.checkOpenExplorer.CheckedChanged += new System.EventHandler(this.checkOpenExplorer_CheckedChanged);

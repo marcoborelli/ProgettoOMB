@@ -79,7 +79,7 @@ namespace HydrogenOMB {
                 using (BinaryWriter writer = new BinaryWriter(p)) {
                     writer.Write(comboBoxPorta.Text);
                     writer.Write((trackBarGradi.Value * 5) + 90);
-                    writer.Write(checkOpenExplorer.Checked);
+                    writer.Write((bool)checkOpenExplorer.Checked);
                 }
                 p.Close();
             }
@@ -91,7 +91,7 @@ namespace HydrogenOMB {
             var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             using (BinaryReader reader = new BinaryReader(p)) {
                 comboBoxPorta.Text = reader.ReadString();
-                trackBarGradi.Value = (reader.ReadByte() - 90) / 5;
+                trackBarGradi.Value = (reader.ReadInt32() - 90) / 5;
                 checkOpenExplorer.Checked = reader.ReadBoolean();
             }
             p.Close();

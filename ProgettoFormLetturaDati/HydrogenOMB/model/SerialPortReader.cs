@@ -18,9 +18,7 @@ namespace HydrogenOMB {
         private DateTime OldTime { get; set; }
         private TimeSpan DeltaTime { get; set; }
         public byte NumeroParametri { get; private set; }
-        //public byte GradiMax { get; private set; }
-        //public int GradiAttuali { get; private set; }
-        //public sbyte DeltaGradi { get; set; }
+        public byte GradiMax { get; private set; }
 
 
         public SerialPortReader(string ComPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
@@ -32,12 +30,10 @@ namespace HydrogenOMB {
 
             Separator = separator;
             NumeroParametri = numParametri;
-            //GradiMax = gradiMassimi;
+            GradiMax = gradiMassimi;
 
             First = true;
             Started = false;
-            //GradiAttuali = 0;
-            //DeltaGradi = 1;
         }
 
         /*properties*/
@@ -115,13 +111,13 @@ namespace HydrogenOMB {
             if (!Started)
                 return;
 
-            /*if ((GradiAttuali - DeltaGradi) >= GradiMax || (GradiAttuali - DeltaGradi) < 0) {
-                return;
-            }*/
-
             List<string> fields = new List<string>(tmp.Split(Separator));//in caso ci siano più campi
             if (fields.Count != NumeroParametri) {
                 CampiDefault(ref fields);
+            }
+
+            if (int.Parse(fields[0]) > GradiMax) {
+                return;
             }
 
             Now = DateTime.Now;
