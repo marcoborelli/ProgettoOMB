@@ -22,7 +22,7 @@ namespace HydrogenOMB {
         private Excel.Range _range;
         //object misValue = System.Reflection.Missing.Value;
 
-        public FileManager( string path,  string templFile, char separator, string[] campi, string[] datiValvola) {
+        public FileManager(string path, string templFile, char separator, string[] campi, string[] datiValvola) {
             _fields = new List<string>(campi);
             _datiValvola = new List<string>(datiValvola);
 
@@ -139,7 +139,7 @@ namespace HydrogenOMB {
             App = new Excel.Application(); //starts excel app
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
             Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
-            
+
             Ws = Wb.Worksheets[1];
             for (int i = 0; i < DatiValvola.Count; i++) { //aggiunta nome e modello della valvola
                 Ws.Cells[i + 1, 2] = DatiValvola[i];
@@ -151,20 +151,15 @@ namespace HydrogenOMB {
                 Ws.Cells[1, i + 1] = Fields[i].ToUpper();
             }
         }
-        public void Write(bool first, string newLine) {
-            if (String.IsNullOrWhiteSpace(newLine)) {
-                return;
-            }
-
+        public void Write(bool first, List<string> newLine) {
             try {
-                string[] val = newLine.Split(Separator);
-
-                for (int i = 0; i < val.Length; i++) {
+                byte cnt = (byte)newLine.Count;
+                for (int i = 0; i < cnt; i++) {
                     if (i < 2) { //only first 2 columns are string
                         Ws.Cells[Contatore, i + 1].NumberFormat = "@";//string format only with time
-                        Ws.Cells[Contatore, i + 1] = val[i];
+                        Ws.Cells[Contatore, i + 1] = newLine[i];
                     } else {
-                        Ws.Cells[Contatore, i + 1] = int.Parse(val[i]);//sennò non se li salva come intero e non li legge nel grafico
+                        Ws.Cells[Contatore, i + 1] = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
                     }
                 }
                 Contatore++;

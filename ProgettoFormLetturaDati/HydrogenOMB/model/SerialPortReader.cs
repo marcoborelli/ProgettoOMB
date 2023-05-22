@@ -18,9 +18,9 @@ namespace HydrogenOMB {
         private DateTime OldTime { get; set; }
         private TimeSpan DeltaTime { get; set; }
         public byte NumeroParametri { get; private set; }
-        public byte GradiMax { get; private set; }
-        public int GradiAttuali { get; private set; }
-        public sbyte DeltaGradi { get; set; }
+        //public byte GradiMax { get; private set; }
+        //public int GradiAttuali { get; private set; }
+        //public sbyte DeltaGradi { get; set; }
 
 
         public SerialPortReader(string ComPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
@@ -32,12 +32,12 @@ namespace HydrogenOMB {
 
             Separator = separator;
             NumeroParametri = numParametri;
-            GradiMax = gradiMassimi;
+            //GradiMax = gradiMassimi;
 
             First = true;
             Started = false;
-            GradiAttuali = 0;
-            DeltaGradi = 1;
+            //GradiAttuali = 0;
+            //DeltaGradi = 1;
         }
 
         /*properties*/
@@ -103,9 +103,8 @@ namespace HydrogenOMB {
                 Started = true;
                 return;
             } else if (tmp.ToUpper() == "ENDOPEN\r") {
-                DeltaGradi = (sbyte)-DeltaGradi;
                 return;
-            } else if (tmp.ToUpper() == "STOP\r" ) {
+            } else if (tmp.ToUpper() == "STOP\r") {
                 this.Stop("Misurazione terminata con successo");
                 return;
             } else if (tmp.ToUpper() == "FSTOP\r") {
@@ -116,49 +115,40 @@ namespace HydrogenOMB {
             if (!Started)
                 return;
 
-            GradiAttuali += DeltaGradi;//dato che c'è limite imponibile via software su angoli da ricevere devo comunque aumentare perchè sennò non aumenta più
-            if ((GradiAttuali - DeltaGradi) >= GradiMax || (GradiAttuali - DeltaGradi) < 0) {
+            /*if ((GradiAttuali - DeltaGradi) >= GradiMax || (GradiAttuali - DeltaGradi) < 0) {
                 return;
-            }
+            }*/
 
-            string[] fields = tmp.Split(Separator);//in caso ci siano più campi
-            ControlloNumeriCampi(ref fields);
+            List<string> fields = new List<string>(tmp.Split(Separator));//in caso ci siano più campi
+            if (fields.Count != NumeroParametri) {
+                CampiDefault(ref fields);
+            }
 
             Now = DateTime.Now;
-            string HourMinSecMilTime = $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}";
+            fields.Insert(0, $"{Now.Hour}:{Now.Minute}:{Now.Second}:{Now.Millisecond}");
 
-            string parametri = $"{Separator}{(GradiAttuali - DeltaGradi)}{Separator}";//inizializzo questa stringa già con l'angolo (non lo conto come parametro perche' e' una cosa interna)
-            parametri += AggiuntaParametriInPiu(fields);
-
-            string final;
-            if (First) {//because first time i have no delta-time 
-                final = $"{Separator}{HourMinSecMilTime}{parametri}";
-                First = false;
-            } else {
+            if (!First) {
                 DeltaTime = Now - OldTime;
-                final = $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}{Separator}{HourMinSecMilTime}{parametri}";
+                fields.Insert(0, $"{DeltaTime.Minutes}:{DeltaTime.Seconds}:{DeltaTime.Milliseconds}");
+            } else {//because first time i have no delta-time 
+                fields.Insert(0, $"");
             }
+            First = false;
 
-            DManager.PrintOnForm(0, final);//per stampare sulla form
-            FManager.Write(First, final);//per stampare su file excel
+            for (int i = 0; i < fields.Count; i++)
+                Console.Write($"{fields[i]}; ");
+            Console.WriteLine();
+
+            DManager.PrintOnForm(0, fields);//per stampare sulla form
+            FManager.Write(First, fields);//per stampare su file excel
 
             OldTime = Now;
         }
 
-        private string AggiuntaParametriInPiu(string[] field) {//restituisce la stringa finale con i parametri in fila separati da un separatore
-            string p = "";
+        private void CampiDefault(ref List<string> field) {
+            field = new List<string>();
             for (byte i = 0; i < NumeroParametri; i++) {
-                p += $"{field[i]}{Separator}";
-            }
-            p = p.Substring(0, p.Length - 1);//per togliere il ';' finale
-            return p;
-        }
-        private void ControlloNumeriCampi(ref string[] field) {
-            if (field.Length != NumeroParametri) {
-                field = new string[NumeroParametri];
-                for (byte i = 0; i < NumeroParametri; i++) {
-                    field[i] = "-";
-                }
+                field[i] = "-";
             }
         }
     }

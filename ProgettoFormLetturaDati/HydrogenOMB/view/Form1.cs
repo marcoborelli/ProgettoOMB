@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-/*using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.Generic;
+/*using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO.Ports;
@@ -20,7 +20,7 @@ namespace HydrogenOMB {
 
         DateTime oraInizio;
         string[] campi = new string[] { "delta", "time", "angle", "trimmer" };
-        const string configurationFileName = "settings.conf", directoryName = "File", templateFileName="base";
+        const string configurationFileName = "settings.conf", directoryName = "File", templateFileName = "base";
         const char separ = ';';
 
         string comPorte = "";
@@ -50,10 +50,10 @@ namespace HydrogenOMB {
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
         }
         private void buttonOpenPort_Click(object sender, EventArgs e) {
-            string[] datiValvola = new string[] { textBoxNameValvue.Text, textBoxModelValvue.Text};
-            dataMan = new DataManager(this, separ, 1);
+            string[] datiValvola = new string[] { textBoxNameValvue.Text, textBoxModelValvue.Text };
+            dataMan = new DataManager(this, separ);
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi, datiValvola);
-            serialReader = new SerialPortReader(comPorte, separ, 1, gradiMax, dataMan, fileMan);
+            serialReader = new SerialPortReader(comPorte, separ, 2, gradiMax, dataMan, fileMan);
 
             serialReader.Start();
 
@@ -62,10 +62,10 @@ namespace HydrogenOMB {
             MessageBox.Show($"Porta {comPorte} aperta correttamente");
         }
 
-        public void PrintRow(int rowIndex, string[] fields) {
+        public void PrintRow(int rowIndex, List<string> fields) {
             if (InvokeRequired) { // after we've done all the processing, 
                 this.Invoke(new MethodInvoker(delegate {
-                    dataGridView1.Rows.Insert(rowIndex, fields);
+                    dataGridView1.Rows.Insert(rowIndex, fields.ToArray());
                 }));
                 return;
             }

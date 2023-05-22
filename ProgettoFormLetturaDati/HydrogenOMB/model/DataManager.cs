@@ -9,12 +9,10 @@ namespace HydrogenOMB {
     public class DataManager {
         private Form1 _associatedForm;
         private char _separator;
-        public byte NumeroParametri { get; private set; }
 
-        public DataManager(Form1 form, char separator, byte numParametri) {
+        public DataManager(Form1 form, char separator) {
             AssociatedForm = form;
             Separator = separator;
-            NumeroParametri = numParametri;
         }
 
         /*properties*/
@@ -44,15 +42,8 @@ namespace HydrogenOMB {
         }
         /*fine properties*/
 
-        public void PrintOnForm(int index, string row) {
-            string[] campi = row.Split(Separator); //3 perchè: 1=ora 2=delta 3=angolo
-            if (campi.Length != 3 + NumeroParametri) {
-                campi = new string[3 + NumeroParametri];
-                for (byte i = 0; i < campi.Length; i++) {
-                    campi[i] = "-";
-                }
-            }
-            AssociatedForm.PrintRow(index, campi);
+        public void PrintOnForm(int index, List<string> row) {
+            AssociatedForm.PrintRow(index, row);
         }
 
         public void StartMeasurement() {

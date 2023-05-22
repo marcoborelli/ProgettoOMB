@@ -1,7 +1,11 @@
 const byte buttonStart = 2;
 const byte buttonStop = 3;
+bool previousStateBS = false;
+bool previousStateBF = false;
 
 byte bStop = 0;
+bool lettura = false;
+byte loops = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -9,21 +13,30 @@ void setup() {
 
 void loop() {
 
-  if (digitalRead(buttonStart) == HIGH) {
-
+  if (!lettura && digitalRead(buttonStart) == HIGH && !previousStateBS) {
     Serial.println("start");
-
-    byte loops = 0;
-    do {
-      if (loops == 100) {
-        Serial.println("endOpen");
-      } else {
-        Serial.println(analogRead(A1));
-      }
-      loops++;/*per ora simulo che ogni mezzo sec giro di 1 grado*/
-      delay(500);
-    } while (loops < 200 && digitalRead(buttonStop) == LOW);
-
-    (loops < 200) ? Serial.println("fstop") : Serial.println("stop");
+    lettura = true;
+    loops = 0;
   }
+
+  if (lettura) {
+    if (loops == 100) {
+      Serial.println("endOpen");
+    } else {
+      Serial.print(loops);
+      Serial.print(";");
+      Serial.println(analogRead(A1));
+    }
+    loops++; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
+
+    delay(500);
+    if (loops >= 200) {
+      lettura = false;
+      Serial.println("stop");
+    } else if (digitalRead(buttonStop) == HIGH) {
+      lettura = false;
+      Serial.println("fstop");
+    }
+  }
+  previousStateBS = digitalRead(buttonStart);
 }
