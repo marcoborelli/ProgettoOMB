@@ -19,7 +19,7 @@ namespace HydrogenOMB {
         }
 
         DateTime oraInizio;
-        string[] campi = new string[] { "delta", "time", "angle", "trimmer" };
+        string[] campi = new string[] { "delta", "time", "angle", "pair" };
         const string configurationFileName = "settings.conf", directoryName = "File", templateFileName = "base";
         const char separ = ';';
 
@@ -35,7 +35,6 @@ namespace HydrogenOMB {
 
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
-            LeggiImpostazioni();
 
             timer1.Stop();
             timer1.Enabled = false;
@@ -50,6 +49,8 @@ namespace HydrogenOMB {
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
         }
         private void buttonOpenPort_Click(object sender, EventArgs e) {
+            LeggiImpostazioni();
+
             string[] datiValvola = new string[] { textBoxNameValvue.Text, textBoxModelValvue.Text };
             dataMan = new DataManager(this, separ);
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi, datiValvola);

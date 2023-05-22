@@ -1,5 +1,4 @@
-﻿using Microsoft.Office.Interop.Access.Dao;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
@@ -47,11 +46,7 @@ namespace HydrogenOMB {
                 return _dManager;
             }
             set {
-                if (value != null) {
-                    _dManager = value;
-                } else {
-                    throw new Exception("You must insert a valid DataManager");
-                }
+                AssegnaOggettoSeValido(_dManager, value, "DataManager");
             }
         }
         public FileManager FManager {
@@ -59,11 +54,7 @@ namespace HydrogenOMB {
                 return _fManager;
             }
             set {
-                if (value != null) {
-                    _fManager = value;
-                } else {
-                    throw new Exception("You must insert a valid FileManager");
-                }
+                AssegnaOggettoSeValido(_fManager, value, "FileManager");
             }
         }
         public char Separator {
@@ -141,6 +132,13 @@ namespace HydrogenOMB {
             field = new List<string>();
             for (byte i = 0; i < NumeroParametri; i++) {
                 field[i] = "-";
+            }
+        }
+        private void AssegnaOggettoSeValido(object generico, object val, string perErrore) {
+            if (val != null) {
+                generico = val;
+            } else {
+                throw new Exception($"Invalid \"{perErrore}\"");
             }
         }
     }
