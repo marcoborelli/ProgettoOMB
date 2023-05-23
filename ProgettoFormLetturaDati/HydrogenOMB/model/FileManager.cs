@@ -133,17 +133,20 @@ namespace HydrogenOMB {
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
             Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
 
-            Ws = Wb.Worksheets[3];//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
+            ChangeWorkSheet(4);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
             Ws.EnableCalculation = false;
 
-            Ws = Wb.Worksheets[1];//dati valvola
+            ChangeWorkSheet(1);//dati valvola
             Ws.Cells[1, 2] = DatiValvola.NomeValvola;
             Ws.Cells[2, 2] = DatiValvola.NomeValvola;
 
-            Ws = Wb.Worksheets[2];
-            for (int i = 0; i < Fields.Count; i++) { // aggiunta intestazione: trimmer, angolo, ...
-                Ws.Cells[1, i + 1] = Fields[i].ToUpper();
+            for (byte j = 0; j < 2; j++) {
+                ChangeWorkSheet((uint)j+2);//perchè i fogli partono da 2
+                for (int i = 0; i < Fields.Count; i++) { // aggiunta intestazione: trimmer, angolo, ...
+                    Ws.Cells[1, i + 1] = Fields[i].ToUpper();
+                }
             }
+            ChangeWorkSheet(2); //seleziono la scheda delle misurazioni in apertura
         }
         public void Write(List<string> newLine) {
             byte cnt = (byte)newLine.Count;
@@ -164,7 +167,7 @@ namespace HydrogenOMB {
             Times++;
         }
         public void Close() {
-            Ws = Wb.Worksheets[3];
+            Ws = Wb.Worksheets[4];
             Ws.EnableCalculation = true;
             Wb.SaveAs($@"{Path}\{FileName}.xlsx");
 
@@ -178,6 +181,11 @@ namespace HydrogenOMB {
             } else {
                 throw new Exception($"Invalid \"{perErrore}\"");
             }
+        }
+
+        public void ChangeWorkSheet(uint index) {
+            Ws = Wb.Worksheets[index];
+            Contatore = 2;
         }
     }
 }

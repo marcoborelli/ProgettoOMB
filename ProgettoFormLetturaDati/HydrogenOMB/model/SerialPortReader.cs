@@ -98,6 +98,7 @@ namespace HydrogenOMB {
                 Started = true;
                 return;
             } else if (tmp == "ENDOPEN\r") {
+                FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
                 return;
             } else if (tmp == "STOP\r") {
                 this.Stop("Misurazione terminata con successo");
