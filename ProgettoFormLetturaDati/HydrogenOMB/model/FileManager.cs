@@ -11,6 +11,7 @@ namespace HydrogenOMB {
     public class FileManager {
         private List<string> _fields;
         private string _fileName, _path, _templateFile;
+        private const string Estensione = "xslx";
         private char _separator;
         private int Contatore { get; set; }
         private byte Times { get; set; }
@@ -127,11 +128,11 @@ namespace HydrogenOMB {
             DateTime tmp = DateTime.Now;
             FileName = $"{tmp.Day}-{tmp.Month}-{tmp.Year}_{tmp.Hour}-{tmp.Minute}-{tmp.Second}";
 
-            File.Copy($@"{Path}\{TemplateFile}.xlsx", $@"{Path}\{FileName}.xlsx");//il 'vecchio' è il template di base quindi lo si sovrascrive
+            File.Copy($@"{Path}\{TemplateFile}.{Estensione}", $@"{Path}\{FileName}.{Estensione}");//il 'vecchio' è il template di base quindi lo si sovrascrive
 
             App = new Excel.Application(); //starts excel app
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
-            Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
+            Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.{Estensione}"));
 
             for (byte i = 0; i < 4; i++) {
                 ChangeWorkSheet((uint)i+1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
@@ -163,17 +164,17 @@ namespace HydrogenOMB {
             Contatore++;
 
             if (Times == 10) { /*every 10 times I auto-salve file*/
-                Wb.SaveAs($@"{Path}\{FileName}.xlsx");
+                Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
                 Times = 0;
             }
             Times++;
         }
         public void Close() {
-            for (byte i = 0; i < 4; i++) {
-                ChangeWorkSheet((uint)i + 1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
+            for (byte i = 0; i < 4; i++) {//riattiviamo il ricalcolo automatico solo alla fine della misurazione, così da non rallentare in fase di misurazione
+                ChangeWorkSheet((uint)i + 1);
                 Ws.EnableCalculation = true;
             }
-            Wb.SaveAs($@"{Path}\{FileName}.xlsx");
+            Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
 
             Wb.Close();
             App.Quit();

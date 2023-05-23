@@ -96,10 +96,10 @@ namespace HydrogenOMB {
             if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
                 this.Invoke(new MethodInvoker(delegate {
                     timer1.Stop();
+                    MessageBox.Show(message);
                     if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
-                    MessageBox.Show(message);
                 }));
                 return;
             }
@@ -125,6 +125,7 @@ namespace HydrogenOMB {
         }
         private void LeggiImpostazioni() {
             var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            p.Seek(0, SeekOrigin.Begin);
             using (BinaryReader reader = new BinaryReader(p)) {
                 comPorte = reader.ReadString();
                 gradiMax = reader.ReadByte();

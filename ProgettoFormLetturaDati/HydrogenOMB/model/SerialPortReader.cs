@@ -12,10 +12,12 @@ namespace HydrogenOMB {
         private FileManager _fManager;
         private DataManager _dManager;
         private char _separator;
-        private bool First, Started;
+        private bool First { get; set; }
+        private bool Started { get; set; }
         private DateTime Now { get; set; }
         private DateTime OldTime { get; set; }
         private TimeSpan DeltaTime { get; set; }
+
         public byte NumeroParametri { get; private set; }
         public byte GradiMax { get; private set; }
 
@@ -26,7 +28,6 @@ namespace HydrogenOMB {
 
             DManager = dManager;
             FManager = fManager;
-
             Separator = separator;
             NumeroParametri = numParametri;
             GradiMax = gradiMassimi;
