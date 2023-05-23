@@ -133,12 +133,14 @@ namespace HydrogenOMB {
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
             Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.xlsx"));
 
-            ChangeWorkSheet(4);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
-            Ws.EnableCalculation = false;
+            for (byte i = 0; i < 4; i++) {
+                ChangeWorkSheet((uint)i+1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
+                Ws.EnableCalculation = false;
+            }
 
             ChangeWorkSheet(1);//dati valvola
             Ws.Cells[1, 2] = DatiValvola.NomeValvola;
-            Ws.Cells[2, 2] = DatiValvola.NomeValvola;
+            Ws.Cells[2, 2] = DatiValvola.ModelloValvola;
 
             for (byte j = 0; j < 2; j++) {
                 ChangeWorkSheet((uint)j+2);//perchè i fogli partono da 2
@@ -167,8 +169,10 @@ namespace HydrogenOMB {
             Times++;
         }
         public void Close() {
-            Ws = Wb.Worksheets[4];
-            Ws.EnableCalculation = true;
+            for (byte i = 0; i < 4; i++) {
+                ChangeWorkSheet((uint)i + 1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
+                Ws.EnableCalculation = true;
+            }
             Wb.SaveAs($@"{Path}\{FileName}.xlsx");
 
             Wb.Close();
