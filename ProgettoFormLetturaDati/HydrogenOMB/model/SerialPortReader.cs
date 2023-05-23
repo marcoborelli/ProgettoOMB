@@ -46,7 +46,11 @@ namespace HydrogenOMB {
                 return _dManager;
             }
             set {
-                AssegnaOggettoSeValido(_dManager, value, "DataManager");
+                if (value != null) {
+                    _dManager = value;
+                } else {
+                    throw new Exception("You must insert a valid DataManager");
+                }
             }
         }
         public FileManager FManager {
@@ -54,7 +58,11 @@ namespace HydrogenOMB {
                 return _fManager;
             }
             set {
-                AssegnaOggettoSeValido(_fManager, value, "FileManager");
+                if (value != null) {
+                    _fManager = value;
+                } else {
+                    throw new Exception("You must insert a valid FileManager");
+                }
             }
         }
         public char Separator {
@@ -132,13 +140,6 @@ namespace HydrogenOMB {
             field = new List<string>();
             for (byte i = 0; i < NumeroParametri; i++) {
                 field[i] = "-";
-            }
-        }
-        private void AssegnaOggettoSeValido(object generico, object val, string perErrore) {
-            if (val != null) {
-                generico = val;
-            } else {
-                throw new Exception($"Invalid \"{perErrore}\"");
             }
         }
     }

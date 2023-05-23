@@ -42,25 +42,19 @@ namespace HydrogenOMB {
             for (byte i = 0; i < campi.Length; i++) {
                 dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
             }
+
+            LeggiImpostazioni();
+
+            dataMan = new DataManager(this, separ);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi);
+            serialReader = new SerialPortReader(comPorte, separ, 2, gradiMax, dataMan, fileMan);
+
+            serialReader.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
             TimeSpan deltaTempo = DateTime.Now - oraInizio;
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
-        }
-        private void buttonOpenPort_Click(object sender, EventArgs e) {
-            LeggiImpostazioni();
-
-            string[] datiValvola = new string[] { textBoxNameValvue.Text, textBoxModelValvue.Text };
-            dataMan = new DataManager(this, separ);
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi, datiValvola);
-            serialReader = new SerialPortReader(comPorte, separ, 2, gradiMax, dataMan, fileMan);
-
-            serialReader.Start();
-
-            textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
-
-            MessageBox.Show($"Porta {comPorte} aperta correttamente");
         }
 
         public void PrintRow(int rowIndex, List<string> fields) {
@@ -90,6 +84,7 @@ namespace HydrogenOMB {
 
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
+                    textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
                     timer1.Start();
                     dataGridView1.Rows.Clear();
                 }));
@@ -108,6 +103,14 @@ namespace HydrogenOMB {
                 }));
                 return;
             }
+        }
+
+        private void textBoxNameValvue_TextChanged(object sender, EventArgs e) {
+            DatiValvola.NomeValvola = textBoxNameValvue.Text;
+        }
+
+        private void textBoxModelValvue_TextChanged(object sender, EventArgs e) {
+            DatiValvola.ModelloValvola = textBoxModelValvue.Text;
         }
 
         private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default

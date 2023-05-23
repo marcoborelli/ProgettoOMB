@@ -93,6 +93,7 @@
             this.textBoxNameValvue.Name = "textBoxNameValvue";
             this.textBoxNameValvue.Size = new System.Drawing.Size(100, 20);
             this.textBoxNameValvue.TabIndex = 0;
+            this.textBoxNameValvue.TextChanged += new System.EventHandler(this.textBoxNameValvue_TextChanged);
             // 
             // textBoxModelValvue
             // 
@@ -100,6 +101,7 @@
             this.textBoxModelValvue.Name = "textBoxModelValvue";
             this.textBoxModelValvue.Size = new System.Drawing.Size(100, 20);
             this.textBoxModelValvue.TabIndex = 1;
+            this.textBoxModelValvue.TextChanged += new System.EventHandler(this.textBoxModelValvue_TextChanged);
             // 
             // buttonOpenPort
             // 
@@ -109,7 +111,6 @@
             this.buttonOpenPort.TabIndex = 2;
             this.buttonOpenPort.Text = "OPEN PORT";
             this.buttonOpenPort.UseVisualStyleBackColor = true;
-            this.buttonOpenPort.Click += new System.EventHandler(this.buttonOpenPort_Click);
             // 
             // Form1
             // 

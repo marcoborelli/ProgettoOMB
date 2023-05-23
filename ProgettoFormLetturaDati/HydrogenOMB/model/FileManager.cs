@@ -10,7 +10,6 @@ using System.IO;
 namespace HydrogenOMB {
     public class FileManager {
         private List<string> _fields;
-        private List<string> _datiValvola;
         private string _fileName, _path, _templateFile;
         private char _separator;
         private int Contatore { get; set; }
@@ -22,9 +21,8 @@ namespace HydrogenOMB {
         private Excel.Range _range;
         //object misValue = System.Reflection.Missing.Value;
 
-        public FileManager(string path, string templFile, char separator, string[] campi, string[] datiValvola) {
+        public FileManager(string path, string templFile, char separator, string[] campi) {
             _fields = new List<string>(campi);
-            _datiValvola = new List<string>(datiValvola);
 
             Separator = separator;
             Path = path;
@@ -75,17 +73,16 @@ namespace HydrogenOMB {
                 return _fields;
             }
         }
-        public List<string> DatiValvola {
-            get {
-                return _datiValvola;
-            }
-        }
         private Excel.Application App {
             get {
                 return _app;
             }
             set {
-                AssegnaOggettoSeValido(_app, value, "ExcelApplication");
+                if (value != null) {
+                    _app = value;
+                } else {
+                    throw new Exception("Application not valid");
+                }
             }
         }
         private Excel.Workbook Wb {
@@ -93,7 +90,11 @@ namespace HydrogenOMB {
                 return _wb;
             }
             set {
-                AssegnaOggettoSeValido(_wb, value, "ExcelWorkbook");
+                if (value != null) {
+                    _wb = value;
+                } else {
+                    throw new Exception("WorkBook not valid");
+                }
             }
         }
         private Excel.Worksheet Ws {
@@ -101,7 +102,11 @@ namespace HydrogenOMB {
                 return _ws;
             }
             set {
-                AssegnaOggettoSeValido(_ws, value, "ExcelWorksheet");
+                if (value != null) {
+                    _ws = value;
+                } else {
+                    throw new Exception("WorkSheet not valid");
+                }
             }
         }
         private Excel.Range Rng {
@@ -109,7 +114,11 @@ namespace HydrogenOMB {
                 return _range;
             }
             set {
-                AssegnaOggettoSeValido(_range, value, "ExcelRange");
+                if (value != null) {
+                    _range = value;
+                } else {
+                    throw new Exception("WorkBook not valid");
+                }
             }
         }
         /*end properties*/
@@ -128,10 +137,8 @@ namespace HydrogenOMB {
             Ws.EnableCalculation = false;
 
             Ws = Wb.Worksheets[1];
-            for (int i = 0; i < DatiValvola.Count; i++) { //aggiunta nome e modello della valvola
-                Ws.Cells[i + 1, 2] = DatiValvola[i];
-            }
-
+            Ws.Cells[1, 2] = DatiValvola.NomeValvola;
+            Ws.Cells[2, 2] = DatiValvola.NomeValvola;
 
             Ws = Wb.Worksheets[2];
             for (int i = 0; i < Fields.Count; i++) { // aggiunta intestazione: trimmer, angolo, ...
@@ -172,13 +179,6 @@ namespace HydrogenOMB {
         private void InserisciSeStringaValida(ref string campo, string val, string perErrore) {
             if (!String.IsNullOrWhiteSpace(val)) {
                 campo = val;
-            } else {
-                throw new Exception($"Invalid \"{perErrore}\"");
-            }
-        }
-        private void AssegnaOggettoSeValido(object generico, object val, string perErrore) {
-            if (val != null) {
-                generico = val;
             } else {
                 throw new Exception($"Invalid \"{perErrore}\"");
             }
