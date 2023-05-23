@@ -32,7 +32,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxNameValvue = new System.Windows.Forms.TextBox();
             this.textBoxModelValvue = new System.Windows.Forms.TextBox();
-            this.buttonOpenPort = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +71,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(91, 469);
+            this.label1.Location = new System.Drawing.Point(137, 466);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 5;
@@ -81,7 +80,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(91, 495);
+            this.label2.Location = new System.Drawing.Point(137, 492);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 13);
             this.label2.TabIndex = 5;
@@ -89,7 +88,7 @@
             // 
             // textBoxNameValvue
             // 
-            this.textBoxNameValvue.Location = new System.Drawing.Point(185, 466);
+            this.textBoxNameValvue.Location = new System.Drawing.Point(231, 463);
             this.textBoxNameValvue.Name = "textBoxNameValvue";
             this.textBoxNameValvue.Size = new System.Drawing.Size(100, 20);
             this.textBoxNameValvue.TabIndex = 0;
@@ -97,27 +96,17 @@
             // 
             // textBoxModelValvue
             // 
-            this.textBoxModelValvue.Location = new System.Drawing.Point(185, 492);
+            this.textBoxModelValvue.Location = new System.Drawing.Point(231, 489);
             this.textBoxModelValvue.Name = "textBoxModelValvue";
             this.textBoxModelValvue.Size = new System.Drawing.Size(100, 20);
             this.textBoxModelValvue.TabIndex = 1;
             this.textBoxModelValvue.TextChanged += new System.EventHandler(this.textBoxModelValvue_TextChanged);
-            // 
-            // buttonOpenPort
-            // 
-            this.buttonOpenPort.Location = new System.Drawing.Point(291, 466);
-            this.buttonOpenPort.Name = "buttonOpenPort";
-            this.buttonOpenPort.Size = new System.Drawing.Size(73, 46);
-            this.buttonOpenPort.TabIndex = 2;
-            this.buttonOpenPort.Text = "OPEN PORT";
-            this.buttonOpenPort.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 527);
-            this.Controls.Add(this.buttonOpenPort);
             this.Controls.Add(this.textBoxModelValvue);
             this.Controls.Add(this.textBoxNameValvue);
             this.Controls.Add(this.label2);
@@ -145,7 +134,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxNameValvue;
         private System.Windows.Forms.TextBox textBoxModelValvue;
-        private System.Windows.Forms.Button buttonOpenPort;
     }
 }
 

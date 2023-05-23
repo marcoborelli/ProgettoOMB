@@ -136,7 +136,7 @@ namespace HydrogenOMB {
             Ws = Wb.Worksheets[3];//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
             Ws.EnableCalculation = false;
 
-            Ws = Wb.Worksheets[1];
+            Ws = Wb.Worksheets[1];//dati valvola
             Ws.Cells[1, 2] = DatiValvola.NomeValvola;
             Ws.Cells[2, 2] = DatiValvola.NomeValvola;
 
@@ -146,20 +146,16 @@ namespace HydrogenOMB {
             }
         }
         public void Write(List<string> newLine) {
-            try {
-                byte cnt = (byte)newLine.Count;
-                for (int i = 0; i < cnt; i++) {
-                    if (i < 2) { //only first 2 columns are string
-                        Ws.Cells[Contatore, i + 1].NumberFormat = "@";//string format only with time
-                        Ws.Cells[Contatore, i + 1] = newLine[i];
-                    } else {
-                        Ws.Cells[Contatore, i + 1] = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
-                    }
+            byte cnt = (byte)newLine.Count;
+            for (int i = 0; i < cnt; i++) {
+                if (i < 2) { //only first 2 columns are string
+                    Ws.Cells[Contatore, i + 1].NumberFormat = "@";//string format only with time
+                    Ws.Cells[Contatore, i + 1] = newLine[i];
+                } else {
+                    Ws.Cells[Contatore, i + 1] = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
                 }
-                Contatore++;
-            } catch {
-                throw new Exception("Not valid string");
             }
+            Contatore++;
 
             if (Times == 10) { /*every 10 times I auto-salve file*/
                 Wb.SaveAs($@"{Path}\{FileName}.xlsx");
