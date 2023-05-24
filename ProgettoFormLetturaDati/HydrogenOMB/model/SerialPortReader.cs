@@ -97,7 +97,7 @@ namespace HydrogenOMB {
                     DManager.StartMeasurement("Inizio misurazione");
                     return;
                 case "ENDOPEN\r":
-                    DManager.EndOpening("Apertura valvola terminata con successo, inzio chiusura...");
+                    DManager.EndOpening("Apertura valvola terminata, inzio chiusura...");
                     return;
                 case "STOP\r":
                     DManager.StopMeasurement("Misurazione terminata con successo");

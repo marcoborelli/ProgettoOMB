@@ -44,35 +44,31 @@ void loop() {
       lettura = false;
       Serial.println("stop");
 
-      delay(500);
+      delay(250);
 
       StampaArray(arrayOpen, 100, del); /*qui metto come dimensione massima 100 perchè la misurazione si è conclusa del tutto, quindi sono sicuro di avere i 100 valori*/
       Serial.println("EndArrOpen");
       StampaArray(arrayClose, 100, del);
       Serial.println("EndArrClose");
 
+      ResetVariabili();
     } else if (digitalRead(buttonStop) == HIGH) {
       lettura = false;
       Serial.println("fstop");
 
-      delay(500);
+      delay(250);
 
       if (endOpen) { /*se almeno ho finito l'apertura*/
         StampaArray(arrayOpen, 100, del);
         Serial.println("EndArrOpen");
         StampaArray(arrayClose, loops, del);
         Serial.println("EndArrClose");
-
-        delay(500);
-        ResetVariabili();
       } else {
         StampaArray(arrayOpen, loops, del); /*se non ho finito l'apertura stampo il punto fino a dove sono arrivato e non stampo nemmeno la chiusura*/
         Serial.println("EndArrOpen");
         Serial.println("EndArrClose");
-
-        delay(500);
-        ResetVariabili();
       }
+      ResetVariabili();
     }
   }
 

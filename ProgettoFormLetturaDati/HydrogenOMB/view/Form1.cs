@@ -19,7 +19,7 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        DateTime oraInizio;
+        //DateTime oraInizio;
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
         const string configurationFileName = "settings.conf", directoryName = "File", templateFileName = "base";
         const char separ = ';';
@@ -38,12 +38,12 @@ namespace HydrogenOMB {
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
 
-            //timer1.Stop();
-            //timer1.Enabled = false;
+            /*timer1.Stop();
+            timer1.Enabled = false;
 
             for (byte i = 0; i < campi.Length; i++) {
                 dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
-            }
+            }*/
 
             LeggiImpostazioni();
             InizializzaOggetti();
@@ -53,15 +53,6 @@ namespace HydrogenOMB {
         private void timer1_Tick(object sender, EventArgs e) {
             /*TimeSpan deltaTempo = DateTime.Now - oraInizio;
             timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";*/
-        }
-
-        public void PrintRow(int rowIndex, List<string> fields) {
-            if (InvokeRequired) { // after we've done all the processing, 
-                this.Invoke(new MethodInvoker(delegate {
-                    dataGridView1.Rows.Insert(rowIndex, fields.ToArray());
-                }));
-                return;
-            }
         }
 
         private void button1_Click(object sender, EventArgs e) {//settings
@@ -78,8 +69,7 @@ namespace HydrogenOMB {
         }
 
         public void StartMeasure(string mess) {
-            oraInizio = DateTime.Now;
-
+            //oraInizio = DateTime.Now;
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
@@ -96,13 +86,13 @@ namespace HydrogenOMB {
                 this.Invoke(new MethodInvoker(delegate {
                     //timer1.Stop();
                     //MessageBox.Show(message);
-                    StampaSuRich(Color.Green, DateTime.Now, message);
+                    StampaSuRich(Color.Black, DateTime.Now, message);
                 }));
                 return;
             }
         }
         public void EndOpen(string message) {
-            if (InvokeRequired) { 
+            if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Black, DateTime.Now, message);
                 }));
@@ -110,7 +100,7 @@ namespace HydrogenOMB {
             }
         }
         public void StartWritingExcel(string message) {
-            if (InvokeRequired) { 
+            if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Black, DateTime.Now, message);
                 }));
@@ -122,7 +112,7 @@ namespace HydrogenOMB {
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Green, DateTime.Now, message);
 
-                    RipristinaCampi();
+                    RipristinaCampi();//per prepararsi a rifare un'altra misurazione
                     InizializzaOggetti();
                     serialReader.Start();
 
@@ -178,6 +168,14 @@ namespace HydrogenOMB {
             textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = true;
             textBoxModelValvue.Text = textBoxNameValvue.Text = "";
             textBoxNameValvue.Focus();
+        }
+        public void PrintRow(int rowIndex, List<string> fields) {
+            if (InvokeRequired) { // after we've done all the processing, 
+                this.Invoke(new MethodInvoker(delegate {
+                    dataGridView1.Rows.Insert(rowIndex, fields.ToArray());
+                }));
+                return;
+            }
         }
     }
 }
