@@ -46,11 +46,7 @@ namespace HydrogenOMB {
             }
 
             LeggiImpostazioni();
-
-            dataMan = new DataManager(this, separ);
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi);
-            serialReader = new SerialPortReader(comPorte, velocPorta, separ, 2, gradiMax, dataMan, fileMan);
-
+            InizializzaOggetti();
             serialReader.Start();
         }
 
@@ -125,6 +121,11 @@ namespace HydrogenOMB {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Green, DateTime.Now, message);
+
+                    RipristinaCampi();
+                    InizializzaOggetti();
+                    serialReader.Start();
+
                     if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
@@ -167,6 +168,16 @@ namespace HydrogenOMB {
         private void StampaSuRich(Color col, DateTime ora, string mess) {
             richTextBoxAvvisi.SelectionColor = col;
             richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
+        }
+        private void InizializzaOggetti() {
+            dataMan = new DataManager(this, separ);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi);
+            serialReader = new SerialPortReader(comPorte, velocPorta, separ, 2, gradiMax, dataMan, fileMan);
+        }
+        private void RipristinaCampi() {
+            textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = true;
+            textBoxModelValvue.Text = textBoxNameValvue.Text = "";
+            textBoxNameValvue.Focus();
         }
     }
 }

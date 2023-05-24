@@ -62,10 +62,16 @@ void loop() {
         Serial.println("EndArrOpen");
         StampaArray(arrayClose, loops, del);
         Serial.println("EndArrClose");
+
+        delay(500);
+        ResetVariabili();
       } else {
         StampaArray(arrayOpen, loops, del); /*se non ho finito l'apertura stampo il punto fino a dove sono arrivato e non stampo nemmeno la chiusura*/
         Serial.println("EndArrOpen");
         Serial.println("EndArrClose");
+
+        delay(500);
+        ResetVariabili();
       }
     }
   }
@@ -80,4 +86,12 @@ void StampaArray(int arrayCarino[], byte lunghezzaMax, int del) {
     Serial.println(arrayCarino[i]);
     delay(del);
   }
+}
+
+void ResetVariabili() {
+  loops = 0;
+  endOpen = endTotal = false;
+
+  previousStateBS = false;
+  lettura = false;
 }
