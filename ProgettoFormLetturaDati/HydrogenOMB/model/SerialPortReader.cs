@@ -101,17 +101,11 @@ namespace HydrogenOMB {
                     return;
                 case "STOP\r":
                     DManager.StopMeasurement("Misurazione terminata con successo");
-
-                    FManager.StartNewFile();
-                    Started = true;
-                    DManager.StartExcelWriting("Creazioen file excel...");
+                    InizializzaExcel();//inizio già a prepararmi per ricevere i dati
                     return;
                 case "FSTOP\r":
                     DManager.StopMeasurement("Misurazione fermata");
-                    //inizio già a prepararmi per ricevere i dati
-                    FManager.StartNewFile();
-                    Started = true;
-                    DManager.StartExcelWriting("Creazione file excel...");
+                    InizializzaExcel();
                     return;
                 case "ENDARROPEN\r":
                     FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
@@ -158,6 +152,11 @@ namespace HydrogenOMB {
             for (byte i = 0; i < NumeroParametri; i++) {
                 field[i] = "-";
             }
+        }
+        private void InizializzaExcel() {
+            FManager.StartNewFile();
+            Started = true;
+            DManager.StartExcelWriting("Creazione file excel...");
         }
     }
 }

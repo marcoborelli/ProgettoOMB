@@ -101,9 +101,6 @@ namespace HydrogenOMB {
                     //timer1.Stop();
                     //MessageBox.Show(message);
                     StampaSuRich(Color.Green, DateTime.Now, message);
-                    if (openFileExplorer) {
-                        Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
-                    }
                 }));
                 return;
             }
@@ -128,6 +125,9 @@ namespace HydrogenOMB {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Green, DateTime.Now, message);
+                    if (openFileExplorer) {
+                        Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
+                    }
                 }));
                 return;
             }

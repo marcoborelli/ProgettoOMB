@@ -1,6 +1,6 @@
 const byte buttonStart = 2;
 const byte buttonStop = 3;
-const int del = 250;
+const int del = 75;
 int loops = 0;
 
 int arrayOpen[100], arrayClose[100];
@@ -39,7 +39,7 @@ void loop() {
 
     loops += 1; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
 
-    delay(125);
+    delay(100);
     if (endTotal) {
       lettura = false;
       Serial.println("stop");
