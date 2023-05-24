@@ -11,7 +11,7 @@ namespace HydrogenOMB {
     public class FileManager {
         private List<string> _fields;
         private string _fileName, _path, _templateFile;
-        private const string Estensione = "xslx";
+        private const string Estensione = "xlsx";
         private char _separator;
         private int Contatore { get; set; }
         private byte Times { get; set; }

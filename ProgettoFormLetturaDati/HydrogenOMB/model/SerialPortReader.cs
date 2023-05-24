@@ -100,6 +100,7 @@ namespace HydrogenOMB {
                 return;
             } else if (tmp == "ENDOPEN\r") {
                 FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
+                DManager.EndOpening();
                 return;
             } else if (tmp == "STOP\r") {
                 this.Stop("Misurazione terminata con successo");
@@ -132,7 +133,7 @@ namespace HydrogenOMB {
             }
             First = false;
 
-            DManager.PrintOnForm(0, fields);//per stampare sulla form
+            //DManager.PrintOnForm(0, fields);//per stampare sulla form
             FManager.Write(fields);//per stampare su file excel
 
             OldTime = Now;

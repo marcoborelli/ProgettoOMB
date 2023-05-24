@@ -52,5 +52,8 @@ namespace HydrogenOMB {
         public void StopMeasurement(string mess) {
             AssociatedForm.StopMeasure(mess);
         }
+        public void EndOpening() {
+            AssociatedForm.EndOpen();
+        }
     }
 }

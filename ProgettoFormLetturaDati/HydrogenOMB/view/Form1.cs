@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Drawing;
 /*using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -36,8 +37,8 @@ namespace HydrogenOMB {
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
 
-            timer1.Stop();
-            timer1.Enabled = false;
+            //timer1.Stop();
+            //timer1.Enabled = false;
 
             for (byte i = 0; i < campi.Length; i++) {
                 dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
@@ -53,8 +54,8 @@ namespace HydrogenOMB {
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
-            TimeSpan deltaTempo = DateTime.Now - oraInizio;
-            timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";
+            /*TimeSpan deltaTempo = DateTime.Now - oraInizio;
+            timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";*/
         }
 
         public void PrintRow(int rowIndex, List<string> fields) {
@@ -85,8 +86,9 @@ namespace HydrogenOMB {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
-                    timer1.Start();
-                    dataGridView1.Rows.Clear();
+                    StampaSuRich(Color.Green,DateTime.Now, "Inizio misurazione");
+                    //timer1.Start();
+                    //dataGridView1.Rows.Clear();
                 }));
                 return;
             }
@@ -95,11 +97,20 @@ namespace HydrogenOMB {
         public void StopMeasure(string message) {
             if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
                 this.Invoke(new MethodInvoker(delegate {
-                    timer1.Stop();
-                    MessageBox.Show(message);
+                    //timer1.Stop();
+                    //MessageBox.Show(message);
+                    StampaSuRich(Color.Aqua, DateTime.Now, message);
                     if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
+                }));
+                return;
+            }
+        }
+        public void EndOpen() {
+            if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
+                this.Invoke(new MethodInvoker(delegate {
+                    StampaSuRich(Color.AliceBlue, DateTime.Now, "Apertura valvola terminata con successo");
                 }));
                 return;
             }
@@ -132,6 +143,11 @@ namespace HydrogenOMB {
                 openFileExplorer = reader.ReadBoolean();
             }
             p.Close();
+        }
+
+        private void StampaSuRich(Color col, DateTime ora, string mess) {
+            richTextBoxAvvisi.SelectionColor = col;
+            richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
         }
     }
 }
