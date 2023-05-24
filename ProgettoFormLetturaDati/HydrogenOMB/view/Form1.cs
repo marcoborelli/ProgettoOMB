@@ -25,6 +25,7 @@ namespace HydrogenOMB {
         const char separ = ';';
 
         string comPorte = "";
+        int velocPorta = 0;
         byte gradiMax = 0;
         bool openFileExplorer = true;
 
@@ -48,7 +49,7 @@ namespace HydrogenOMB {
 
             dataMan = new DataManager(this, separ);
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi);
-            serialReader = new SerialPortReader(comPorte, separ, 2, gradiMax, dataMan, fileMan);
+            serialReader = new SerialPortReader(comPorte, velocPorta, separ, 2, gradiMax, dataMan, fileMan);
 
             serialReader.Start();
         }
@@ -129,6 +130,7 @@ namespace HydrogenOMB {
             p.Seek(0, SeekOrigin.Begin);
             using (BinaryWriter writer = new BinaryWriter(p)) {
                 writer.Write("COM3");
+                writer.Write(9600);
                 writer.Write(100);
                 writer.Write(true);
             }
@@ -139,7 +141,8 @@ namespace HydrogenOMB {
             p.Seek(0, SeekOrigin.Begin);
             using (BinaryReader reader = new BinaryReader(p)) {
                 comPorte = reader.ReadString();
-                gradiMax = reader.ReadByte();
+                velocPorta = reader.ReadInt32();
+                gradiMax = (byte)reader.ReadInt32();
                 openFileExplorer = reader.ReadBoolean();
             }
             p.Close();

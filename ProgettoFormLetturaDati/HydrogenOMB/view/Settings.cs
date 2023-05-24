@@ -13,6 +13,7 @@ namespace HydrogenOMB {
     public partial class Settings : Form {
         string configurationFileName, directoryName;
         bool first = true, modified = false;
+        string[] velocita = new string[] { "9600", "115200" };
         const string testoLabel = "MAX GRADI: ";
         public Settings(string configurationFileNamee, string directoryNamee) {
             InitializeComponent();
@@ -20,9 +21,12 @@ namespace HydrogenOMB {
             DirectoryName = directoryNamee;
         }
         private void Settings_Load(object sender, EventArgs e) {
-            comboBoxPorta.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxPorta.DropDownStyle = comboBoxVelocita.DropDownStyle = ComboBoxStyle.DropDownList;
             for (byte i = 1; i < 7; i++) {
                 comboBoxPorta.Items.Add($"COM{i}");
+            }
+            for (byte i = 0; i < velocita.Length; i++) {
+                comboBoxVelocita.Items.Add($"{velocita[i]}");
             }
 
             InizializzaValori();
@@ -62,6 +66,9 @@ namespace HydrogenOMB {
         private void comboBoxPorta_SelectedIndexChanged(object sender, EventArgs e) {
             SettaModificato();
         }
+        private void comboBoxVelocita_SelectedIndexChanged(object sender, EventArgs e) {
+            SettaModificato();
+        }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
@@ -70,8 +77,9 @@ namespace HydrogenOMB {
                 p.Seek(0, SeekOrigin.Begin);
                 using (BinaryWriter writer = new BinaryWriter(p)) {
                     writer.Write(comboBoxPorta.Text);
+                    writer.Write(int.Parse(comboBoxVelocita.Text));
                     writer.Write((trackBarGradi.Value * 5) + 90);
-                    writer.Write((bool)checkOpenExplorer.Checked);
+                    writer.Write(checkOpenExplorer.Checked);
                 }
                 p.Close();
             }
@@ -83,11 +91,13 @@ namespace HydrogenOMB {
             var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             using (BinaryReader reader = new BinaryReader(p)) {
                 comboBoxPorta.Text = reader.ReadString();
+                comboBoxVelocita.Text = $"{reader.ReadInt32()}";
                 trackBarGradi.Value = (reader.ReadInt32() - 90) / 5;
                 checkOpenExplorer.Checked = reader.ReadBoolean();
             }
             p.Close();
         }
+
         private void SettaModificato() {
             if (first) {
                 return;

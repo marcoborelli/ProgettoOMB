@@ -22,8 +22,8 @@ namespace HydrogenOMB {
         public byte GradiMax { get; private set; }
 
 
-        public SerialPortReader(string ComPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
-            _port = new SerialPort(ComPorta, 9600, Parity.None, 8, StopBits.One);
+        public SerialPortReader(string ComPorta,int VelocitaPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
+            _port = new SerialPort(ComPorta, VelocitaPorta, Parity.None, 8, StopBits.One);
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
 
             DManager = dManager;
