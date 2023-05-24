@@ -1,12 +1,13 @@
 const byte buttonStart = 2;
 const byte buttonStop = 3;
-bool previousStateBS = false;
-bool previousStateBF = false;
+const int del = 250;
+int loops = 0;
 
-byte bStop = 0;
+int arrayOpen[100], arrayClose[100];
+bool endOpen = false, endTotal = false;
+
+bool previousStateBS = false;
 bool lettura = false;
-byte loops = 0;
-int delta = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -14,7 +15,7 @@ void setup() {
 
 void loop() {
 
-  if (!lettura && digitalRead(buttonStart) == HIGH && !previousStateBS) {
+  if (!lettura && digitalRead(buttonStart) == HIGH && !previousStateBS /*così lo si prende solo sul fronte di salita*/) {
     Serial.println("start");
     lettura = true;
     loops = 0;
@@ -22,23 +23,61 @@ void loop() {
 
   if (lettura) {
     if (loops == 100) {
-      Serial.println("endOpen");
-      delta = -1;
+      if (!endOpen) {
+        Serial.println("endOpen");
+        endOpen = true;
+        loops = -1; /*perchè poi lo riaumento subito e lo riporto a 0*/
+      } else {
+        endTotal = true;
+        loops = 0;
+      }
+    } else if (!endOpen) {
+      arrayOpen[loops] = analogRead(A1);
     } else {
-      Serial.print(loops);
-      Serial.print(";");
-      Serial.println(analogRead(A1));
+      arrayClose[loops] = analogRead(A1);
     }
-    loops+=delta; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
 
-    delay(250);
-    if (loops <= 0) {
+    loops += 1; /*per ora simulo che ogni mezzo sec giro di 1 grado*/
+
+    delay(125);
+    if (endTotal) {
       lettura = false;
       Serial.println("stop");
+
+      delay(500);
+
+      StampaArray(arrayOpen, 100, del); /*qui metto come dimensione massima 100 perchè la misurazione si è conclusa del tutto, quindi sono sicuro di avere i 100 valori*/
+      Serial.println("EndArrOpen");
+      StampaArray(arrayClose, 100, del);
+      Serial.println("EndArrClose");
+
     } else if (digitalRead(buttonStop) == HIGH) {
       lettura = false;
       Serial.println("fstop");
+
+      delay(500);
+
+      if (endOpen) { /*se almeno ho finito l'apertura*/
+        StampaArray(arrayOpen, 100, del);
+        Serial.println("EndArrOpen");
+        StampaArray(arrayClose, loops, del);
+        Serial.println("EndArrClose");
+      } else {
+        StampaArray(arrayOpen, loops, del); /*se non ho finito l'apertura stampo il punto fino a dove sono arrivato e non stampo nemmeno la chiusura*/
+        Serial.println("EndArrOpen");
+        Serial.println("EndArrClose");
+      }
     }
   }
+
   previousStateBS = digitalRead(buttonStart);
+}
+
+void StampaArray(int arrayCarino[], byte lunghezzaMax, int del) {
+  for (byte i = 0; i < 100 && i < lunghezzaMax; i++) {
+    Serial.print(i);
+    Serial.print(";");
+    Serial.println(arrayCarino[i]);
+    delay(del);
+  }
 }

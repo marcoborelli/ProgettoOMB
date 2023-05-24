@@ -95,12 +95,12 @@ namespace HydrogenOMB {
 
             if (tmp == "START\r") {
                 FManager.StartNewFile();
-                DManager.StartMeasurement();
+                DManager.StartMeasurement("Inizio misurazione");
                 Started = true;
                 return;
             } else if (tmp == "ENDOPEN\r") {
                 FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
-                DManager.EndOpening();
+                DManager.EndOpening("Apertura valvola terminata con successo, inzio chiusura...");
                 return;
             } else if (tmp == "STOP\r") {
                 this.Stop("Misurazione terminata con successo");

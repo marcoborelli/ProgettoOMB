@@ -46,14 +46,14 @@ namespace HydrogenOMB {
             AssociatedForm.PrintRow(index, row);
         }
 
-        public void StartMeasurement() {
-            AssociatedForm.StartMeasure();
+        public void StartMeasurement(string m) {
+            AssociatedForm.StartMeasure(m);
         }
         public void StopMeasurement(string mess) {
             AssociatedForm.StopMeasure(mess);
         }
-        public void EndOpening() {
-            AssociatedForm.EndOpen();
+        public void EndOpening (string messaggio) {
+            AssociatedForm.EndOpen(messaggio);
         }
     }
 }

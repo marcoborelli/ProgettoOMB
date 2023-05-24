@@ -81,13 +81,13 @@ namespace HydrogenOMB {
             }
         }
 
-        public void StartMeasure() {
+        public void StartMeasure(string mess) {
             oraInizio = DateTime.Now;
 
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
-                    StampaSuRich(Color.Green,DateTime.Now, "Inizio misurazione");
+                    StampaSuRich(Color.Black,DateTime.Now, mess );
                     //timer1.Start();
                     //dataGridView1.Rows.Clear();
                 }));
@@ -100,7 +100,7 @@ namespace HydrogenOMB {
                 this.Invoke(new MethodInvoker(delegate {
                     //timer1.Stop();
                     //MessageBox.Show(message);
-                    StampaSuRich(Color.Aqua, DateTime.Now, message);
+                    StampaSuRich(Color.Green, DateTime.Now, message);
                     if (openFileExplorer) {
                         Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}");
                     }
@@ -108,10 +108,10 @@ namespace HydrogenOMB {
                 return;
             }
         }
-        public void EndOpen() {
+        public void EndOpen (string message) {
             if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
                 this.Invoke(new MethodInvoker(delegate {
-                    StampaSuRich(Color.AliceBlue, DateTime.Now, "Apertura valvola terminata con successo");
+                    StampaSuRich(Color.Black, DateTime.Now, message);
                 }));
                 return;
             }
