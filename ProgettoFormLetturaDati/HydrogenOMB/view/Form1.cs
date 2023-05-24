@@ -87,7 +87,7 @@ namespace HydrogenOMB {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
-                    StampaSuRich(Color.Black,DateTime.Now, mess );
+                    StampaSuRich(Color.Black, DateTime.Now, mess);
                     //timer1.Start();
                     //dataGridView1.Rows.Clear();
                 }));
@@ -108,10 +108,26 @@ namespace HydrogenOMB {
                 return;
             }
         }
-        public void EndOpen (string message) {
-            if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
+        public void EndOpen(string message) {
+            if (InvokeRequired) { 
                 this.Invoke(new MethodInvoker(delegate {
                     StampaSuRich(Color.Black, DateTime.Now, message);
+                }));
+                return;
+            }
+        }
+        public void StartWritingExcel(string message) {
+            if (InvokeRequired) { 
+                this.Invoke(new MethodInvoker(delegate {
+                    StampaSuRich(Color.Black, DateTime.Now, message);
+                }));
+                return;
+            }
+        }
+        public void StoptWritingExcel(string message) {
+            if (InvokeRequired) {
+                this.Invoke(new MethodInvoker(delegate {
+                    StampaSuRich(Color.Green, DateTime.Now, message);
                 }));
                 return;
             }

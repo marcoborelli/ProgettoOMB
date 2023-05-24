@@ -83,31 +83,45 @@ namespace HydrogenOMB {
         public void Start() {
             Port.Open(); /* Begin communications*/
         }
-        public void Stop(string m) {
+        public void Stop() {
             Port.Close();//chiudo la porta
             FManager.Close();//chiudo e salvo il file di excel
-            DManager.StopMeasurement(m);//agisco sulla form (fermo timer ed esce messageBox)
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
             string tmp = Port.ReadLine().ToUpper();
 
-            if (tmp == "START\r") {
-                FManager.StartNewFile();
-                DManager.StartMeasurement("Inizio misurazione");
-                Started = true;
-                return;
-            } else if (tmp == "ENDOPEN\r") {
-                FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
-                DManager.EndOpening("Apertura valvola terminata con successo, inzio chiusura...");
-                return;
-            } else if (tmp == "STOP\r") {
-                this.Stop("Misurazione terminata con successo");
-                return;
-            } else if (tmp == "FSTOP\r") {
-                this.Stop("Misurazione fermata");
-                return;
+            switch (tmp) {
+                case "START\r":
+                    DManager.StartMeasurement("Inizio misurazione");
+                    return;
+                case "ENDOPEN\r":
+                    DManager.EndOpening("Apertura valvola terminata con successo, inzio chiusura...");
+                    return;
+                case "STOP\r":
+                    DManager.StopMeasurement("Misurazione terminata con successo");
+
+                    FManager.StartNewFile();
+                    Started = true;
+                    DManager.StartExcelWriting("Creazioen file excel...");
+                    return;
+                case "FSTOP\r":
+                    DManager.StopMeasurement("Misurazione fermata");
+                    //inizio già a prepararmi per ricevere i dati
+                    FManager.StartNewFile();
+                    Started = true;
+                    DManager.StartExcelWriting("Creazione file excel...");
+                    return;
+                case "ENDARROPEN\r":
+                    FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
+                    return;
+                case "ENDARRCLOSE\r":
+                    this.Stop();
+                    DManager.StopExcelWriting("File excel creato correttamente!\n");
+                    return;
+                default:
+                    break;
             }
 
             if (!Started)
