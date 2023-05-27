@@ -14,7 +14,6 @@ namespace HydrogenOMB {
         private const string Estensione = "xlsx";
         private char _separator;
         private int Contatore { get; set; }
-        private byte Times { get; set; }
 
         private Excel.Application _app;
         private Excel.Workbook _wb;
@@ -162,19 +161,13 @@ namespace HydrogenOMB {
                 }
             }
             Contatore++;
-
-            if (Times == 10) { /*every 10 times I auto-salve file*/
-                Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
-                Times = 0;
-            }
-            Times++;
         }
         public void Close() {
             for (byte i = 0; i < 4; i++) {//riattiviamo il ricalcolo automatico solo alla fine della misurazione, così da non rallentare in fase di misurazione
                 ChangeWorkSheet((uint)i + 1);
                 Ws.EnableCalculation = true;
             }
-            Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
+            SaveFile();
 
             Wb.Close();
             App.Quit();
@@ -191,6 +184,9 @@ namespace HydrogenOMB {
         public void ChangeWorkSheet(uint index) {
             Ws = Wb.Worksheets[index];
             Contatore = 2;
+        }
+        public void SaveFile() {
+            Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
         }
     }
 }

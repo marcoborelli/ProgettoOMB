@@ -1,6 +1,6 @@
 const byte buttonStart = 2;
 const byte buttonStop = 3;
-const int del = 75;
+const int del = 0;
 int loops = 0;
 
 int arrayOpen[100], arrayClose[100];
@@ -46,9 +46,9 @@ void loop() {
 
       delay(250);
 
-      StampaArray(arrayOpen, 100, del); /*qui metto come dimensione massima 100 perchè la misurazione si è conclusa del tutto, quindi sono sicuro di avere i 100 valori*/
+      StampaArray(arrayOpen, 100, del, true); /*qui metto come dimensione massima 100 perchè la misurazione si è conclusa del tutto, quindi sono sicuro di avere i 100 valori*/
       Serial.println("EndArrOpen");
-      StampaArray(arrayClose, 100, del);
+      StampaArray(arrayClose, 100, del, false);
       Serial.println("EndArrClose");
 
       ResetVariabili();
@@ -59,12 +59,12 @@ void loop() {
       delay(250);
 
       if (endOpen) { /*se almeno ho finito l'apertura*/
-        StampaArray(arrayOpen, 100, del);
+        StampaArray(arrayOpen, 100, del, true);
         Serial.println("EndArrOpen");
-        StampaArray(arrayClose, loops, del);
+        StampaArray(arrayClose, loops, del, false);
         Serial.println("EndArrClose");
       } else {
-        StampaArray(arrayOpen, loops, del); /*se non ho finito l'apertura stampo il punto fino a dove sono arrivato e non stampo nemmeno la chiusura*/
+        StampaArray(arrayOpen, loops, del, true); /*se non ho finito l'apertura stampo il punto fino a dove sono arrivato e non stampo nemmeno la chiusura*/
         Serial.println("EndArrOpen");
         Serial.println("EndArrClose");
       }
@@ -75,9 +75,9 @@ void loop() {
   previousStateBS = digitalRead(buttonStart);
 }
 
-void StampaArray(int arrayCarino[], byte lunghezzaMax, int del) {
+void StampaArray(int arrayCarino[], byte lunghezzaMax, int del, bool apertura) {
   for (byte i = 0; i < 100 && i < lunghezzaMax; i++) {
-    Serial.print(i);
+    apertura ? Serial.print(i) : Serial.print(99 - i);
     Serial.print(";");
     Serial.println(arrayCarino[i]);
     delay(del);

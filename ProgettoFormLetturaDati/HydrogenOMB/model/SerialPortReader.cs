@@ -109,6 +109,7 @@ namespace HydrogenOMB {
                     return;
                 case "ENDARROPEN\r":
                     FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
+                    FManager.SaveFile();
                     return;
                 case "ENDARRCLOSE\r":
                     this.Stop();
