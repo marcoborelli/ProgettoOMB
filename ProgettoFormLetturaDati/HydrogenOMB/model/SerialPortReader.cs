@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace HydrogenOMB {
     public class SerialPortReader {
-        private SerialPort _port;
+        private EnhancedSerialPort _port;
         private FileManager _fManager;
         private DataManager _dManager;
         private char _separator;
@@ -23,7 +23,7 @@ namespace HydrogenOMB {
 
 
         public SerialPortReader(string ComPorta,int VelocitaPorta, char separator, byte numParametri, byte gradiMassimi, DataManager dManager, FileManager fManager) {
-            _port = new SerialPort(ComPorta, VelocitaPorta, Parity.None, 8, StopBits.One);
+            _port = new EnhancedSerialPort(ComPorta, VelocitaPorta, Parity.None, 8, StopBits.One);
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
 
             DManager = dManager;
@@ -37,7 +37,7 @@ namespace HydrogenOMB {
         }
 
         /*properties*/
-        public SerialPort Port {
+        public EnhancedSerialPort Port {
             get {
                 return _port;
             }
