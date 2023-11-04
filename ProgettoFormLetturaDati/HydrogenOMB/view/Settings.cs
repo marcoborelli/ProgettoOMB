@@ -73,29 +73,22 @@ namespace HydrogenOMB {
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
             if (modified) {
-                var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                p.Seek(0, SeekOrigin.Begin);
-                using (BinaryWriter writer = new BinaryWriter(p)) {
-                    writer.Write(comboBoxPorta.Text);
-                    writer.Write(int.Parse(comboBoxVelocita.Text));
-                    writer.Write((trackBarGradi.Value * 5) + 90);
-                    writer.Write(checkOpenExplorer.Checked);
+                using (StreamWriter sw = new StreamWriter(configurationFileName)) {
+                    sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * 5) + 90};{checkOpenExplorer.Checked}");
                 }
-                p.Close();
             }
             modified = false;
-            this.Visible = false;
+            Visible = false;
         }
 
         private void InizializzaValori() {
-            var p = new FileStream(ConfigurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            using (BinaryReader reader = new BinaryReader(p)) {
-                comboBoxPorta.Text = reader.ReadString();
-                comboBoxVelocita.Text = $"{reader.ReadInt32()}";
-                trackBarGradi.Value = (reader.ReadInt32() - 90) / 5;
-                checkOpenExplorer.Checked = reader.ReadBoolean();
+            using (StreamReader sr = new StreamReader(configurationFileName)) {
+                string[] elements = sr.ReadLine().Split(';');
+                comboBoxPorta.Text = elements[0];
+                comboBoxVelocita.Text = elements[1];
+                trackBarGradi.Value = (int.Parse(elements[2]) - 90) / 5;
+                checkOpenExplorer.Checked = bool.Parse(elements[3]);
             }
-            p.Close();
         }
 
         private void SettaModificato() {

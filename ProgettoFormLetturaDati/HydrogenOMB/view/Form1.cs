@@ -133,26 +133,18 @@ namespace HydrogenOMB {
         }
 
         private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default
-            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            p.Seek(0, SeekOrigin.Begin);
-            using (BinaryWriter writer = new BinaryWriter(p)) {
-                writer.Write("COM3");
-                writer.Write(9600);
-                writer.Write(100);
-                writer.Write(true);
+            using (StreamWriter sw = new StreamWriter(configurationFileName)) {
+                sw.Write($"COM3;9600;100;true");
             }
-            p.Close();
         }
         private void LeggiImpostazioni() {
-            var p = new FileStream(configurationFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            p.Seek(0, SeekOrigin.Begin);
-            using (BinaryReader reader = new BinaryReader(p)) {
-                comPorte = reader.ReadString();
-                velocPorta = reader.ReadInt32();
-                gradiMax = (byte)reader.ReadInt32();
-                openFileExplorer = reader.ReadBoolean();
+            using (StreamReader sr = new StreamReader(configurationFileName)) {
+                string[] elements = sr.ReadLine().Split(';');
+                comPorte = elements[0];
+                velocPorta = int.Parse(elements[1]);
+                gradiMax = byte.Parse(elements[2]);
+                openFileExplorer = bool.Parse(elements[3]);
             }
-            p.Close();
         }
 
         private void StampaSuRich(Color col, DateTime ora, string mess) {
