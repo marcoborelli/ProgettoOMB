@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
+using OfficeOpenXml;
 
 namespace HydrogenOMB {
     public class FileManager {
@@ -11,13 +11,11 @@ namespace HydrogenOMB {
         private char _separator;
         private int Contatore { get; set; }
 
-        private Excel.Application _app;
-        private Excel.Workbook _wb;
-        private Excel.Worksheet _ws;
-        private Excel.Range _range;
-        //object misValue = System.Reflection.Missing.Value;
+        private ExcelPackage _app;
+        private ExcelWorksheet _ws;
 
         public FileManager(string path, string templFile, char separator, string[] campi) {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             _fields = new List<string>(campi);
 
             Separator = separator;
@@ -69,7 +67,7 @@ namespace HydrogenOMB {
                 return _fields;
             }
         }
-        private Excel.Application App {
+        private ExcelPackage ExcelFile {
             get {
                 return _app;
             }
@@ -81,19 +79,7 @@ namespace HydrogenOMB {
                 }
             }
         }
-        private Excel.Workbook Wb {
-            get {
-                return _wb;
-            }
-            set {
-                if (value != null) {
-                    _wb = value;
-                } else {
-                    throw new Exception("WorkBook not valid");
-                }
-            }
-        }
-        private Excel.Worksheet Ws {
+        private ExcelWorksheet Ws {
             get {
                 return _ws;
             }
@@ -105,18 +91,6 @@ namespace HydrogenOMB {
                 }
             }
         }
-        private Excel.Range Rng {
-            get {
-                return _range;
-            }
-            set {
-                if (value != null) {
-                    _range = value;
-                } else {
-                    throw new Exception("WorkBook not valid");
-                }
-            }
-        }
         /*end properties*/
 
         public void StartNewFile() {
@@ -125,48 +99,41 @@ namespace HydrogenOMB {
 
 
             File.Copy($@"{Path}/{TemplateFile}.{Estensione}", $@"{Path}/{FileName}.{Estensione}"); //il 'vecchio' è il template di base quindi lo si sovrascrive
-            App = new Excel.Application(); //starts excel app
-            App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
-            Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}/{TemplateFile}.{Estensione}"));
 
-            for (byte i = 0; i < 4; i++) {
-                ChangeWorkSheet((uint)i+1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
-                Ws.EnableCalculation = false;
-            }
+
+            ExcelFile = new ExcelPackage($@"{Path}/{FileName}.{Estensione}");
+
             //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
+            ChangeWorkSheet(0);//dati valvola
+            Ws.Cells[1, 2].Value = DatiValvola.NomeValvola;
+            Ws.Cells[2, 2].Value = DatiValvola.ModelloValvola;
 
-            ChangeWorkSheet(1);//dati valvola
-            Ws.Cells[1, 2] = DatiValvola.NomeValvola;
-            Ws.Cells[2, 2] = DatiValvola.ModelloValvola;
 
             for (byte j = 0; j < 2; j++) {
-                ChangeWorkSheet((uint)j+2);//perchè i fogli partono da 2
+                ChangeWorkSheet((uint)j+1);//perchè i fogli partono da 1
                 for (int i = 0; i < Fields.Count; i++) { // aggiunta intestazione: trimmer, angolo, ...
-                    Ws.Cells[1, i + 1] = Fields[i].ToUpper();
+                    Ws.Cells[1, i + 1].Value = Fields[i].ToUpper();
                 }
             }
         }
+
         public void Write(List<string> newLine) {
             byte cnt = (byte)newLine.Count;
+
             for (int i = 0; i < cnt; i++) {
                 if (i < 2) { //only first 2 columns are string
-                    Ws.Cells[Contatore, i + 1].NumberFormat = "@";//string format only with time
-                    Ws.Cells[Contatore, i + 1] = newLine[i];
+                    Ws.Cells[Contatore, i + 1].Style.Numberformat.Format = "@"; ;//string format only with time
+                    Ws.Cells[Contatore, i + 1].Value = newLine[i];
                 } else {
-                    Ws.Cells[Contatore, i + 1] = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
+                    Ws.Cells[Contatore, i + 1].Value = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
                 }
             }
+
             Contatore++;
         }
         public void Close() {
-            for (byte i = 0; i < 4; i++) {//riattiviamo il ricalcolo automatico solo alla fine della misurazione, così da non rallentare in fase di misurazione
-                ChangeWorkSheet((uint)i + 1);
-                Ws.EnableCalculation = true;
-            }
             SaveFile();
-
-            Wb.Close();
-            App.Quit();
+            ExcelFile.Dispose();
         }
 
         private void InserisciSeStringaValida(ref string campo, string val, string perErrore) {
@@ -178,11 +145,11 @@ namespace HydrogenOMB {
         }
 
         public void ChangeWorkSheet(uint index) {
-            Ws = Wb.Worksheets[index];
+            Ws = ExcelFile.Workbook.Worksheets[(int)index];
             Contatore = 2;
         }
         public void SaveFile() {
-            Wb.SaveAs($@"{Path}/{FileName}.{Estensione}");
+            ExcelFile.SaveAs($@"{Path}/{FileName}.{Estensione}");
         }
     }
 }
