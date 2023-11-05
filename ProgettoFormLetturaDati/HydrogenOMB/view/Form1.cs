@@ -31,25 +31,12 @@ namespace HydrogenOMB {
 
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
-
-            /*timer1.Stop();
-            timer1.Enabled = false;
-
-            for (byte i = 0; i < campi.Length; i++) {
-                dataGridView1.Columns.Add(campi[i], campi[i].ToUpper());
-            }*/
-
             LeggiImpostazioni();
             InizializzaOggetti();
             serialReader.Start();
         }
 
-        private void timer1_Tick(object sender, EventArgs e) {
-            /*TimeSpan deltaTempo = DateTime.Now - oraInizio;
-            timerLab.Text = $"{deltaTempo.Minutes}:{deltaTempo.Seconds}:{deltaTempo.Milliseconds}";*/
-        }
-
-        private void button1_Click(object sender, EventArgs e) {//settings
+        private void button1_Click(object sender, EventArgs e) { //settings
             s.Show();
         }
 
@@ -63,13 +50,10 @@ namespace HydrogenOMB {
         }
 
         public void StartMeasure(string mess) {
-            //oraInizio = DateTime.Now;
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
                     textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
                     StampaSuRich(Color.Black, DateTime.Now, mess);
-                    //timer1.Start();
-                    //dataGridView1.Rows.Clear();
                 }));
                 return;
             }
@@ -78,8 +62,6 @@ namespace HydrogenOMB {
         public void StopMeasure(string message) {
             if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
                 this.Invoke(new MethodInvoker(delegate {
-                    //timer1.Stop();
-                    //MessageBox.Show(message);
                     StampaSuRich(Color.Black, DateTime.Now, message);
                 }));
                 return;
@@ -162,14 +144,6 @@ namespace HydrogenOMB {
             textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = true;
             textBoxModelValvue.Text = textBoxNameValvue.Text = "";
             textBoxNameValvue.Focus();
-        }
-        public void PrintRow(int rowIndex, List<string> fields) {
-            if (InvokeRequired) { // after we've done all the processing, 
-                this.Invoke(new MethodInvoker(delegate {
-                    dataGridView1.Rows.Insert(rowIndex, fields.ToArray());
-                }));
-                return;
-            }
         }
     }
 }

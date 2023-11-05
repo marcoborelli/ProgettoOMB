@@ -53,7 +53,7 @@ namespace HydrogenOMB {
         public new void Open() {
             base.Open();
 
-            if (IsWindows == false) {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                 FieldInfo fieldInfo = BaseStream.GetType().GetField("fd", BindingFlags.Instance | BindingFlags.NonPublic);
                 fd = (int)fieldInfo.GetValue(BaseStream);
                 disposedFieldInfo = BaseStream.GetType().GetField("disposed", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -61,13 +61,6 @@ namespace HydrogenOMB {
                 data_received = fieldInfo.GetValue(this);
 
                 new System.Threading.Thread(new System.Threading.ThreadStart(this.EventThreadFunction)).Start();
-            }
-        }
-
-        static bool IsWindows {
-            get {
-                PlatformID id = Environment.OSVersion.Platform;
-                return id == PlatformID.Win32Windows || id == PlatformID.Win32NT; // WinCE not supported
             }
         }
 

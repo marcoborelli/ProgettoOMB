@@ -38,10 +38,6 @@ namespace HydrogenOMB {
         }
         /*fine properties*/
 
-        public void PrintOnForm(int index, List<string> row) {
-            AssociatedForm.PrintRow(index, row);
-        }
-
         public void StartMeasurement(string m) {
             AssociatedForm.StartMeasure(m);
         }
