@@ -20,8 +20,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace HydrogenOMB {
 

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 
@@ -127,16 +123,17 @@ namespace HydrogenOMB {
             DateTime tmp = DateTime.Now;
             FileName = $"{tmp.Day}-{tmp.Month}-{tmp.Year}_{tmp.Hour}-{tmp.Minute}-{tmp.Second}";
 
-            File.Copy($@"{Path}\{TemplateFile}.{Estensione}", $@"{Path}\{FileName}.{Estensione}");//il 'vecchio' è il template di base quindi lo si sovrascrive
 
+            File.Copy($@"{Path}/{TemplateFile}.{Estensione}", $@"{Path}/{FileName}.{Estensione}"); //il 'vecchio' è il template di base quindi lo si sovrascrive
             App = new Excel.Application(); //starts excel app
             App.DisplayAlerts = false; //it allows to not require everytime confirm to rewrite file
-            Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}\{TemplateFile}.{Estensione}"));
+            Wb = (Excel.Workbook)(App.Workbooks.Add($@"{Path}/{TemplateFile}.{Estensione}"));
 
             for (byte i = 0; i < 4; i++) {
                 ChangeWorkSheet((uint)i+1);//per far si che il grafico non si aggiorni ogni volta (lo riattiviamo a fine misurazione)
                 Ws.EnableCalculation = false;
             }
+            //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
 
             ChangeWorkSheet(1);//dati valvola
             Ws.Cells[1, 2] = DatiValvola.NomeValvola;
@@ -148,7 +145,6 @@ namespace HydrogenOMB {
                     Ws.Cells[1, i + 1] = Fields[i].ToUpper();
                 }
             }
-            ChangeWorkSheet(2); //seleziono la scheda delle misurazioni in apertura
         }
         public void Write(List<string> newLine) {
             byte cnt = (byte)newLine.Count;
@@ -186,7 +182,7 @@ namespace HydrogenOMB {
             Contatore = 2;
         }
         public void SaveFile() {
-            Wb.SaveAs($@"{Path}\{FileName}.{Estensione}");
+            Wb.SaveAs($@"{Path}/{FileName}.{Estensione}");
         }
     }
 }

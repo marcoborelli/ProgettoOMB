@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HydrogenOMB {
     public class SerialPortReader {
@@ -102,14 +98,16 @@ namespace HydrogenOMB {
                 case "STOP\r":
                     DManager.StopMeasurement("Misurazione terminata con successo");
                     InizializzaExcel();//inizio già a prepararmi per ricevere i dati
+                    FManager.ChangeWorkSheet(2);
                     return;
                 case "FSTOP\r":
                     DManager.StopMeasurement("Misurazione fermata");
                     InizializzaExcel();
+                    FManager.ChangeWorkSheet(2);
                     return;
                 case "ENDARROPEN\r":
                     FManager.ChangeWorkSheet(3);//metto sul foglio di chiusura
-                    FManager.SaveFile();
+                    FManager.SaveFile();//salvataggio backup(?)
                     return;
                 case "ENDARRCLOSE\r":
                     this.Stop();
