@@ -66,7 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="model\DatiValvola.cs" />
+    <Compile Include="model\PublicData.cs" />
     <Compile Include="model\EnhancedSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>

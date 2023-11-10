@@ -4,15 +4,13 @@ using System.IO;
 
 namespace HydrogenOMB {
     public partial class Settings : Form {
-        string configurationFileName, directoryName;
         bool first = true, modified = false;
         string[] velocita = new string[] { "9600", "115200" };
         const string testoLabel = "MAX GRADI: ";
-        public Settings(string configurationFileNamee, string directoryNamee) {
+        public Settings() {
             InitializeComponent();
-            ConfigurationFileName = configurationFileNamee;
-            DirectoryName = directoryNamee;
         }
+
         private void Settings_Load(object sender, EventArgs e) {
             comboBoxPorta.DropDownStyle = comboBoxVelocita.DropDownStyle = ComboBoxStyle.DropDownList;
             for (byte i = 1; i < 7; i++) {
@@ -27,25 +25,6 @@ namespace HydrogenOMB {
             trackBarGradi_Scroll(sender, e);//perchè sennò non si aggiorna
             first = false;
         }
-
-        /*properties*/
-        public string ConfigurationFileName {
-            get {
-                return configurationFileName;
-            }
-            set {
-                InserisciSeStringaValida(ref configurationFileName, value, "ConfigurationFileName");
-            }
-        }
-        public string DirectoryName {
-            get {
-                return directoryName;
-            }
-            set {
-                InserisciSeStringaValida(ref directoryName, value, "DirectoryName");
-            }
-        }
-        /*fine properties*/
 
         private void trackBarGradi_Scroll(object sender, EventArgs e) {
             label2.Text = $"{testoLabel}{(trackBarGradi.Value * 5) + 90}";//+90 perchè il min è 90, *5 perchè aumenta di 5 in 5
@@ -66,7 +45,7 @@ namespace HydrogenOMB {
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
             if (modified) {
-                using (StreamWriter sw = new StreamWriter(configurationFileName)) {
+                using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
                     sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * 5) + 90};{checkOpenExplorer.Checked}");
                 }
             }
@@ -75,7 +54,7 @@ namespace HydrogenOMB {
         }
 
         private void InizializzaValori() {
-            using (StreamReader sr = new StreamReader(configurationFileName)) {
+            using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
                 string[] elements = sr.ReadLine().Split(';');
                 comboBoxPorta.Text = elements[0];
                 comboBoxVelocita.Text = elements[1];
@@ -89,13 +68,6 @@ namespace HydrogenOMB {
                 return;
             }
             modified = true;
-        }
-        private void InserisciSeStringaValida(ref string campo, string val, string perErrore) {
-            if (!String.IsNullOrWhiteSpace(val)) {
-                campo = val;
-            } else {
-                throw new Exception($"Invalid \"{perErrore}\"");
-            }
         }
     }
 }

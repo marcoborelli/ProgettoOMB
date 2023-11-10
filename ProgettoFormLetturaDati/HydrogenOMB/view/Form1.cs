@@ -15,7 +15,6 @@ namespace HydrogenOMB {
 
         //DateTime oraInizio;
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
-        const string configurationFileName = "settings.conf", directoryName = "File", templateFileName = "base";
         const char separ = ';';
 
         string comPorte = "";
@@ -23,7 +22,7 @@ namespace HydrogenOMB {
         byte gradiMax = 0;
         bool openFileExplorer = true;
 
-        Settings s = new Settings(configurationFileName, directoryName);//form delle impostazioni
+        Settings s = new Settings(); //form delle impostazioni
 
         SerialPortReader serialReader;
         DataManager dataMan;
@@ -41,11 +40,11 @@ namespace HydrogenOMB {
         }
 
         private void CheckFileAndFolder() {
-            if (!File.Exists(configurationFileName)) {
+            if (!File.Exists(PublicData.ConfigFileName)) {
                 RicreaFileConf();
             }
-            if (!Directory.Exists(directoryName)) {
-                Directory.CreateDirectory(directoryName);
+            if (!Directory.Exists(PublicData.OutpDirectory)) {
+                Directory.CreateDirectory(PublicData.OutpDirectory);
             }
         }
 
@@ -96,11 +95,11 @@ namespace HydrogenOMB {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                             ProcessStartInfo psi = new ProcessStartInfo() {
                                 FileName = "explorer.exe",
-                                Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}"
+                                Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}"
                             };
                             Process.Start(psi); // Opens the folder using file explorer in Windows
                         } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                            Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}"); // Opens the folder using default file manager in Linux
+                            Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}"); // Opens the folder using default file manager in Linux
                         }
                     }
                 }));
@@ -109,20 +108,20 @@ namespace HydrogenOMB {
         }
 
         private void textBoxNameValvue_TextChanged(object sender, EventArgs e) {
-            DatiValvola.NomeValvola = textBoxNameValvue.Text;
+            PublicData.InfoValve.NomeValvola = textBoxNameValvue.Text;
         }
 
         private void textBoxModelValvue_TextChanged(object sender, EventArgs e) {
-            DatiValvola.ModelloValvola = textBoxModelValvue.Text;
+            PublicData.InfoValve.ModelloValvola = textBoxModelValvue.Text;
         }
 
         private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default
-            using (StreamWriter sw = new StreamWriter(configurationFileName)) {
+            using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
                 sw.Write($"COM3;9600;100;true");
             }
         }
         private void LeggiImpostazioni() {
-            using (StreamReader sr = new StreamReader(configurationFileName)) {
+            using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
                 string[] elements = sr.ReadLine().Split(';');
                 comPorte = elements[0];
                 velocPorta = int.Parse(elements[1]);
@@ -137,7 +136,7 @@ namespace HydrogenOMB {
         }
         private void InizializzaOggetti() {
             dataMan = new DataManager(this, separ);
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{directoryName}", templateFileName, separ, campi);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}", PublicData.TemplateFileName, separ, campi);
             serialReader = new SerialPortReader(comPorte, velocPorta, separ, 2, gradiMax, dataMan, fileMan);
         }
         private void RipristinaCampi() {
