@@ -63,6 +63,8 @@
             // 
             // textBoxNameValvue
             // 
+            this.textBoxNameValvue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNameValvue.Location = new System.Drawing.Point(188, 8);
             this.textBoxNameValvue.Name = "textBoxNameValvue";
             this.textBoxNameValvue.Size = new System.Drawing.Size(113, 20);
@@ -71,6 +73,8 @@
             // 
             // textBoxModelValvue
             // 
+            this.textBoxModelValvue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxModelValvue.Location = new System.Drawing.Point(188, 39);
             this.textBoxModelValvue.Name = "textBoxModelValvue";
             this.textBoxModelValvue.Size = new System.Drawing.Size(113, 20);
@@ -79,6 +83,9 @@
             // 
             // richTextBoxAvvisi
             // 
+            this.richTextBoxAvvisi.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxAvvisi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxAvvisi.Location = new System.Drawing.Point(12, 73);
             this.richTextBoxAvvisi.Name = "richTextBoxAvvisi";
@@ -98,8 +105,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(334, 218);
             this.Name = "Form1";
             this.Text = "OMB";
             this.Load += new System.EventHandler(this.Form1_Load);
