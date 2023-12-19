@@ -4,9 +4,14 @@ using System.IO;
 
 namespace HydrogenOMB {
     public partial class SettingsForm : Form {
-        bool first = true, modified = false;
+        bool modified = false;
+
         string[] velocita = new string[] { "9600", "115200" };
         const string testoLabel = "MAX GRADI: ";
+
+        const byte min = 90; //perche' l'angolo min e' 90 [90-120]
+        const byte step = 5; //5 perche' aumenta di 5 in 5
+
         public SettingsForm() {
             InitializeComponent();
         }
@@ -22,12 +27,12 @@ namespace HydrogenOMB {
 
             InizializzaValori();
 
-            trackBarGradi_Scroll(sender, e);//perchè sennò non si aggiorna
-            first = false;
+            trackBarGradi_Scroll(sender, e);//perche' senno' non si aggiorna
+            modified = false; //la prima volta resetto perche' senno' conterebbe come modifica
         }
 
         private void trackBarGradi_Scroll(object sender, EventArgs e) {
-            label2.Text = $"{testoLabel}{(trackBarGradi.Value * 5) + 90}";//+90 perchè il min è 90, *5 perchè aumenta di 5 in 5
+            label2.Text = $"{testoLabel}{(trackBarGradi.Value * step) + min}";
             SettaModificato();
         }
 
@@ -43,30 +48,26 @@ namespace HydrogenOMB {
         }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
-            e.Cancel = true;
+            //e.Cancel = true;
             if (modified) {
                 using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
-                    sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * 5) + 90};{checkOpenExplorer.Checked}");
+                    sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * step) + min};{checkOpenExplorer.Checked}");
                 }
             }
-            modified = false;
-            Visible = false;
         }
+
 
         private void InizializzaValori() {
             using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
                 string[] elements = sr.ReadLine().Split(';');
                 comboBoxPorta.Text = elements[0];
                 comboBoxVelocita.Text = elements[1];
-                trackBarGradi.Value = (int.Parse(elements[2]) - 90) / 5;
+                trackBarGradi.Value = (int.Parse(elements[2]) - min) / step;
                 checkOpenExplorer.Checked = bool.Parse(elements[3]);
             }
         }
 
         private void SettaModificato() {
-            if (first) {
-                return;
-            }
             modified = true;
         }
     }
