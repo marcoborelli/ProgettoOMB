@@ -43,6 +43,7 @@ namespace HydrogenOMB {
         private void comboBoxPorta_SelectedIndexChanged(object sender, EventArgs e) {
             SettaModificato();
         }
+
         private void comboBoxVelocita_SelectedIndexChanged(object sender, EventArgs e) {
             SettaModificato();
         }
@@ -55,6 +56,7 @@ namespace HydrogenOMB {
                     using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
                         sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * step) + min};{checkOpenExplorer.Checked}");
                     }
+                    Settings.Instance.WriteSettings(comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
                 }
             }
         }
@@ -68,6 +70,10 @@ namespace HydrogenOMB {
                 trackBarGradi.Value = (int.Parse(elements[2]) - min) / step;
                 checkOpenExplorer.Checked = bool.Parse(elements[3]);
             }
+            comboBoxPorta.Text = Settings.Instance.PortName;
+            comboBoxVelocita.Text = $"{Settings.Instance.PortBaud}";
+            trackBarGradi.Value = (Settings.Instance.MaxDegrees - min) / step;
+            checkOpenExplorer.Checked = Settings.Instance.OpenInExplorer;
         }
 
         private void SettaModificato() {

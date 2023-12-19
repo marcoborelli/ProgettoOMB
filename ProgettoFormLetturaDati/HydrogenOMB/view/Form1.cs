@@ -16,19 +16,13 @@ namespace HydrogenOMB {
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
         const char separ = ';';
 
-        string comPorte = "";
-        int velocPorta = 0;
-        byte gradiMax = 0;
-        bool openFileExplorer = true;
-
-
         SerialPortReader serialReader;
         DataManager dataMan;
         FileManager fileMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             CheckFileAndFolder();
-            LeggiImpostazioni();
+            Settings.Init();
             InizializzaOggetti();
             serialReader.Start();
         }
@@ -39,9 +33,6 @@ namespace HydrogenOMB {
         }
 
         private void CheckFileAndFolder() {
-            if (!File.Exists(PublicData.ConfigFileName)) {
-                RicreaFileConf();
-            }
             if (!Directory.Exists(PublicData.OutpDirectory)) {
                 Directory.CreateDirectory(PublicData.OutpDirectory);
             }
@@ -90,7 +81,7 @@ namespace HydrogenOMB {
                     InizializzaOggetti();
                     serialReader.Start();
 
-                    if (openFileExplorer) {
+                    if (Settings.Instance.OpenInExplorer) {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                             ProcessStartInfo psi = new ProcessStartInfo() {
                                 FileName = "explorer.exe",
@@ -114,20 +105,6 @@ namespace HydrogenOMB {
             PublicData.InfoValve.ModelloValvola = textBoxModelValvue.Text;
         }
 
-        private void RicreaFileConf() {//ricreo il file delle configurazioni con dei valori di default
-            using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
-                sw.Write($"COM3;9600;100;true");
-            }
-        }
-        private void LeggiImpostazioni() {
-            using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
-                string[] elements = sr.ReadLine().Split(';');
-                comPorte = elements[0];
-                velocPorta = int.Parse(elements[1]);
-                gradiMax = byte.Parse(elements[2]);
-                openFileExplorer = bool.Parse(elements[3]);
-            }
-        }
 
         private void StampaSuRich(Color col, DateTime ora, string mess) {
             richTextBoxAvvisi.SelectionColor = col;
@@ -136,7 +113,7 @@ namespace HydrogenOMB {
         private void InizializzaOggetti() {
             dataMan = new DataManager(this, separ);
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}", PublicData.TemplateFileName, separ, campi);
-            serialReader = new SerialPortReader(comPorte, velocPorta, separ, 2, gradiMax, dataMan, fileMan);
+            serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, separ, 2, Settings.Instance.MaxDegrees, dataMan, fileMan);
         }
         private void RipristinaCampi() {
             textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = true;
