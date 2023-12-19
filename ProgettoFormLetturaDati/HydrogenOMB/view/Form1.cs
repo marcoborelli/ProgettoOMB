@@ -35,7 +35,7 @@ namespace HydrogenOMB {
             serialReader.Start();
         }
 
-        private void button1_Click(object sender, EventArgs e) { //settings
+        private void buttonSettings_Click(object sender, EventArgs e) { //settings
             s.Show();
         }
 

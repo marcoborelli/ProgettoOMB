@@ -23,7 +23,7 @@
         /// il contenuto del metodo con l'editor di codice.
         /// </summary>
         private void InitializeComponent() {
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonSettings = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxNameValvue = new System.Windows.Forms.TextBox();
@@ -31,15 +31,15 @@
             this.richTextBoxAvvisi = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // button1
+            // buttonSettings
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(55, 55);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "SETT";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonSettings.Location = new System.Drawing.Point(12, 12);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(55, 55);
+            this.buttonSettings.TabIndex = 4;
+            this.buttonSettings.Text = "SETT";
+            this.buttonSettings.UseVisualStyleBackColor = true;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             // 
             // label1
             // 
@@ -104,7 +104,7 @@
             this.Controls.Add(this.textBoxNameValvue);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSettings);
             this.MinimumSize = new System.Drawing.Size(334, 218);
             this.Name = "Form1";
             this.Text = "OMB";
@@ -115,7 +115,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxNameValvue;
