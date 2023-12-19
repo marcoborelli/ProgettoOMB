@@ -73,6 +73,7 @@
     <Compile Include="model\FileManager.cs" />
     <Compile Include="model\SerialPortReader.cs" />
     <Compile Include="model\DataManager.cs" />
+    <Compile Include="model\Settings.cs" />
     <Compile Include="view\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
