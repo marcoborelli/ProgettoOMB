@@ -4,6 +4,14 @@ using System.IO;
 using OfficeOpenXml;
 
 namespace HydrogenOMB {
+    public enum eWorksheet {
+        ValveData,
+        OpenValveData,
+        CloseValveData,
+        Graph,
+        Count
+    }
+
     public class FileManager {
         private List<string> _fields;
         private string _fileName, _path, _templateFile;
@@ -67,12 +75,12 @@ namespace HydrogenOMB {
             ExcelFile = new ExcelPackage($@"{Path}/{FileName}.{Estensione}");
 
             //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
-            ChangeWorkSheet(0); //dati valvola
+            ChangeWorkSheet((uint)eWorksheet.ValveData);
             Ws.Cells[1, 2].Value = PublicData.InfoValve.NomeValvola;
             Ws.Cells[2, 2].Value = PublicData.InfoValve.ModelloValvola;
 
 
-            for (uint j = 1; j <= 2; j++) { //perche' i fogli partono da 1
+            for (uint j = (uint)(eWorksheet.OpenValveData); j <= (uint)(eWorksheet.CloseValveData); j++) {
                 ChangeWorkSheet(j);
                 for (int i = 0; i < Fields.Count; i++) { //aggiunta intestazione: trimmer, angolo, ...
                     Ws.Cells[1, i + 1].Value = Fields[i].ToUpper();

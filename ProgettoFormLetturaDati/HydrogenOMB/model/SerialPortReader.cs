@@ -72,15 +72,15 @@ namespace HydrogenOMB {
                 case "STOP\r":
                     DManager.StopMeasurement("Misurazione terminata con successo");
                     InizializzaExcel();//inizio già a prepararmi per ricevere i dati
-                    FManager.ChangeWorkSheet(1);
+                    FManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
                     return;
                 case "FSTOP\r":
                     DManager.StopMeasurement("Misurazione fermata");
                     InizializzaExcel();
-                    FManager.ChangeWorkSheet(1);
+                    FManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
                     return;
                 case "ENDARROPEN\r":
-                    FManager.ChangeWorkSheet(2);//metto sul foglio di chiusura
+                    FManager.ChangeWorkSheet((uint)eWorksheet.CloseValveData);//metto sul foglio di chiusura
                     FManager.SaveFile();//salvataggio backup(?)
                     return;
                 case "ENDARRCLOSE\r":
