@@ -13,7 +13,6 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        //DateTime oraInizio;
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
         const char separ = ';';
 

@@ -22,7 +22,7 @@ namespace HydrogenOMB {
             Path = path;
             TemplateFile = templFile;
 
-            Contatore = 2;//2 perchè parte da 1 ma a 1 ci stanno le intestazione (delta tempo, ora, angolo..)
+            Contatore = 2; //2 perche' parte da 1; ma a 1 ci stanno le intestazione (delta tempo, ora, angolo..)
         }
 
         /*properties*/
@@ -55,25 +55,26 @@ namespace HydrogenOMB {
         }
         /*end properties*/
 
+
         public void StartNewFile() {
             DateTime tmp = DateTime.Now;
             FileName = $"{tmp.Day}-{tmp.Month}-{tmp.Year}_{tmp.Hour}-{tmp.Minute}-{tmp.Second}";
 
 
-            File.Copy($@"{Path}/{TemplateFile}.{Estensione}", $@"{Path}/{FileName}.{Estensione}"); //il 'vecchio' è il template di base quindi lo si sovrascrive
+            File.Copy($@"{Path}/{TemplateFile}.{Estensione}", $@"{Path}/{FileName}.{Estensione}"); //il "vecchio" e' il template di base quindi lo si sovrascrive
 
 
             ExcelFile = new ExcelPackage($@"{Path}/{FileName}.{Estensione}");
 
             //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
-            ChangeWorkSheet(0);//dati valvola
+            ChangeWorkSheet(0); //dati valvola
             Ws.Cells[1, 2].Value = PublicData.InfoValve.NomeValvola;
             Ws.Cells[2, 2].Value = PublicData.InfoValve.ModelloValvola;
 
 
-            for (byte j = 0; j < 2; j++) {
-                ChangeWorkSheet((uint)j+1);//perchè i fogli partono da 1
-                for (int i = 0; i < Fields.Count; i++) { // aggiunta intestazione: trimmer, angolo, ...
+            for (uint j = 1; j <= 2; j++) { //perche' i fogli partono da 1
+                ChangeWorkSheet(j);
+                for (int i = 0; i < Fields.Count; i++) { //aggiunta intestazione: trimmer, angolo, ...
                     Ws.Cells[1, i + 1].Value = Fields[i].ToUpper();
                 }
             }
@@ -84,10 +85,10 @@ namespace HydrogenOMB {
 
             for (int i = 0; i < cnt; i++) {
                 if (i < 2) { //only first 2 columns are string
-                    Ws.Cells[Contatore, i + 1].Style.Numberformat.Format = "@"; ;//string format only with time
+                    Ws.Cells[Contatore, i + 1].Style.Numberformat.Format = "@"; //string format only with time
                     Ws.Cells[Contatore, i + 1].Value = newLine[i];
                 } else {
-                    Ws.Cells[Contatore, i + 1].Value = int.Parse(newLine[i]);//sennò non se li salva come intero e non li legge nel grafico
+                    Ws.Cells[Contatore, i + 1].Value = int.Parse(newLine[i]); //senno' non se li salva come intero e non li legge nel grafico
                 }
             }
 
