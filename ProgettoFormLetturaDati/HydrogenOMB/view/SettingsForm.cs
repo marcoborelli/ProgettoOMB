@@ -50,8 +50,11 @@ namespace HydrogenOMB {
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             //e.Cancel = true;
             if (modified) {
-                using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
-                    sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * step) + min};{checkOpenExplorer.Checked}");
+                DialogResult result = MessageBox.Show("Sono state modificate delle impostazioni, desideri salvare?", "CONFERMA", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes) {
+                    using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
+                        sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * step) + min};{checkOpenExplorer.Checked}");
+                    }
                 }
             }
         }
