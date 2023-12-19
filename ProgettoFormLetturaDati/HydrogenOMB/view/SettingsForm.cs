@@ -3,11 +3,11 @@ using System.Windows.Forms;
 using System.IO;
 
 namespace HydrogenOMB {
-    public partial class Settings : Form {
+    public partial class SettingsForm : Form {
         bool first = true, modified = false;
         string[] velocita = new string[] { "9600", "115200" };
         const string testoLabel = "MAX GRADI: ";
-        public Settings() {
+        public SettingsForm() {
             InitializeComponent();
         }
 

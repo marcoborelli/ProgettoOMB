@@ -22,7 +22,7 @@ namespace HydrogenOMB {
         byte gradiMax = 0;
         bool openFileExplorer = true;
 
-        Settings s = new Settings(); //form delle impostazioni
+        SettingsForm s = new SettingsForm(); //form delle impostazioni
 
         SerialPortReader serialReader;
         DataManager dataMan;

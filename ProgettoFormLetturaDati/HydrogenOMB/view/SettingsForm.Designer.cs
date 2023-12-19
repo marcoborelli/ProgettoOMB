@@ -1,5 +1,5 @@
 ﻿namespace HydrogenOMB {
-    partial class Settings {
+    partial class SettingsForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>

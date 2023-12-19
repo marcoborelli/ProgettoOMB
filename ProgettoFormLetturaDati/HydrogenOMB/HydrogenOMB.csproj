@@ -73,11 +73,11 @@
     <Compile Include="model\FileManager.cs" />
     <Compile Include="model\SerialPortReader.cs" />
     <Compile Include="model\DataManager.cs" />
-    <Compile Include="view\Settings.cs">
+    <Compile Include="view\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="view\Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="view\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="view\Form1.cs">
       <SubType>Form</SubType>
@@ -99,8 +99,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="view\Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="view\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
