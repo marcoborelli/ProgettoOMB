@@ -34,45 +34,19 @@ namespace HydrogenOMB {
 
         /*properties*/
         public EnhancedSerialPort Port {
-            get {
-                return _port;
-            }
+            get => _port;
         }
         public DataManager DManager {
-            get {
-                return _dManager;
-            }
-            set {
-                if (value != null) {
-                    _dManager = value;
-                } else {
-                    throw new Exception("You must insert a valid DataManager");
-                }
-            }
+            get => _dManager;
+            private set => PublicData.InsertIfObjValid(ref _dManager, value, "DataManager");
         }
         public FileManager FManager {
-            get {
-                return _fManager;
-            }
-            set {
-                if (value != null) {
-                    _fManager = value;
-                } else {
-                    throw new Exception("You must insert a valid FileManager");
-                }
-            }
+            get => _fManager;
+            private set => PublicData.InsertIfObjValid(ref _fManager, value, "FileManager");
         }
         public char Separator {
-            get {
-                return _separator;
-            }
-            private set {
-                if ($"{value}" != "" && value != ' ') {
-                    _separator = value;
-                } else {
-                    throw new Exception("Invalid Char Separator");
-                }
-            }
+            get => _separator;
+            private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
         }
         /*fine properties*/
 

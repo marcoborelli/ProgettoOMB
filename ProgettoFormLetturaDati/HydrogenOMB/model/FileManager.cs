@@ -27,69 +27,31 @@ namespace HydrogenOMB {
 
         /*properties*/
         public string FileName {
-            get {
-                return _fileName;
-            }
-            private set {
-                InserisciSeStringaValida(ref _fileName, value, "FileName");
-            }
+            get => _fileName;
+            private set => PublicData.InsertIfObjValid(ref _fileName, value, "FileName");
         }
         public string Path {
-            get {
-                return _path;
-            }
-            private set {
-                InserisciSeStringaValida(ref _path, value, "Path");
-            }
+            get => _path;
+            private set => PublicData.InsertIfObjValid(ref _path, value, "Path");
         }
         public string TemplateFile {
-            get {
-                return _templateFile;
-            }
-            private set {
-                InserisciSeStringaValida(ref _templateFile, value, "TemplateFile");
-            }
+            get => _templateFile;
+            private set => PublicData.InsertIfObjValid(ref _templateFile, value, "TemplateFile");
         }
         public char Separator {
-            get {
-                return _separator;
-            }
-            private set {
-                if ($"{value}" != "" && value != ' ') {
-                    _separator = value;
-                } else {
-                    throw new Exception("Invalid Char Separator");
-                }
-            }
+            get => _separator;
+            private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
         }
         public List<string> Fields {
-            get {
-                return _fields;
-            }
+            get => _fields;
         }
         private ExcelPackage ExcelFile {
-            get {
-                return _app;
-            }
-            set {
-                if (value != null) {
-                    _app = value;
-                } else {
-                    throw new Exception("Application not valid");
-                }
-            }
+            get => _app;
+            set => PublicData.InsertIfObjValid(ref _app, value, "Excel Application");
         }
         private ExcelWorksheet Ws {
-            get {
-                return _ws;
-            }
-            set {
-                if (value != null) {
-                    _ws = value;
-                } else {
-                    throw new Exception("WorkSheet not valid");
-                }
-            }
+            get => _ws;
+            set => PublicData.InsertIfObjValid(ref _ws, value, "Excel Worksheet");
         }
         /*end properties*/
 
@@ -134,14 +96,6 @@ namespace HydrogenOMB {
         public void Close() {
             SaveFile();
             ExcelFile.Dispose();
-        }
-
-        private void InserisciSeStringaValida(ref string campo, string val, string perErrore) {
-            if (!String.IsNullOrWhiteSpace(val)) {
-                campo = val;
-            } else {
-                throw new Exception($"Invalid \"{perErrore}\"");
-            }
         }
 
         public void ChangeWorkSheet(uint index) {
