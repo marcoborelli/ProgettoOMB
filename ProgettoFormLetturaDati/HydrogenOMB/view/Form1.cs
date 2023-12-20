@@ -41,7 +41,7 @@ namespace HydrogenOMB {
         public void StartMeasure(string mess) {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
-                    textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = false;
+                    textBoxModelValve.Enabled = textBoxNameValve.Enabled = false;
                     StampaSuRich(Color.Black, DateTime.Now, mess);
                 }));
                 return;
@@ -98,11 +98,11 @@ namespace HydrogenOMB {
         }
 
         private void textBoxNameValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.InfoValve.NomeValvola = textBoxNameValvue.Text;
+            PublicData.InfoValve.NomeValvola = textBoxNameValve.Text;
         }
 
         private void textBoxModelValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.InfoValve.ModelloValvola = textBoxModelValvue.Text;
+            PublicData.InfoValve.ModelloValvola = textBoxModelValve.Text;
         }
 
 
@@ -116,9 +116,9 @@ namespace HydrogenOMB {
             serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, separ, 2, Settings.Instance.MaxDegrees, dataMan, fileMan);
         }
         private void RipristinaCampi() {
-            textBoxModelValvue.Enabled = textBoxNameValvue.Enabled = true;
-            textBoxModelValvue.Text = textBoxNameValvue.Text = "";
-            textBoxNameValvue.Focus();
+            textBoxModelValve.Enabled = textBoxNameValve.Enabled = true;
+            textBoxModelValve.Text = textBoxNameValve.Text = "";
+            textBoxNameValve.Focus();
         }
     }
 }

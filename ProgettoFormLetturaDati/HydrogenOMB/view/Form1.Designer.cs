@@ -26,8 +26,8 @@
             this.buttonSettings = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxNameValvue = new System.Windows.Forms.TextBox();
-            this.textBoxModelValvue = new System.Windows.Forms.TextBox();
+            this.textBoxNameValve = new System.Windows.Forms.TextBox();
+            this.textBoxModelValve = new System.Windows.Forms.TextBox();
             this.richTextBoxAvvisi = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -63,23 +63,23 @@
             // 
             // textBoxNameValvue
             // 
-            this.textBoxNameValvue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.textBoxNameValve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxNameValvue.Location = new System.Drawing.Point(188, 8);
-            this.textBoxNameValvue.Name = "textBoxNameValvue";
-            this.textBoxNameValvue.Size = new System.Drawing.Size(113, 20);
-            this.textBoxNameValvue.TabIndex = 0;
-            this.textBoxNameValvue.TextChanged += new System.EventHandler(this.textBoxNameValvue_TextChanged);
+            this.textBoxNameValve.Location = new System.Drawing.Point(188, 8);
+            this.textBoxNameValve.Name = "textBoxNameValvue";
+            this.textBoxNameValve.Size = new System.Drawing.Size(113, 20);
+            this.textBoxNameValve.TabIndex = 0;
+            this.textBoxNameValve.TextChanged += new System.EventHandler(this.textBoxNameValvue_TextChanged);
             // 
             // textBoxModelValvue
             // 
-            this.textBoxModelValvue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.textBoxModelValve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxModelValvue.Location = new System.Drawing.Point(188, 39);
-            this.textBoxModelValvue.Name = "textBoxModelValvue";
-            this.textBoxModelValvue.Size = new System.Drawing.Size(113, 20);
-            this.textBoxModelValvue.TabIndex = 1;
-            this.textBoxModelValvue.TextChanged += new System.EventHandler(this.textBoxModelValvue_TextChanged);
+            this.textBoxModelValve.Location = new System.Drawing.Point(188, 39);
+            this.textBoxModelValve.Name = "textBoxModelValvue";
+            this.textBoxModelValve.Size = new System.Drawing.Size(113, 20);
+            this.textBoxModelValve.TabIndex = 1;
+            this.textBoxModelValve.TextChanged += new System.EventHandler(this.textBoxModelValvue_TextChanged);
             // 
             // richTextBoxAvvisi
             // 
@@ -100,8 +100,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 179);
             this.Controls.Add(this.richTextBoxAvvisi);
-            this.Controls.Add(this.textBoxModelValvue);
-            this.Controls.Add(this.textBoxNameValvue);
+            this.Controls.Add(this.textBoxModelValve);
+            this.Controls.Add(this.textBoxNameValve);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonSettings);
@@ -118,8 +118,8 @@
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxNameValvue;
-        private System.Windows.Forms.TextBox textBoxModelValvue;
+        private System.Windows.Forms.TextBox textBoxNameValve;
+        private System.Windows.Forms.TextBox textBoxModelValve;
         private System.Windows.Forms.RichTextBox richTextBoxAvvisi;
     }
 }
