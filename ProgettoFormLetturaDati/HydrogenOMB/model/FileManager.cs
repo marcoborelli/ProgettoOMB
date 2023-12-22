@@ -88,20 +88,21 @@ namespace HydrogenOMB {
             }
         }
 
-        public void Write(List<string> newLine) {
-            byte cnt = (byte)newLine.Count;
+        public void Write(OMBRecord record) {
+            Ws.Cells[Contatore, 1].Style.Numberformat.Format = "@";
+            Ws.Cells[Contatore, 1].Value = record.Delta;
 
-            for (int i = 0; i < cnt; i++) {
-                if (i < 2) { //only first 2 columns are string
-                    Ws.Cells[Contatore, i + 1].Style.Numberformat.Format = "@"; //string format only with time
-                    Ws.Cells[Contatore, i + 1].Value = newLine[i];
-                } else {
-                    Ws.Cells[Contatore, i + 1].Value = int.Parse(newLine[i]); //senno' non se li salva come intero e non li legge nel grafico
-                }
-            }
+            Ws.Cells[Contatore, 2].Style.Numberformat.Format = "@";
+            Ws.Cells[Contatore, 2].Value = record.Time;
+
+            Ws.Cells[Contatore, 3].Value = record.Angle;
+
+            Ws.Cells[Contatore, 4].Value = record.Pair;
+
 
             Contatore++;
         }
+
         public void Close() {
             SaveFile();
             ExcelFile.Dispose();

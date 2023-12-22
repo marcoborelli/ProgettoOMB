@@ -60,9 +60,9 @@ namespace HydrogenOMB {
         public void OnData(string row, DateTime oldTime) { //va implementato oggetto ad hoc
             OMBRecord rec = new OMBRecord(row, Separator, oldTime);
 
-            /*if (rec != null) { //TODO
+            if (rec != null) { //se e' null e' perche' i gradi hanno superato il max
                 FManager.Write(rec); //per stampare su file excel
-            }*/
+            }
         }
 
         private void StartNewExcelFile() {
