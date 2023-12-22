@@ -21,6 +21,7 @@ namespace HydrogenOMB {
         FileManager fileMan;
 
         private void Form1_Load(object sender, EventArgs e) {
+            PublicData.Init();
             CheckFileAndFolder();
             Settings.Init();
             InizializzaOggetti();
@@ -33,8 +34,8 @@ namespace HydrogenOMB {
         }
 
         private void CheckFileAndFolder() {
-            if (!Directory.Exists(PublicData.OutpDirectory)) {
-                Directory.CreateDirectory(PublicData.OutpDirectory);
+            if (!Directory.Exists(PublicData.Instance.OutputDirectory)) {
+                Directory.CreateDirectory(PublicData.Instance.OutputDirectory);
             }
         }
 
@@ -85,11 +86,11 @@ namespace HydrogenOMB {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                             ProcessStartInfo psi = new ProcessStartInfo() {
                                 FileName = "explorer.exe",
-                                Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}"
+                                Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"
                             };
                             Process.Start(psi); // Opens the folder using file explorer in Windows
                         } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                            Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}"); // Opens the folder using default file manager in Linux
+                            Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"); // Opens the folder using default file manager in Linux
                         }
                     }
                 }));
@@ -98,11 +99,11 @@ namespace HydrogenOMB {
         }
 
         private void textBoxNameValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.InfoValve.NomeValvola = textBoxNameValve.Text;
+            PublicData.Instance.InfoValve.NomeValvola = textBoxNameValve.Text;
         }
 
         private void textBoxModelValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.InfoValve.ModelloValvola = textBoxModelValve.Text;
+            PublicData.Instance.InfoValve.ModelloValvola = textBoxModelValve.Text;
         }
 
 
@@ -112,7 +113,7 @@ namespace HydrogenOMB {
         }
         private void InizializzaOggetti() {
             dataMan = new DataManager(this, separ);
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.OutpDirectory}", PublicData.TemplateFileName, separ, campi);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, separ, campi);
             serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, separ, 2, Settings.Instance.MaxDegrees, dataMan, fileMan);
         }
         private void RipristinaCampi() {

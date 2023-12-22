@@ -53,7 +53,7 @@ namespace HydrogenOMB {
             if (modified) {
                 DialogResult result = MessageBox.Show("Sono state modificate delle impostazioni, desideri salvare?", "CONFERMA", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes) {
-                    using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
+                    using (StreamWriter sw = new StreamWriter(PublicData.Instance.ConfigFileName)) {
                         sw.Write($"{comboBoxPorta.Text};{comboBoxVelocita.Text};{(trackBarGradi.Value * step) + min};{checkOpenExplorer.Checked}");
                     }
                     Settings.Instance.WriteSettings(comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
@@ -63,7 +63,7 @@ namespace HydrogenOMB {
 
 
         private void InizializzaValori() {
-            using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
+            using (StreamReader sr = new StreamReader(PublicData.Instance.ConfigFileName)) {
                 string[] elements = sr.ReadLine().Split(';');
                 comboBoxPorta.Text = elements[0];
                 comboBoxVelocita.Text = elements[1];

@@ -29,11 +29,11 @@ namespace HydrogenOMB {
 
 
         private void ReadSettings() {
-            if (!File.Exists(PublicData.ConfigFileName)) {
+            if (!File.Exists(PublicData.Instance.ConfigFileName)) {
                 RecreateConfFile();
             }
 
-            using (StreamReader sr = new StreamReader(PublicData.ConfigFileName)) {
+            using (StreamReader sr = new StreamReader(PublicData.Instance.ConfigFileName)) {
                 string[] elements = sr.ReadLine().Split(';');
 
                 PortName = elements[0];
@@ -44,7 +44,7 @@ namespace HydrogenOMB {
         }
 
         public void WriteSettings(string portName, uint portBaud, ushort maxDeg, bool openInExplorer) {
-            using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
+            using (StreamWriter sw = new StreamWriter(PublicData.Instance.ConfigFileName)) {
                 sw.Write($"{portName};{portBaud};{maxDeg};{openInExplorer}");
             }
 
@@ -53,7 +53,7 @@ namespace HydrogenOMB {
 
 
         private void RecreateConfFile() { // ricreo il file delle configurazioni con dei valori di default
-            using (StreamWriter sw = new StreamWriter(PublicData.ConfigFileName)) {
+            using (StreamWriter sw = new StreamWriter(PublicData.Instance.ConfigFileName)) {
                 sw.Write($"COM3;9600;100;true");
             }
         }

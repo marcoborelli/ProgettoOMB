@@ -76,8 +76,8 @@ namespace HydrogenOMB {
 
             //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
             ChangeWorkSheet((uint)eWorksheet.ValveData);
-            Ws.Cells[1, 2].Value = PublicData.InfoValve.NomeValvola;
-            Ws.Cells[2, 2].Value = PublicData.InfoValve.ModelloValvola;
+            Ws.Cells[1, 2].Value = PublicData.Instance.InfoValve.NomeValvola;
+            Ws.Cells[2, 2].Value = PublicData.Instance.InfoValve.ModelloValvola;
 
 
             for (uint j = (uint)(eWorksheet.OpenValveData); j <= (uint)(eWorksheet.CloseValveData); j++) {
