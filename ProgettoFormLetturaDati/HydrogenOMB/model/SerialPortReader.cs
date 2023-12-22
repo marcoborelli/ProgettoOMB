@@ -50,12 +50,16 @@ namespace HydrogenOMB {
         }
         /*fine properties*/
 
-        public void Start() {
+        public void StartPort() {
             Port.Open(); /* Begin communications*/
         }
-        public void Stop() {
+        public void StopPort() {
             Port.Close();//chiudo la porta
+        }
+        private void Stop() {
+            this.StopPort();
             FManager.Close();//chiudo e salvo il file di excel
+            DManager.StopExcelWriting("File excel creato correttamente!\n");
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
@@ -85,7 +89,6 @@ namespace HydrogenOMB {
                     return;
                 case "ENDARRCLOSE\r":
                     this.Stop();
-                    DManager.StopExcelWriting("File excel creato correttamente!\n");
                     return;
                 default:
                     break;

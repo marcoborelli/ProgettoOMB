@@ -24,7 +24,7 @@ namespace HydrogenOMB {
             CheckFileAndFolder();
             Settings.Init();
             InizializzaOggetti();
-            serialReader.Start();
+            serialReader.StartPort();
         }
 
         private void buttonSettings_Click(object sender, EventArgs e) { //settings
@@ -79,7 +79,7 @@ namespace HydrogenOMB {
 
                     RipristinaCampi();//per prepararsi a rifare un'altra misurazione
                     InizializzaOggetti();
-                    serialReader.Start();
+                    serialReader.StartPort();
 
                     if (Settings.Instance.OpenInExplorer) {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
