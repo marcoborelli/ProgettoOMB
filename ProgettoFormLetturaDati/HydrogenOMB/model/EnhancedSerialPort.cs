@@ -49,6 +49,7 @@ namespace HydrogenOMB {
         int fd;
         FieldInfo disposedFieldInfo;
         object data_received;
+        System.Threading.Thread t;
 
         public new void Open() {
             base.Open();
@@ -60,7 +61,18 @@ namespace HydrogenOMB {
                 fieldInfo = typeof(SerialPort).GetField("data_received", BindingFlags.Instance | BindingFlags.NonPublic);
                 data_received = fieldInfo.GetValue(this);
 
-                new System.Threading.Thread(new System.Threading.ThreadStart(this.EventThreadFunction)).Start();
+                t = new System.Threading.Thread(new System.Threading.ThreadStart(this.EventThreadFunction));
+                t.Start();
+            }
+        }
+
+        public new void Close() {
+            base.Close();
+
+            //su Windows il nuovo thread non verra' mai generato. L'oggetto t sarebbe quindi a null
+            if (!PublicData.IsWindows()) {
+                t.Abort();
+                t = null;
             }
         }
 

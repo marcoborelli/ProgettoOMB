@@ -122,6 +122,7 @@ namespace HydrogenOMB {
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+            serialReader.StopPort(); //in questo modo, se si e' su linux (ma anche Windows) si killa il thread in ascolto sulla seriale
         }
     }
 }
