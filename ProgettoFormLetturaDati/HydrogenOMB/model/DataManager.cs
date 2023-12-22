@@ -57,8 +57,12 @@ namespace HydrogenOMB {
             AssociatedForm.StoptWritingExcel("File excel creato correttamente!\n");
         }
 
-        public void OnData(List<string> fields) { //va implementato oggetto ad hoc
-            FManager.Write(fields);//per stampare su file excel
+        public void OnData(string row, DateTime oldTime) { //va implementato oggetto ad hoc
+            OMBRecord rec = new OMBRecord(row, Separator, oldTime);
+
+            /*if (rec != null) { //TODO
+                FManager.Write(rec); //per stampare su file excel
+            }*/
         }
 
         private void StartNewExcelFile() {

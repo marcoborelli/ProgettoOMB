@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace HydrogenOMB {
     public interface IDataManager {
@@ -8,6 +8,6 @@ namespace HydrogenOMB {
         void OnForcedStop();
         void OnEndArrayOpen();
         void OnEndArrayClose();
-        void OnData(List<string> fields);
+        void OnData(string row, DateTime oldTime);
     }
 }
