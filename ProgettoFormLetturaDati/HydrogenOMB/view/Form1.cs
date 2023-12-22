@@ -112,7 +112,7 @@ namespace HydrogenOMB {
             richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
         }
         private void InizializzaOggetti() {
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, separ, campi);
+            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
             dataMan = new DataManager(this, fileMan, separ);
             serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, dataMan);
         }

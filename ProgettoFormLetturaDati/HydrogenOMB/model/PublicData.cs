@@ -43,6 +43,7 @@ namespace HydrogenOMB {
         private PublicData() { //Singleton Pattern
         }
 
+
         public static void Init() {
             Instance = new PublicData();
 

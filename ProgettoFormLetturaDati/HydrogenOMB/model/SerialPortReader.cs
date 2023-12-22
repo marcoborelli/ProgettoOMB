@@ -34,11 +34,11 @@ namespace HydrogenOMB {
 
 
         public void StartPort() {
-            Port.Open(); /* Begin communications*/
+            Port.Open(); //Begin communications
         }
 
         public void StopPort() {
-            Port.Close();//chiudo la porta
+            Port.Close(); //chiudo la porta
         }
 
         private void Stop() {

@@ -7,17 +7,20 @@ namespace HydrogenOMB {
         private FileManager _fManager;
         private char _separator;
 
+
         public DataManager(Form1 form, FileManager fManager, char separator) {
             AssociatedForm = form;
             FManager = fManager;
             Separator = separator;
         }
 
+
         /*properties*/
         public Form1 AssociatedForm {
             get => _associatedForm;
             set => PublicData.InsertIfObjValid(ref _associatedForm, value, "Form");
         }
+
         public FileManager FManager {
             get => _fManager;
             private set => PublicData.InsertIfObjValid(ref _fManager, value, "FileManager");
@@ -28,6 +31,7 @@ namespace HydrogenOMB {
             private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
         }
         /*fine properties*/
+
 
         public void OnStart() {
             AssociatedForm.StartMeasure("Inizio misurazione");
@@ -48,8 +52,8 @@ namespace HydrogenOMB {
         }
 
         public void OnEndArrayOpen() {
-            FManager.ChangeWorkSheet((uint)eWorksheet.CloseValveData);//metto sul foglio di chiusura
-            FManager.SaveFile();//salvataggio backup(?)
+            FManager.ChangeWorkSheet((uint)eWorksheet.CloseValveData); //metto sul foglio di chiusura
+            FManager.SaveFile(); //salvataggio backup(?)
         }
 
         public void OnEndArrayClose() {
@@ -64,6 +68,7 @@ namespace HydrogenOMB {
                 FManager.Write(rec); //per stampare su file excel
             }
         }
+
 
         private void StartNewExcelFile() {
             FManager.StartNewFile();

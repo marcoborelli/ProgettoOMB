@@ -10,8 +10,10 @@ namespace HydrogenOMB {
         public ushort MaxDegrees { get; private set; }
         public bool OpenInExplorer { get; private set; }
 
+
         private Settings() { //Singleton Pattern
         }
+
 
         public static Settings Instance {
             get => _instance;
@@ -21,6 +23,7 @@ namespace HydrogenOMB {
                 }
             }
         }
+
 
         public static void Init() {
             Instance = new Settings();
