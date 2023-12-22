@@ -13,28 +13,12 @@ namespace HydrogenOMB {
 
         /*properties*/
         public Form1 AssociatedForm {
-            get {
-                return _associatedForm;
-            }
-            private set {
-                if (value != null) {
-                    _associatedForm = value;
-                } else {
-                    throw new Exception("You must insert a valid Form");
-                }
-            }
+            get => _associatedForm;
+            set => PublicData.InsertIfObjValid(ref _associatedForm, value, "Form");
         }
         public char Separator {
-            get {
-                return _separator;
-            }
-            private set {
-                if ($"{value}" != "" && value != ' ') {
-                    _separator = value;
-                } else {
-                    throw new Exception("Invalid Char Separator");
-                }
-            }
+            get => _separator;
+            private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
         }
         /*fine properties*/
 
