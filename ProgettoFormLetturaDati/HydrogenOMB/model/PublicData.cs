@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace HydrogenOMB {
     public static class PublicData {
@@ -24,6 +25,10 @@ namespace HydrogenOMB {
             } else {
                 throw new Exception($"Invalid \"{perErrore}\"");
             }
+        }
+
+        public static bool IsWindows() {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace HydrogenOMB {
         public new void Open() {
             base.Open();
 
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            if (!PublicData.IsWindows()) {
                 FieldInfo fieldInfo = BaseStream.GetType().GetField("fd", BindingFlags.Instance | BindingFlags.NonPublic);
                 fd = (int)fieldInfo.GetValue(BaseStream);
                 disposedFieldInfo = BaseStream.GetType().GetField("disposed", BindingFlags.Instance | BindingFlags.NonPublic);
