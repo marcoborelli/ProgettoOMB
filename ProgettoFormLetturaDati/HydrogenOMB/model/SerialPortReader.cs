@@ -5,8 +5,7 @@ using System.IO.Ports;
 namespace HydrogenOMB {
     public class SerialPortReader {
         private EnhancedSerialPort _port;
-        private FileManager _fManager;
-        private DataManager _dManager;
+        private IDataManager _dManager;
         private char _separator;
         private bool First { get; set; }
         private bool Started { get; set; }
@@ -18,12 +17,11 @@ namespace HydrogenOMB {
         public ushort GradiMax { get; private set; }
 
 
-        public SerialPortReader(string ComPorta, uint VelocitaPorta, char separator, byte numParametri, ushort gradiMassimi, DataManager dManager, FileManager fManager) {
+        public SerialPortReader(string ComPorta, uint VelocitaPorta, char separator, byte numParametri, ushort gradiMassimi, IDataManager dManager) {
             _port = new EnhancedSerialPort(ComPorta, (int)VelocitaPorta, Parity.None, 8, StopBits.One);
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
 
             DManager = dManager;
-            FManager = fManager;
             Separator = separator;
             NumeroParametri = numParametri;
             GradiMax = gradiMassimi;
@@ -36,14 +34,11 @@ namespace HydrogenOMB {
         public EnhancedSerialPort Port {
             get => _port;
         }
-        public DataManager DManager {
+        public IDataManager DManager {
             get => _dManager;
             private set => PublicData.InsertIfObjValid(ref _dManager, value, "DataManager");
         }
-        public FileManager FManager {
-            get => _fManager;
-            private set => PublicData.InsertIfObjValid(ref _fManager, value, "FileManager");
-        }
+
         public char Separator {
             get => _separator;
             private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
@@ -61,8 +56,7 @@ namespace HydrogenOMB {
             if (PublicData.IsWindows()) {
                 this.StopPort();
             }
-            FManager.Close();//chiudo e salvo il file di excel
-            DManager.StopExcelWriting("File excel creato correttamente!\n");
+            DManager.OnEndArrayClose();
 
             //perche' su linux le operazioni di Excel... sono eseguite dal thread generato ad hoc per gli eventi da seriale. E' quindi obbligatorio che prima le altre attivita' siano completate e poi il thread sia killato
             if (!PublicData.IsWindows()) {
@@ -76,24 +70,21 @@ namespace HydrogenOMB {
 
             switch (tmp) {
                 case "START\r":
-                    DManager.StartMeasurement("Inizio misurazione");
+                    DManager.OnStart();
                     return;
                 case "ENDOPEN\r":
-                    DManager.EndOpening("Apertura valvola terminata, inzio chiusura...");
+                    DManager.OnEndOpen();
                     return;
                 case "STOP\r":
-                    DManager.StopMeasurement("Misurazione terminata con successo");
-                    InizializzaExcel();//inizio già a prepararmi per ricevere i dati
-                    FManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
+                    DManager.OnStop();
+                    Started = true;
                     return;
                 case "FSTOP\r":
-                    DManager.StopMeasurement("Misurazione fermata");
-                    InizializzaExcel();
-                    FManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
+                    DManager.OnForcedStop();
+                    Started = true;
                     return;
                 case "ENDARROPEN\r":
-                    FManager.ChangeWorkSheet((uint)eWorksheet.CloseValveData);//metto sul foglio di chiusura
-                    FManager.SaveFile();//salvataggio backup(?)
+                    DManager.OnEndArrayOpen();
                     return;
                 case "ENDARRCLOSE\r":
                     this.Stop();
@@ -125,8 +116,7 @@ namespace HydrogenOMB {
             }
             First = false;
 
-            //DManager.PrintOnForm(0, fields);//per stampare sulla form
-            FManager.Write(fields);//per stampare su file excel
+            DManager.OnData(fields);
 
             OldTime = Now;
         }
@@ -136,11 +126,6 @@ namespace HydrogenOMB {
             for (byte i = 0; i < NumeroParametri; i++) {
                 field[i] = "-";
             }
-        }
-        private void InizializzaExcel() {
-            FManager.StartNewFile();
-            Started = true;
-            DManager.StartExcelWriting("Creazione file excel...");
         }
     }
 }

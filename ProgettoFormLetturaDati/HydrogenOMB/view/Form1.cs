@@ -17,7 +17,7 @@ namespace HydrogenOMB {
         const char separ = ';';
 
         SerialPortReader serialReader;
-        DataManager dataMan;
+        IDataManager dataMan;
         FileManager fileMan;
 
         private void Form1_Load(object sender, EventArgs e) {
@@ -112,9 +112,9 @@ namespace HydrogenOMB {
             richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
         }
         private void InizializzaOggetti() {
-            dataMan = new DataManager(this, separ);
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, separ, campi);
-            serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, separ, 2, Settings.Instance.MaxDegrees, dataMan, fileMan);
+            dataMan = new DataManager(this, fileMan, separ);
+            serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, separ, 2, Settings.Instance.MaxDegrees, dataMan);
         }
         private void RipristinaCampi() {
             textBoxModelValve.Enabled = textBoxNameValve.Enabled = true;
