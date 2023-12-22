@@ -120,5 +120,8 @@ namespace HydrogenOMB {
             textBoxModelValve.Text = textBoxNameValve.Text = "";
             textBoxNameValve.Focus();
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+        }
     }
 }
