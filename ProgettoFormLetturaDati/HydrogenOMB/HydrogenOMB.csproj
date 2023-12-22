@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\IDataManager.cs" />
+    <Compile Include="model\OmbRecord.cs" />
     <Compile Include="model\PublicData.cs" />
     <Compile Include="model\EnhancedSerialPort.cs">
       <SubType>Component</SubType>
