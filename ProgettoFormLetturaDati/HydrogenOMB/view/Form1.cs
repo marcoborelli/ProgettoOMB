@@ -113,7 +113,7 @@ namespace HydrogenOMB {
         private void InizializzaOggetti() {
             fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
             dataMan = new DataManager(this, fileMan, separ);
-            serialReader = new SerialPortReader(Settings.Instance.PortName, Settings.Instance.PortBaud, dataMan);
+            serialReader = new SerialPortReader(Settings.Instance.PortNameOnWin, Settings.Instance.PortBaud, dataMan);
         }
         private void RipristinaCampi() {
             textBoxModelValve.Enabled = textBoxNameValve.Enabled = true;

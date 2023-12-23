@@ -60,7 +60,7 @@ namespace HydrogenOMB {
 
 
         private void InizializzaValori() {
-            comboBoxPorta.Text = Settings.Instance.PortName;
+            comboBoxPorta.Text = Settings.Instance.PortNameOnWin;
             comboBoxVelocita.Text = $"{Settings.Instance.PortBaud}";
             trackBarGradi.Value = (Settings.Instance.MaxDegrees - min) / step;
             checkOpenExplorer.Checked = Settings.Instance.OpenInExplorer;
