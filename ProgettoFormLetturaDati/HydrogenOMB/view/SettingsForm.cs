@@ -7,6 +7,7 @@ namespace HydrogenOMB {
         bool modified = false;
 
         string[] velocita = new string[] { "9600", "115200" };
+        string[] linuxPort = new string[] { "/dev/ttyACM0", "/dev/ttyACM1" };
         const string testoLabel = "MAX GRADI: ";
 
         const byte min = 90; //perche' l'angolo min e' 90 [90-120]
@@ -18,9 +19,15 @@ namespace HydrogenOMB {
 
         private void Settings_Load(object sender, EventArgs e) {
             comboBoxPorta.DropDownStyle = comboBoxVelocita.DropDownStyle = ComboBoxStyle.DropDownList;
-            for (byte i = 1; i < 7; i++) {
-                comboBoxPorta.Items.Add($"COM{i}");
+
+            if (PublicData.IsWindows()) {
+                for (byte i = 1; i < 7; i++) {
+                    comboBoxPorta.Items.Add($"COM{i}");
+                }
+            } else {
+                comboBoxPorta.Items.AddRange(linuxPort);
             }
+
             for (byte i = 0; i < velocita.Length; i++) {
                 comboBoxVelocita.Items.Add($"{velocita[i]}");
             }
@@ -53,14 +60,17 @@ namespace HydrogenOMB {
             if (modified) {
                 DialogResult result = MessageBox.Show("Sono state modificate delle impostazioni, desideri salvare?", "CONFERMA", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes) {
-                    Settings.Instance.WriteSettings(comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
+                    if (PublicData.IsWindows()) //perche' se sono su Win la porta di linux non la devo vedere e viceversa
+                        Settings.Instance.WriteSettings(comboBoxPorta.Text, Settings.Instance.PortNameOnLinux, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
+                    else
+                        Settings.Instance.WriteSettings(Settings.Instance.PortNameOnWin, comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
                 }
             }
         }
 
 
         private void InizializzaValori() {
-            comboBoxPorta.Text = Settings.Instance.PortNameOnWin;
+            comboBoxPorta.Text = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             comboBoxVelocita.Text = $"{Settings.Instance.PortBaud}";
             trackBarGradi.Value = (Settings.Instance.MaxDegrees - min) / step;
             checkOpenExplorer.Checked = Settings.Instance.OpenInExplorer;
