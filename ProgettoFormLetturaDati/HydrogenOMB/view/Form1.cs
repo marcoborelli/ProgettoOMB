@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
 
 namespace HydrogenOMB {
@@ -83,13 +82,13 @@ namespace HydrogenOMB {
                     serialReader.StartPort();
 
                     if (Settings.Instance.OpenInExplorer) {
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                        if (PublicData.IsWindows()) {
                             ProcessStartInfo psi = new ProcessStartInfo() {
                                 FileName = "explorer.exe",
                                 Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"
                             };
                             Process.Start(psi); // Opens the folder using file explorer in Windows
-                        } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                        } else if (!PublicData.IsWindows()) {
                             Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"); // Opens the folder using default file manager in Linux
                         }
                     }
