@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -29,53 +28,10 @@ namespace HydrogenOMB {
             sForm.Show();
         }
 
-        }
-
-        public void StartMeasure(string mess) {
+        public void SetStateOfValveDataInput(bool enabled) {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
-                    textBoxModelValve.Enabled = textBoxNameValve.Enabled = false;
-                    StampaSuRich(Color.Black, DateTime.Now, mess);
-                }));
-                return;
-            }
-
-        public void StopMeasure(string message) {
-            if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE
-                this.Invoke(new MethodInvoker(delegate {
-                    StampaSuRich(Color.Black, DateTime.Now, message);
-                }));
-                return;
-            }
-        }
-        public void EndOpen(string message) {
-            if (InvokeRequired) {
-                this.Invoke(new MethodInvoker(delegate {
-                    StampaSuRich(Color.Black, DateTime.Now, message);
-                }));
-                return;
-            }
-        }
-        public void StartWritingExcel(string message) {
-            if (InvokeRequired) {
-                this.Invoke(new MethodInvoker(delegate {
-                    StampaSuRich(Color.Black, DateTime.Now, message);
-                }));
-                return;
-            }
-        }
-        public void StoptWritingExcel(string message) {
-            if (InvokeRequired) {
-                this.Invoke(new MethodInvoker(delegate {
-                    StampaSuRich(Color.Green, DateTime.Now, message);
-
-                    RipristinaCampi();//per prepararsi a rifare un'altra misurazione
-                    StartSerialPort();
-
-                    if (Settings.Instance.OpenInExplorer) {
-                        string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
-                        Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
-                    }
+                    textBoxModelValve.Enabled = textBoxNameValve.Enabled = enabled;
                 }));
                 return;
             }
@@ -90,10 +46,16 @@ namespace HydrogenOMB {
         }
 
 
-        private void StampaSuRich(Color col, DateTime ora, string mess) {
-            richTextBoxAvvisi.SelectionColor = col;
-            richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
+        public void PrintOn(Color col, DateTime ora, string mess) {
+            if (InvokeRequired) {
+                this.Invoke(new MethodInvoker(delegate {
+                    richTextBoxAvvisi.SelectionColor = col;
+                    richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
+                }));
+                return;
+            }
         }
+
         private void InizializzaOggetti() {
             excMan = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
             dataMan = new DataManager(this, excMan, separ);
@@ -101,10 +63,15 @@ namespace HydrogenOMB {
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             serialReader = new SerialPortReader(portName, Settings.Instance.PortBaud, dataMan);
         }
-        private void RipristinaCampi() {
-            textBoxModelValve.Enabled = textBoxNameValve.Enabled = true;
-            textBoxModelValve.Text = textBoxNameValve.Text = "";
-            textBoxNameValve.Focus();
+
+        public void ResetValveFields() {
+            if (InvokeRequired) {
+                this.Invoke(new MethodInvoker(delegate {
+                    textBoxModelValve.Text = textBoxNameValve.Text = "";
+                    textBoxNameValve.Focus();
+                }));
+                return;
+            }
         }
 
         public void StartSerialPort() { //E' concettualmente sbagliato che la porta seriale venga aperta dalla form

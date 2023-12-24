@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace HydrogenOMB {
     public class DataManager : IDataManager {
@@ -34,20 +35,21 @@ namespace HydrogenOMB {
 
 
         public void OnStart() {
-            AssociatedForm.StartMeasure("Inizio misurazione");
+            AssociatedForm.SetStateOfValveDataInput(false);
+            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Inizio misurazione");
         }
 
         public void OnEndOpen() {
-            AssociatedForm.EndOpen("Apertura valvola terminata, inzio chiusura...");
+            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Apertura valvola terminata, inzio chiusura...");
         }
 
         public void OnStop() {
-            AssociatedForm.StopMeasure("Misurazione terminata con successo");
+            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Misurazione terminata con successo");
             StartNewExcelFile();
         }
 
         public void OnForcedStop() {
-            AssociatedForm.StopMeasure("Misurazione fermata");
+            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Misurazione fermata");
             StartNewExcelFile();
         }
 
@@ -58,7 +60,16 @@ namespace HydrogenOMB {
 
         public void OnEndArrayClose() {
             ExcManager.Close(); //chiudo e salvo il file di excel
-            AssociatedForm.StoptWritingExcel("File excel creato correttamente!\n");
+
+            AssociatedForm.PrintOn(Color.Green, DateTime.Now, "File excel creato correttamente!\n");
+            AssociatedForm.SetStateOfValveDataInput(true);
+            AssociatedForm.ResetValveFields();
+            AssociatedForm.StartSerialPort();
+
+            if (Settings.Instance.OpenInExplorer) {
+                string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
+                Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
+            }
         }
 
         public void OnData(string row, DateTime oldTime) { //va implementato oggetto ad hoc
@@ -72,7 +83,7 @@ namespace HydrogenOMB {
 
         private void StartNewExcelFile() {
             ExcManager.StartNewFile();
-            AssociatedForm.StartWritingExcel("Creazione file excel...");
+            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Creazione file excel...");
             ExcManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
         }
     }
