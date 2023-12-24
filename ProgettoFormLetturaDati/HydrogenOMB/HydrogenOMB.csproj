@@ -72,7 +72,7 @@
     <Compile Include="model\EnhancedSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\FileManager.cs" />
+    <Compile Include="model\ExcelManager.cs" />
     <Compile Include="model\SerialPortReader.cs" />
     <Compile Include="model\DataManager.cs" />
     <Compile Include="model\Settings.cs" />

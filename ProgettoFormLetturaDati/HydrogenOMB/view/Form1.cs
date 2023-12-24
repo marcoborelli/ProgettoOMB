@@ -17,7 +17,7 @@ namespace HydrogenOMB {
 
         SerialPortReader serialReader;
         IDataManager dataMan;
-        FileManager fileMan;
+        ExcelManager excMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
@@ -111,8 +111,8 @@ namespace HydrogenOMB {
             richTextBoxAvvisi.AppendText($"{ora}: {mess}\n");
         }
         private void InizializzaOggetti() {
-            fileMan = new FileManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
-            dataMan = new DataManager(this, fileMan, separ);
+            excMan = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
+            dataMan = new DataManager(this, excMan, separ);
 
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             serialReader = new SerialPortReader(portName, Settings.Instance.PortBaud, dataMan);

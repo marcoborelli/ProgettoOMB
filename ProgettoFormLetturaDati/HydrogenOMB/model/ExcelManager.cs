@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using OfficeOpenXml;
 
@@ -12,7 +11,7 @@ namespace HydrogenOMB {
         Count
     }
 
-    public class FileManager {
+    public class ExcelManager {
         private string [] fields;
         private string _fileName, _path, _templateFile;
         private const string Estensione = "xlsx";
@@ -22,7 +21,7 @@ namespace HydrogenOMB {
         private ExcelWorksheet _ws;
 
 
-        public FileManager(string path, string templFile, string[] campi) {
+        public ExcelManager(string path, string templFile, string[] campi) {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             fields = campi;
 
