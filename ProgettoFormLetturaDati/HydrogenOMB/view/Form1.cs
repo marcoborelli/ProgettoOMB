@@ -21,7 +21,7 @@ namespace HydrogenOMB {
             PublicData.Init();
             Settings.Init();
             InizializzaOggetti();
-            serialReader.StartPort();
+            StartSerialPort();
         }
 
         private void buttonSettings_Click(object sender, EventArgs e) { //settings
@@ -70,7 +70,7 @@ namespace HydrogenOMB {
                     StampaSuRich(Color.Green, DateTime.Now, message);
 
                     RipristinaCampi();//per prepararsi a rifare un'altra misurazione
-                    serialReader.StartPort();
+                    StartSerialPort();
 
                     if (Settings.Instance.OpenInExplorer) {
                         string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
@@ -105,6 +105,10 @@ namespace HydrogenOMB {
             textBoxModelValve.Enabled = textBoxNameValve.Enabled = true;
             textBoxModelValve.Text = textBoxNameValve.Text = "";
             textBoxNameValve.Focus();
+        }
+
+        public void StartSerialPort() { //E' concettualmente sbagliato che la porta seriale venga aperta dalla form
+            serialReader.StartPort();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
