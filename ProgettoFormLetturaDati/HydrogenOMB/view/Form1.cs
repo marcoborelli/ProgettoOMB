@@ -80,15 +80,8 @@ namespace HydrogenOMB {
                     serialReader.StartPort();
 
                     if (Settings.Instance.OpenInExplorer) {
-                        if (PublicData.IsWindows()) {
-                            ProcessStartInfo psi = new ProcessStartInfo() {
-                                FileName = "explorer.exe",
-                                Arguments = $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"
-                            };
-                            Process.Start(psi); // Opens the folder using file explorer in Windows
-                        } else if (!PublicData.IsWindows()) {
-                            Process.Start("xdg-open", $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}"); // Opens the folder using default file manager in Linux
-                        }
+                        string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
+                        Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
                     }
                 }));
                 return;
