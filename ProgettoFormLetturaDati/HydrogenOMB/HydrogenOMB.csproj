@@ -68,14 +68,14 @@
   <ItemGroup>
     <Compile Include="controller\IDataManager.cs" />
     <Compile Include="model\OmbRecord.cs" />
-    <Compile Include="model\PublicData.cs" />
-    <Compile Include="model\EnhancedSerialPort.cs">
+    <Compile Include="controller\PublicData.cs" />
+    <Compile Include="controller\EnhancedSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\ExcelManager.cs" />
-    <Compile Include="model\SerialPortReader.cs" />
-    <Compile Include="model\DataManager.cs" />
-    <Compile Include="model\Settings.cs" />
+    <Compile Include="controller\ExcelManager.cs" />
+    <Compile Include="controller\SerialPortReader.cs" />
+    <Compile Include="controller\DataManager.cs" />
+    <Compile Include="controller\Settings.cs" />
     <Compile Include="view\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
