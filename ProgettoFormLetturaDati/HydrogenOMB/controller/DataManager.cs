@@ -36,6 +36,10 @@ namespace HydrogenOMB {
 
         public void OnStart() {
             AssociatedForm.SetStateOfValveDataInput(false);
+            string[] valveFields = AssociatedForm.GetValveFields();
+            PublicData.Instance.InfoValve.NomeValvola = valveFields[0];
+            PublicData.Instance.InfoValve.ModelloValvola = valveFields[1];
+
             AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Inizio misurazione");
         }
 

@@ -69,7 +69,6 @@
             this.textBoxNameValve.Name = "textBoxNameValvue";
             this.textBoxNameValve.Size = new System.Drawing.Size(113, 20);
             this.textBoxNameValve.TabIndex = 0;
-            this.textBoxNameValve.TextChanged += new System.EventHandler(this.textBoxNameValvue_TextChanged);
             // 
             // textBoxModelValvue
             // 
@@ -79,7 +78,6 @@
             this.textBoxModelValve.Name = "textBoxModelValvue";
             this.textBoxModelValve.Size = new System.Drawing.Size(113, 20);
             this.textBoxModelValve.TabIndex = 1;
-            this.textBoxModelValve.TextChanged += new System.EventHandler(this.textBoxModelValvue_TextChanged);
             // 
             // richTextBoxAvvisi
             // 

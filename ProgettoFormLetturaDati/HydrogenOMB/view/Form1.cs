@@ -37,15 +37,6 @@ namespace HydrogenOMB {
             }
         }
 
-        private void textBoxNameValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.Instance.InfoValve.NomeValvola = textBoxNameValve.Text;
-        }
-
-        private void textBoxModelValvue_TextChanged(object sender, EventArgs e) {
-            PublicData.Instance.InfoValve.ModelloValvola = textBoxModelValve.Text;
-        }
-
-
         public void PrintOn(Color col, DateTime ora, string mess) {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
@@ -76,6 +67,10 @@ namespace HydrogenOMB {
 
         public void StartSerialPort() { //E' concettualmente sbagliato che la porta seriale venga aperta dalla form
             serialReader.StartPort();
+        }
+
+        public string[] GetValveFields() {
+            return new string[] { textBoxNameValve.Text, textBoxModelValve.Text };
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
