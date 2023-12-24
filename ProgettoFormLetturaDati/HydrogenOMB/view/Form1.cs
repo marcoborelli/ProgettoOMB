@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -20,7 +19,6 @@ namespace HydrogenOMB {
 
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
-            CheckFileAndFolder();
             Settings.Init();
             InizializzaOggetti();
             serialReader.StartPort();
@@ -31,10 +29,6 @@ namespace HydrogenOMB {
             sForm.Show();
         }
 
-        private void CheckFileAndFolder() {
-            if (!Directory.Exists(PublicData.Instance.OutputDirectory)) {
-                Directory.CreateDirectory(PublicData.Instance.OutputDirectory);
-            }
         }
 
         public void StartMeasure(string mess) {
@@ -45,7 +39,6 @@ namespace HydrogenOMB {
                 }));
                 return;
             }
-        }
 
         public void StopMeasure(string message) {
             if (InvokeRequired) { //se non metto questa parte non funziona. DA CHIEDERE

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace HydrogenOMB {
@@ -51,6 +52,8 @@ namespace HydrogenOMB {
             Instance.OutputDirectory = "File";
             Instance.TemplateFileName = "base";
             Instance.InfoValve = new StructInfoValve();
+
+            Instance.CheckFileAndFolder();
         }
 
 
@@ -68,6 +71,13 @@ namespace HydrogenOMB {
 
         public static bool IsWindows() {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        }
+
+
+        private void CheckFileAndFolder() {
+            if (!Directory.Exists(Instance.OutputDirectory)) {
+                Directory.CreateDirectory(Instance.OutputDirectory);
+            }
         }
     }
 }
