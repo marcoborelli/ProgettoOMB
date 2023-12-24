@@ -27,8 +27,6 @@ namespace HydrogenOMB {
 
             Path = path;
             TemplateFile = templFile;
-
-            IndexRiga = 2; //2 perche' parte da 1; ma a 1 ci stanno le intestazione (delta tempo, ora, angolo..)
         }
 
 
@@ -61,6 +59,7 @@ namespace HydrogenOMB {
 
 
         public void StartNewFile() {
+            IndexRiga = 2; //2 perche' parte da 1; ma a 1 ci stanno le intestazione (delta tempo, ora, angolo..)
             DateTime tmp = DateTime.Now;
             FileName = $"{tmp.Day}-{tmp.Month}-{tmp.Year}_{tmp.Hour}-{tmp.Minute}-{tmp.Second}";
 

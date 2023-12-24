@@ -15,9 +15,6 @@ namespace HydrogenOMB {
             Port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); /*set the event handler*/
 
             DManager = dManager;
-
-            Started = false;
-            OldTime = DateTime.MinValue;
         }
 
 
@@ -34,6 +31,9 @@ namespace HydrogenOMB {
 
 
         public void StartPort() {
+            Started = false;
+            OldTime = DateTime.MinValue;
+
             Port.Open(); //Begin communications
         }
 

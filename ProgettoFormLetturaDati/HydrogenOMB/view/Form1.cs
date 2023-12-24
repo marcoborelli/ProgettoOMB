@@ -77,7 +77,6 @@ namespace HydrogenOMB {
                     StampaSuRich(Color.Green, DateTime.Now, message);
 
                     RipristinaCampi();//per prepararsi a rifare un'altra misurazione
-                    InizializzaOggetti();
                     serialReader.StartPort();
 
                     if (Settings.Instance.OpenInExplorer) {
