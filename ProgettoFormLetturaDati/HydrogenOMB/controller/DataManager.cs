@@ -6,13 +6,14 @@ namespace HydrogenOMB {
     public class DataManager : IDataManager {
         private Form1 _associatedForm;
         private ExcelManager _excManager;
-        private char _separator;
+        private readonly char Separator; //separatore del record ricevuto sulla porta seriale
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
 
 
-        public DataManager(Form1 form, char separator) {
+        public DataManager(Form1 form) {
             AssociatedForm = form;
-            Separator = separator;
+
+            Separator = ';';
             ExcManager = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
         }
 
@@ -26,11 +27,6 @@ namespace HydrogenOMB {
         public ExcelManager ExcManager {
             get => _excManager;
             private set => PublicData.InsertIfObjValid(ref _excManager, value, "FileManager");
-        }
-
-        public char Separator {
-            get => _separator;
-            private set => PublicData.InsertIfObjValid(ref _separator, value, "Char Separator");
         }
         /*fine properties*/
 
@@ -77,7 +73,7 @@ namespace HydrogenOMB {
             }
         }
 
-        public void OnData(string row, DateTime oldTime) { //va implementato oggetto ad hoc
+        public void OnData(string row, DateTime oldTime) {
             OMBRecord rec = new OMBRecord(row, Separator, oldTime);
 
             if (rec != null) { //se e' null e' perche' i gradi hanno superato il max

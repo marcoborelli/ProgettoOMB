@@ -9,8 +9,6 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        const char separ = ';';
-
         SerialPortReader serialReader;
         IDataManager dataMan;
 
@@ -46,7 +44,7 @@ namespace HydrogenOMB {
         }
 
         private void InizializzaOggetti() {
-            dataMan = new DataManager(this, separ);
+            dataMan = new DataManager(this);
 
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             serialReader = new SerialPortReader(portName, Settings.Instance.PortBaud, dataMan);
