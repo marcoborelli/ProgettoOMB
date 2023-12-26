@@ -12,7 +12,7 @@ namespace HydrogenOMB {
 
         private static PublicData _instance;
 
-        public string _configFileName, _outpDirectory, _templateFileName;
+        private string _configFileName, _outpDirectory, _templateFileName;
         public StructInfoValve InfoValve;
 
 
