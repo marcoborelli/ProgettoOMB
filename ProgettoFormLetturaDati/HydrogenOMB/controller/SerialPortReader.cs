@@ -41,19 +41,6 @@ namespace HydrogenOMB {
             Port.Close(); //chiudo la porta
         }
 
-        private void Stop() {
-            //perche' su windows non vengono generati altri thread. Le funzioni del fileManager e le altre sono eseguite dal thread principale, che richiedera' tra le varie cose di aprire una nuova istanza sulla stessa porta. Serve quindi che sia libera
-            if (PublicData.IsWindows()) {
-                this.StopPort();
-            }
-            DManager.OnEndArrayClose();
-
-            //perche' su linux le operazioni di Excel... sono eseguite dal thread generato ad hoc per gli eventi da seriale. E' quindi obbligatorio che prima le altre attivita' siano completate e poi il thread sia killato
-            if (!PublicData.IsWindows()) {
-                this.StopPort();
-            }
-        }
-
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             //Console.WriteLine("Incoming line " + _port.ReadLine());
@@ -78,7 +65,7 @@ namespace HydrogenOMB {
                     DManager.OnEndArrayOpen();
                     return;
                 case "ENDARRCLOSE\r":
-                    this.Stop();
+                    DManager.OnEndArrayClose();
                     return;
                 default:
                     break;

@@ -78,12 +78,14 @@ namespace HydrogenOMB {
             AssociatedForm.PrintOn(Color.Green, DateTime.Now, "File excel creato correttamente!\n");
             AssociatedForm.SetStateOfValveDataInput(true);
             AssociatedForm.ResetValveFields();
-            SPortReader.StartPort();
 
             if (Settings.Instance.OpenInExplorer) {
                 string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
                 Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
             }
+
+            SPortReader.StopPort(); //chiudo la porta attuale (omissibile(?))
+            SPortReader.StartPort(); //ne viene riaperta una nuova
         }
 
         public void OnData(string row, DateTime oldTime) {
