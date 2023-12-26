@@ -49,33 +49,32 @@ namespace HydrogenOMB {
             switch (tmp) {
                 case "START\r":
                     DManager.OnStart();
-                    return;
+                    break;
                 case "ENDOPEN\r":
                     DManager.OnEndOpen();
-                    return;
+                    break;
                 case "STOP\r":
                     DManager.OnStop();
                     Started = true;
-                    return;
+                    break;
                 case "FSTOP\r":
                     DManager.OnForcedStop();
                     Started = true;
-                    return;
+                    break;
                 case "ENDARROPEN\r":
                     DManager.OnEndArrayOpen();
-                    return;
+                    break;
                 case "ENDARRCLOSE\r":
                     DManager.OnEndArrayClose();
-                    return;
+                    break;
                 default:
+                    if (!Started)
+                        break;
+
+                    DManager.OnData(tmp, OldTime);
+                    OldTime = DateTime.Now;
                     break;
             }
-
-            if (!Started)
-                return;
-
-            DManager.OnData(tmp, OldTime);
-            OldTime = DateTime.Now;
         }
     }
 }
