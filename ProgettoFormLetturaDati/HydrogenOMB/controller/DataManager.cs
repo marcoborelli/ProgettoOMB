@@ -7,12 +7,13 @@ namespace HydrogenOMB {
         private Form1 _associatedForm;
         private ExcelManager _excManager;
         private char _separator;
+        string[] campi = new string[] { "delta", "time", "angle", "pair" };
 
 
-        public DataManager(Form1 form, ExcelManager excManager, char separator) {
+        public DataManager(Form1 form, char separator) {
             AssociatedForm = form;
-            ExcManager = excManager;
             Separator = separator;
+            ExcManager = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
         }
 
 

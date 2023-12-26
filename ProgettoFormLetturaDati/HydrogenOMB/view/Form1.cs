@@ -9,12 +9,10 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        string[] campi = new string[] { "delta", "time", "angle", "pair" };
         const char separ = ';';
 
         SerialPortReader serialReader;
         IDataManager dataMan;
-        ExcelManager excMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
@@ -48,8 +46,7 @@ namespace HydrogenOMB {
         }
 
         private void InizializzaOggetti() {
-            excMan = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
-            dataMan = new DataManager(this, excMan, separ);
+            dataMan = new DataManager(this, separ);
 
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             serialReader = new SerialPortReader(portName, Settings.Instance.PortBaud, dataMan);
