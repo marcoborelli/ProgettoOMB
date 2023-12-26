@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace HydrogenOMB {
     public class DataManager : IDataManager {
         private Form1 _associatedForm;
         private ExcelManager _excManager;
+        private SerialPortReader _sPortReader;
+
         private readonly char Separator; //separatore del record ricevuto sulla porta seriale
         string[] campi = new string[] { "delta", "time", "angle", "pair" };
 
 
         public DataManager(Form1 form) {
             AssociatedForm = form;
+            AssociatedForm.FormClosing += new FormClosingEventHandler(Form_FormClosing);
 
             Separator = ';';
             ExcManager = new ExcelManager($"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}", PublicData.Instance.TemplateFileName, campi);
+
+            string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
+            SPortReader = new SerialPortReader(portName, Settings.Instance.PortBaud, this);
+            SPortReader.StartPort();
         }
 
 
@@ -27,6 +35,11 @@ namespace HydrogenOMB {
         public ExcelManager ExcManager {
             get => _excManager;
             private set => PublicData.InsertIfObjValid(ref _excManager, value, "FileManager");
+        }
+
+        public SerialPortReader SPortReader {
+            get => _sPortReader;
+            set => PublicData.InsertIfObjValid(ref _sPortReader, value, "SerialPort Reader");
         }
         /*fine properties*/
 
@@ -65,7 +78,7 @@ namespace HydrogenOMB {
             AssociatedForm.PrintOn(Color.Green, DateTime.Now, "File excel creato correttamente!\n");
             AssociatedForm.SetStateOfValveDataInput(true);
             AssociatedForm.ResetValveFields();
-            AssociatedForm.StartSerialPort();
+            SPortReader.StartPort();
 
             if (Settings.Instance.OpenInExplorer) {
                 string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
@@ -86,6 +99,10 @@ namespace HydrogenOMB {
             ExcManager.StartNewFile();
             AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Creazione file excel...");
             ExcManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
+        }
+
+        private void Form_FormClosing(object sender, FormClosingEventArgs e) {
+            SPortReader.StopPort(); //in questo modo, se si e' su linux (ma anche Windows) si killa il thread in ascolto sulla seriale
         }
     }
 }

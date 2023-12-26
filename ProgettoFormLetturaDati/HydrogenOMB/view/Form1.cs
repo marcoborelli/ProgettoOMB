@@ -9,14 +9,12 @@ namespace HydrogenOMB {
             InitializeComponent();
         }
 
-        SerialPortReader serialReader;
-        IDataManager dataMan;
+        DataManager dataMan;
 
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
             Settings.Init();
             InizializzaOggetti();
-            StartSerialPort();
         }
 
         private void buttonSettings_Click(object sender, EventArgs e) { //settings
@@ -45,9 +43,6 @@ namespace HydrogenOMB {
 
         private void InizializzaOggetti() {
             dataMan = new DataManager(this);
-
-            string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
-            serialReader = new SerialPortReader(portName, Settings.Instance.PortBaud, dataMan);
         }
 
         public void ResetValveFields() {
@@ -60,16 +55,8 @@ namespace HydrogenOMB {
             }
         }
 
-        public void StartSerialPort() { //E' concettualmente sbagliato che la porta seriale venga aperta dalla form
-            serialReader.StartPort();
-        }
-
         public string[] GetValveFields() {
             return new string[] { textBoxNameValve.Text, textBoxModelValve.Text };
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            serialReader.StopPort(); //in questo modo, se si e' su linux (ma anche Windows) si killa il thread in ascolto sulla seriale
         }
     }
 }
