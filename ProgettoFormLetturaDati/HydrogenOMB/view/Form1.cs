@@ -14,7 +14,7 @@ namespace HydrogenOMB {
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
             Settings.Init();
-            InizializzaOggetti();
+            dataMan = new DataManager(this);
         }
 
         private void buttonSettings_Click(object sender, EventArgs e) { //settings
@@ -39,10 +39,6 @@ namespace HydrogenOMB {
                 }));
                 return;
             }
-        }
-
-        private void InizializzaOggetti() {
-            dataMan = new DataManager(this);
         }
 
         public void ResetValveFields() {
