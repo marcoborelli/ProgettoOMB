@@ -84,16 +84,8 @@ namespace HydrogenOMB {
         }
 
         public void Write(OMBRecord record) {
-            Ws.Cells[IndexRiga, 1].Style.Numberformat.Format = "@";
-            Ws.Cells[IndexRiga, 1].Value = record.Delta;
-
-            Ws.Cells[IndexRiga, 2].Style.Numberformat.Format = "@";
-            Ws.Cells[IndexRiga, 2].Value = record.Time;
-
-            Ws.Cells[IndexRiga, 3].Value = record.Angle;
-
-            Ws.Cells[IndexRiga, 4].Value = record.Pair;
-
+            Ws.Cells[IndexRiga, 1].Value = record.Angle;
+            Ws.Cells[IndexRiga, 2].Value = record.Pair;
 
             IndexRiga++;
         }

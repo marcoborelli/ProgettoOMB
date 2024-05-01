@@ -8,6 +8,6 @@ namespace HydrogenOMB {
         void OnForcedStop();
         void OnEndArrayOpen();
         void OnEndArrayClose();
-        void OnData(string row, DateTime oldTime);
+        void OnData(string row);
     }
 }

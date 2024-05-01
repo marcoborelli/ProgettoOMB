@@ -10,7 +10,7 @@ namespace HydrogenOMB {
         private SerialPortReader _sPortReader;
 
         private readonly char Separator; //separatore del record ricevuto sulla porta seriale
-        string[] campi = new string[] { "delta", "time", "angle", "pair" };
+        string[] campi = new string[] { "angle", "pair" };
 
 
         public DataManager(Form1 form) {
@@ -85,8 +85,8 @@ namespace HydrogenOMB {
             }
         }
 
-        public void OnData(string row, DateTime oldTime) {
-            OMBRecord rec = new OMBRecord(row, Separator, oldTime);
+        public void OnData(string row) {
+            OMBRecord rec = new OMBRecord(row, Separator);
 
             if (rec != null) { //se e' null e' perche' i gradi hanno superato il max
                 ExcManager.Write(rec); //per stampare su file excel
