@@ -55,5 +55,9 @@ namespace HydrogenOMB {
         public string[] GetValveFields() {
             return new string[] { textBoxNameValve.Text, textBoxModelValve.Text };
         }
+
+        public void SetItemsCombo(string[] items) {
+            cbValveInstance.Items.AddRange(items);
+        }
     }
 }
