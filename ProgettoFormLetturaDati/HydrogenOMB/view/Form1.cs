@@ -42,10 +42,10 @@ namespace HydrogenOMB {
             }
         }
 
-        public void ResetValveFields() {
+        public void ResetValveIdField() {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
-                    cbValveInstance.Text = "";
+                    cbValveInstance.SelectedIndex = -1;
                     cbValveInstance.Focus();
                 }));
                 return;

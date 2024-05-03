@@ -84,7 +84,7 @@ namespace HydrogenOMB {
 
             AssociatedForm.PrintOn(Color.Green, DateTime.Now, "File excel creato correttamente!\n");
             AssociatedForm.SetStateOfValveDataInput(true);
-            AssociatedForm.ResetValveFields();
+            AssociatedForm.ResetValveIdField();
 
             if (Settings.Instance.OpenInExplorer) {
                 string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
