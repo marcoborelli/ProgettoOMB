@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\IDataManager.cs" />
+    <Compile Include="model\CharacteristicValues.cs" />
     <Compile Include="model\OmbRecord.cs" />
     <Compile Include="controller\PublicData.cs" />
     <Compile Include="controller\EnhancedSerialPort.cs">
