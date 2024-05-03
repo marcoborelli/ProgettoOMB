@@ -26,9 +26,6 @@
             this.buttonSettings = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBoxAvvisi = new System.Windows.Forms.RichTextBox();
-            this.textBoxModelValve = new System.Windows.Forms.TextBox();
-            this.textBoxNameValve = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.cbValveInstance = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
@@ -46,11 +43,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(79, 12);
+            this.label1.Location = new System.Drawing.Point(79, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 16);
+            this.label1.Size = new System.Drawing.Size(169, 16);
             this.label1.TabIndex = 5;
-            this.label1.Text = "VALVE NAME:";
+            this.label1.Text = "MODEL SERIAL NUMBER:";
             // 
             // richTextBoxAvvisi
             // 
@@ -58,40 +55,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxAvvisi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxAvvisi.Location = new System.Drawing.Point(12, 101);
+            this.richTextBoxAvvisi.Location = new System.Drawing.Point(12, 73);
             this.richTextBoxAvvisi.Name = "richTextBoxAvvisi";
             this.richTextBoxAvvisi.ReadOnly = true;
-            this.richTextBoxAvvisi.Size = new System.Drawing.Size(289, 66);
+            this.richTextBoxAvvisi.Size = new System.Drawing.Size(289, 165);
             this.richTextBoxAvvisi.TabIndex = 6;
             this.richTextBoxAvvisi.Text = "";
-            // 
-            // textBoxModelValve
-            // 
-            this.textBoxModelValve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxModelValve.Location = new System.Drawing.Point(188, 39);
-            this.textBoxModelValve.Name = "textBoxModelValve";
-            this.textBoxModelValve.Size = new System.Drawing.Size(113, 20);
-            this.textBoxModelValve.TabIndex = 1;
-            // 
-            // textBoxNameValve
-            // 
-            this.textBoxNameValve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxNameValve.Location = new System.Drawing.Point(188, 8);
-            this.textBoxNameValve.Name = "textBoxNameValve";
-            this.textBoxNameValve.Size = new System.Drawing.Size(113, 20);
-            this.textBoxNameValve.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(79, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 16);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "VALVE MODEL:";
             // 
             // cbValveInstance
             // 
@@ -99,21 +68,18 @@
             this.cbValveInstance.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbValveInstance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbValveInstance.FormattingEnabled = true;
-            this.cbValveInstance.Location = new System.Drawing.Point(135, 74);
+            this.cbValveInstance.Location = new System.Drawing.Point(73, 46);
             this.cbValveInstance.Name = "cbValveInstance";
-            this.cbValveInstance.Size = new System.Drawing.Size(166, 21);
+            this.cbValveInstance.Size = new System.Drawing.Size(228, 21);
             this.cbValveInstance.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 179);
+            this.ClientSize = new System.Drawing.Size(318, 250);
             this.Controls.Add(this.cbValveInstance);
             this.Controls.Add(this.richTextBoxAvvisi);
-            this.Controls.Add(this.textBoxModelValve);
-            this.Controls.Add(this.textBoxNameValve);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonSettings);
             this.MinimumSize = new System.Drawing.Size(334, 218);
@@ -129,9 +95,6 @@
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox richTextBoxAvvisi;
-        private System.Windows.Forms.TextBox textBoxModelValve;
-        private System.Windows.Forms.TextBox textBoxNameValve;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbValveInstance;
     }
 }
