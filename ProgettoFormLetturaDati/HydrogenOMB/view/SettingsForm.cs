@@ -55,15 +55,19 @@ namespace HydrogenOMB {
             SettaModificato();
         }
 
+        private void textBoxBackendUrl_TextChanged(object sender, EventArgs e) {
+            SettaModificato();
+        }
+
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) {
             //e.Cancel = true;
             if (modified) {
                 DialogResult result = MessageBox.Show("Sono state modificate delle impostazioni, desideri salvare?", "CONFERMA", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes) {
                     if (PublicData.IsWindows()) //perche' se sono su Win la porta di linux non la devo vedere e viceversa
-                        Settings.Instance.WriteSettings(comboBoxPorta.Text, Settings.Instance.PortNameOnLinux, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
+                        Settings.Instance.WriteSettings(comboBoxPorta.Text, Settings.Instance.PortNameOnLinux, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked, textBoxBackendUrl.Text.Trim());
                     else
-                        Settings.Instance.WriteSettings(Settings.Instance.PortNameOnWin, comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked);
+                        Settings.Instance.WriteSettings(Settings.Instance.PortNameOnWin, comboBoxPorta.Text, uint.Parse(comboBoxVelocita.Text), (ushort)(trackBarGradi.Value * step + min), checkOpenExplorer.Checked, textBoxBackendUrl.Text.Trim());
                 }
             }
         }
@@ -74,6 +78,7 @@ namespace HydrogenOMB {
             comboBoxVelocita.Text = $"{Settings.Instance.PortBaud}";
             trackBarGradi.Value = (Settings.Instance.MaxDegrees - min) / step;
             checkOpenExplorer.Checked = Settings.Instance.OpenInExplorer;
+            textBoxBackendUrl.Text = $"{Settings.Instance.BackendURL}";
         }
 
         private void SettaModificato() {

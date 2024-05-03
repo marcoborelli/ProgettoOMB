@@ -108,6 +108,7 @@
             this.textBoxBackendUrl.Name = "textBoxBackendUrl";
             this.textBoxBackendUrl.Size = new System.Drawing.Size(233, 20);
             this.textBoxBackendUrl.TabIndex = 6;
+            this.textBoxBackendUrl.TextChanged += new System.EventHandler(this.textBoxBackendUrl_TextChanged);
             // 
             // label4
             // 

@@ -10,6 +10,7 @@ namespace HydrogenOMB {
         public uint PortBaud { get; private set; }
         public ushort MaxDegrees { get; private set; }
         public bool OpenInExplorer { get; private set; }
+        public string BackendURL { get; private set; }
 
 
         private Settings() { //Singleton Pattern
@@ -45,12 +46,13 @@ namespace HydrogenOMB {
                 PortBaud = uint.Parse(elements[2]);
                 MaxDegrees = ushort.Parse(elements[3]);
                 OpenInExplorer = bool.Parse(elements[4]);
+                BackendURL = elements[5];
             }
         }
 
-        public void WriteSettings(string portNameWin, string portNameLinux, uint portBaud, ushort maxDeg, bool openInExplorer) {
+        public void WriteSettings(string portNameWin, string portNameLinux, uint portBaud, ushort maxDeg, bool openInExplorer, string backendURL) {
             using (StreamWriter sw = new StreamWriter(PublicData.Instance.ConfigFileName)) {
-                sw.Write($"{portNameWin};{portNameLinux};{portBaud};{maxDeg};{openInExplorer}");
+                sw.Write($"{portNameWin};{portNameLinux};{portBaud};{maxDeg};{openInExplorer};{backendURL}");
             }
 
             ReadSettings(); //cosi' si aggiornano anche le variabili globali nel codice (senno' si aggiornerebbe solo il file)
@@ -59,7 +61,7 @@ namespace HydrogenOMB {
 
         private void RecreateConfFile() { // ricreo il file delle configurazioni con dei valori di default
             using (StreamWriter sw = new StreamWriter(PublicData.Instance.ConfigFileName)) {
-                sw.Write($"COM3;/dev/ttyACM0;9600;100;true");
+                sw.Write($"COM3;/dev/ttyACM0;9600;100;true;http://84.33.120.138:9999/");
             }
         }
     }
