@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HydrogenOMB {
     internal class ValveInstance {
         private string _id, _jobNumber;
-        private ValveModel _valveModel;
+        private object _valveModel;
 
 
         [JsonProperty("_id")]
@@ -19,9 +20,15 @@ namespace HydrogenOMB {
         }
 
         [JsonProperty("valve_model")]
-        public ValveModel ValveModel {
+        public object ValveModel {
             get => _valveModel;
-            private set => PublicData.InsertIfObjValid(ref _valveModel, value, "Valve model");
+            private set {
+                if (value is JObject) {
+                    _valveModel = ((JObject)value).ToObject<ValveModel>();
+                } else {
+                    _valveModel = value.ToString();
+                }
+            }
         }
     }
 }
