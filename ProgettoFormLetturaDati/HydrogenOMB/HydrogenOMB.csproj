@@ -93,6 +93,7 @@
     <Compile Include="controller\SerialPortReader.cs" />
     <Compile Include="controller\DataManager.cs" />
     <Compile Include="controller\Settings.cs" />
+    <Compile Include="model\ValveFamily.cs" />
     <Compile Include="view\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
