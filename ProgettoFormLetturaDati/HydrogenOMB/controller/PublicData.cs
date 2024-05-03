@@ -4,16 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace HydrogenOMB {
     public class PublicData {
-        public struct StructInfoValve {
-            public string NomeValvola;
-            public string ModelloValvola;
-        }
-
-
         private static PublicData _instance;
 
-        private string _configFileName, _outpDirectory, _templateFileName;
-        public StructInfoValve InfoValve;
+        private string _configFileName, _outpDirectory, _templateFileName, _valveSerialNumber;
 
 
         public static PublicData Instance {
@@ -40,6 +33,11 @@ namespace HydrogenOMB {
             private set => InsertIfObjValid(ref _templateFileName, value, "Template filename");
         }
 
+        public string ValveSerialNumber {
+            get => _valveSerialNumber;
+            set => _valveSerialNumber = value; //puo' potenzialmente essere null se l'operatore non passa all'inizio il valore
+        }
+
 
         private PublicData() { //Singleton Pattern
         }
@@ -51,7 +49,7 @@ namespace HydrogenOMB {
             Instance.ConfigFileName = "settings.conf";
             Instance.OutputDirectory = "File";
             Instance.TemplateFileName = "base";
-            Instance.InfoValve = new StructInfoValve();
+            Instance.ValveSerialNumber = "";
 
             Instance.CheckFileAndFolder();
         }

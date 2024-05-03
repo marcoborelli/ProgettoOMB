@@ -26,7 +26,7 @@ namespace HydrogenOMB {
         public void SetStateOfValveDataInput(bool enabled) {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
-                    textBoxModelValve.Enabled = textBoxNameValve.Enabled = enabled;
+                    cbValveInstance.Enabled = enabled;
                 }));
                 return;
             }
@@ -45,15 +45,21 @@ namespace HydrogenOMB {
         public void ResetValveFields() {
             if (InvokeRequired) {
                 this.Invoke(new MethodInvoker(delegate {
-                    textBoxModelValve.Text = textBoxNameValve.Text = "";
-                    textBoxNameValve.Focus();
+                    cbValveInstance.Text = "";
+                    cbValveInstance.Focus();
                 }));
                 return;
             }
         }
 
-        public string[] GetValveFields() {
-            return new string[] { textBoxNameValve.Text, textBoxModelValve.Text };
+        public string GetValveId() {
+            string text = "";
+
+            this.Invoke(new MethodInvoker(delegate {
+                text = cbValveInstance.Text;
+            }));
+
+            return text;
         }
 
         public void SetItemsCombo(string[] items) {

@@ -82,8 +82,7 @@ namespace HydrogenOMB {
         public void WriteValveInfo() {
             //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
             ChangeWorkSheet((uint)eWorksheet.ValveData);
-            Ws.Cells[1, 2].Value = PublicData.Instance.InfoValve.NomeValvola;
-            Ws.Cells[2, 2].Value = PublicData.Instance.InfoValve.ModelloValvola;
+            Ws.Cells[1, 2].Value = PublicData.Instance.ValveSerialNumber;
         }
 
         public void Write(OMBRecord record) {
