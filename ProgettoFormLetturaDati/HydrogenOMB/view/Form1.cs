@@ -14,6 +14,7 @@ namespace HydrogenOMB {
         private void Form1_Load(object sender, EventArgs e) {
             PublicData.Init();
             Settings.Init();
+            ApiRequester.Init($"{Settings.Instance.BackendURL}");
             dataMan = new DataManager(this);
         }
 
