@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HydrogenOMB {
     public class ValveModel {
         private string _id;
-        private ValveFamily _valveFamily;
+        private object _valveFamily;
 
 
         [JsonProperty("description")]
@@ -22,9 +23,15 @@ namespace HydrogenOMB {
         }
 
         [JsonProperty("valve_family")]
-        public ValveFamily TheoricValues {
+        public object ValveFamily {
             get => _valveFamily;
-            private set => PublicData.InsertIfObjValid(ref _valveFamily, value, "Valve Family");
+            private set {
+                if (value is JObject) {
+                    _valveFamily = ((JObject)value).ToObject<ValveFamily>();
+                } else {
+                    _valveFamily = value.ToString();
+                }
+            }
         }
     }
 }
