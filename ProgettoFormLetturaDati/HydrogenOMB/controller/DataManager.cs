@@ -92,8 +92,8 @@ namespace HydrogenOMB {
             }
         }
 
-        public void OnData(string row) {
-            OMBRecord rec = new OMBRecord(row, Separator);
+        public void OnData(string row, bool isOpening) {
+            OMBRecord rec = new OMBRecord(row, isOpening, Separator);
 
             if (rec != null) { //se e' null e' perche' i gradi hanno superato il max
                 ExcManager.Write(rec); //per stampare su file excel

@@ -6,6 +6,8 @@ namespace HydrogenOMB {
         private float _pair;
         private const byte ParamatersNumber = 2;
 
+        public bool IsOpening { get; private set; }
+
 
         public short Angle {
             get => _angle;
@@ -18,7 +20,7 @@ namespace HydrogenOMB {
         }
 
 
-        public OMBRecord(string row, char separator) {
+        public OMBRecord(string row, bool isOpening, char separator) {
             string[] fields = row.Split(separator); //in caso ci siano più campi
             if (fields.Length != ParamatersNumber) {
                 CampiDefault(ref fields);
@@ -30,6 +32,7 @@ namespace HydrogenOMB {
 
             Angle = short.Parse(fields[0]);
             Pair = float.Parse(fields[1]);
+            IsOpening = isOpening;
         }
 
 

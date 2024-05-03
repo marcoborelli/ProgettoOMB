@@ -7,6 +7,7 @@ namespace HydrogenOMB {
         private EnhancedSerialPort _port;
         private IDataManager _dManager;
         private bool Started { get; set; }
+        private bool IsOpening { get; set; }
 
 
         public SerialPortReader(string ComPorta, uint VelocitaPorta, IDataManager dManager) {
@@ -31,6 +32,7 @@ namespace HydrogenOMB {
 
         public void StartPort() {
             Started = false;
+            IsOpening = true;
 
             Port.Open(); //Begin communications
         }
@@ -61,6 +63,7 @@ namespace HydrogenOMB {
                     break;
                 case "ENDARROPEN\r":
                     DManager.OnEndArrayOpen();
+                    IsOpening = false;
                     break;
                 case "ENDARRCLOSE\r":
                     DManager.OnEndArrayClose();
@@ -69,7 +72,7 @@ namespace HydrogenOMB {
                     if (!Started)
                         break;
 
-                    DManager.OnData(tmp);
+                    DManager.OnData(tmp, IsOpening);
                     break;
             }
         }
