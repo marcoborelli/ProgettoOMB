@@ -30,6 +30,8 @@
             this.checkOpenExplorer = new System.Windows.Forms.CheckBox();
             this.comboBoxVelocita = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBoxBackendUrl = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarGradi)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +76,7 @@
             // checkOpenExplorer
             // 
             this.checkOpenExplorer.AutoSize = true;
-            this.checkOpenExplorer.Location = new System.Drawing.Point(15, 136);
+            this.checkOpenExplorer.Location = new System.Drawing.Point(15, 192);
             this.checkOpenExplorer.Name = "checkOpenExplorer";
             this.checkOpenExplorer.Size = new System.Drawing.Size(134, 17);
             this.checkOpenExplorer.TabIndex = 2;
@@ -100,11 +102,29 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "VELOCITA\':";
             // 
-            // Settings
+            // textBoxBackendUrl
+            // 
+            this.textBoxBackendUrl.Location = new System.Drawing.Point(12, 145);
+            this.textBoxBackendUrl.Name = "textBoxBackendUrl";
+            this.textBoxBackendUrl.Size = new System.Drawing.Size(233, 20);
+            this.textBoxBackendUrl.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 129);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(141, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "BACKEND URL [\'/\' FINALE]";
+            // 
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 167);
+            this.ClientSize = new System.Drawing.Size(259, 221);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBoxBackendUrl);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxVelocita);
             this.Controls.Add(this.checkOpenExplorer);
@@ -114,7 +134,7 @@
             this.Controls.Add(this.comboBoxPorta);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Settings";
+            this.Name = "SettingsForm";
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Settings_FormClosing);
             this.Load += new System.EventHandler(this.Settings_Load);
@@ -133,5 +153,7 @@
         private System.Windows.Forms.CheckBox checkOpenExplorer;
         private System.Windows.Forms.ComboBox comboBoxVelocita;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxBackendUrl;
+        private System.Windows.Forms.Label label4;
     }
 }
