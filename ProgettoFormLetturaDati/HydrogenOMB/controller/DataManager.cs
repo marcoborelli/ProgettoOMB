@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace HydrogenOMB {
     public class DataManager : IDataManager {
@@ -23,6 +24,14 @@ namespace HydrogenOMB {
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             SPortReader = new SerialPortReader(portName, Settings.Instance.PortBaud, this);
             SPortReader.StartPort();
+
+            LoadComboBoxItems();
+        }
+
+        public async Task LoadComboBoxItems() {
+            string[] res = await ApiRequester.Instance.GetAllInstances();
+            AssociatedForm.SetItemsCombo(res);
+            AssociatedForm.PrintOn(Color.Beige, DateTime.Now, "Id di tutte le istanze caricati correttamente");
         }
 
 
@@ -47,6 +56,7 @@ namespace HydrogenOMB {
         public void OnStart() {
             AssociatedForm.SetStateOfValveDataInput(false);
             string[] valveFields = AssociatedForm.GetValveFields();
+
             PublicData.Instance.InfoValve.NomeValvola = valveFields[0];
             PublicData.Instance.InfoValve.ModelloValvola = valveFields[1];
 
