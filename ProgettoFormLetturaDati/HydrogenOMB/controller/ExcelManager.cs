@@ -12,7 +12,7 @@ namespace HydrogenOMB {
     }
 
     public class ExcelManager {
-        private string [] fields;
+        private string[] fields;
         private string _fileName, _path, _templateFile;
         private const string Estensione = "xlsx";
         private int IndexRiga { get; set; }
@@ -69,11 +69,7 @@ namespace HydrogenOMB {
 
             ExcelFile = new ExcelPackage($@"{Path}/{FileName}.{Estensione}");
 
-            //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
-            ChangeWorkSheet((uint)eWorksheet.ValveData);
-            Ws.Cells[1, 2].Value = PublicData.Instance.InfoValve.NomeValvola;
-            Ws.Cells[2, 2].Value = PublicData.Instance.InfoValve.ModelloValvola;
-
+            WriteValveInfo();
 
             for (uint j = (uint)(eWorksheet.OpenValveData); j <= (uint)(eWorksheet.CloseValveData); j++) {
                 ChangeWorkSheet(j);
@@ -81,6 +77,13 @@ namespace HydrogenOMB {
                     Ws.Cells[1, i + 1].Value = fields[i].ToUpper();
                 }
             }
+        }
+
+        public void WriteValveInfo() {
+            //**RIEMPIMENTO DATI INFORMAZIONI VALVOLA**//
+            ChangeWorkSheet((uint)eWorksheet.ValveData);
+            Ws.Cells[1, 2].Value = PublicData.Instance.InfoValve.NomeValvola;
+            Ws.Cells[2, 2].Value = PublicData.Instance.InfoValve.ModelloValvola;
         }
 
         public void Write(OMBRecord record) {
