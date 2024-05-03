@@ -44,7 +44,7 @@ namespace HydrogenOMB {
 
         public async Task<string[]> GetAllInstances() {
             try {
-                HttpResponseMessage response = await HttpClient.GetAsync($"/api/instances/all");
+                HttpResponseMessage response = await HttpClient.GetAsync($"/api/instances/all?showTests=false&showModel=false");
 
                 if (response.IsSuccessStatusCode) {
                     string jsonString = await response.Content.ReadAsStringAsync();
