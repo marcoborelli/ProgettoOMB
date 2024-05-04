@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
 namespace HydrogenOMB {
     public class OMBRecord {
@@ -6,14 +6,16 @@ namespace HydrogenOMB {
         private float _pair;
         private const byte ParamatersNumber = 2;
 
+        [JsonProperty("isOpening")]
         public bool IsOpening { get; private set; }
 
-
+        [JsonProperty("angle")]
         public short Angle {
             get => _angle;
             private set => PublicData.InsertIfObjValid(ref _angle, value, "Angle");
         }
 
+        [JsonProperty("pair")]
         public float Pair {
             get => _pair;
             private set => PublicData.InsertIfObjValid(ref _pair, value, "Pair");
