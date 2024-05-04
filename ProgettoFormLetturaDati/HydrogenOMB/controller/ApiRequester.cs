@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HydrogenOMB {
@@ -57,6 +58,17 @@ namespace HydrogenOMB {
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
                 return null;
+            }
+        }
+
+        public async Task<bool> AddNewTest(Test test) {
+            try {
+                var requestContent = new StringContent(JsonConvert.SerializeObject(test), Encoding.Unicode, "application/json");
+                HttpResponseMessage response = await HttpClient.PostAsync($"/api/tests/add", requestContent);
+                return response.IsSuccessStatusCode;
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
     }
