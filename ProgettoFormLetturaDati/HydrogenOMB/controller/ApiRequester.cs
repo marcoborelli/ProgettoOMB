@@ -22,8 +22,9 @@ namespace HydrogenOMB {
 
 
         private ApiRequester(string baseAddress) {
-            HttpClient = new HttpClient();
-            HttpClient.BaseAddress = new Uri(baseAddress);
+            HttpClient = new HttpClient {
+                BaseAddress = new Uri(baseAddress)
+            };
         }
 
 
@@ -33,9 +34,9 @@ namespace HydrogenOMB {
 
 
 
-        public async Task<bool> IsInstanceValid(string instanceId) {
+        public async Task<bool> GetInstanceData(string instanceId) {
             try {
-                HttpResponseMessage response = await HttpClient.GetAsync($"/api/instances/{instanceId}");
+                HttpResponseMessage response = await HttpClient.GetAsync($"/api/instances/get/{instanceId}");
                 return response.IsSuccessStatusCode; //TODO: verificare cosa succede se il server non e' raggiungibile
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
