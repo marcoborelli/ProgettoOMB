@@ -43,7 +43,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(79, 21);
+            this.label1.Location = new System.Drawing.Point(71, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(169, 16);
             this.label1.TabIndex = 5;
@@ -58,7 +58,7 @@
             this.richTextBoxAvvisi.Location = new System.Drawing.Point(12, 73);
             this.richTextBoxAvvisi.Name = "richTextBoxAvvisi";
             this.richTextBoxAvvisi.ReadOnly = true;
-            this.richTextBoxAvvisi.Size = new System.Drawing.Size(289, 165);
+            this.richTextBoxAvvisi.Size = new System.Drawing.Size(412, 165);
             this.richTextBoxAvvisi.TabIndex = 6;
             this.richTextBoxAvvisi.Text = "";
             // 
@@ -70,14 +70,14 @@
             this.cbValveInstance.FormattingEnabled = true;
             this.cbValveInstance.Location = new System.Drawing.Point(73, 46);
             this.cbValveInstance.Name = "cbValveInstance";
-            this.cbValveInstance.Size = new System.Drawing.Size(228, 21);
+            this.cbValveInstance.Size = new System.Drawing.Size(351, 21);
             this.cbValveInstance.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 250);
+            this.ClientSize = new System.Drawing.Size(441, 250);
             this.Controls.Add(this.cbValveInstance);
             this.Controls.Add(this.richTextBoxAvvisi);
             this.Controls.Add(this.label1);
