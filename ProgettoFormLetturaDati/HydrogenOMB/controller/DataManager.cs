@@ -33,9 +33,20 @@ namespace HydrogenOMB {
         }
 
         public async Task LoadComboBoxItems() {
+            AssociatedForm.PrintOn(Color.Black, "È in corso la connessione al servizio web...");
             string[] res = await ApiRequester.Instance.GetAllInstances();
-            AssociatedForm.SetItemsCombo(res);
-            AssociatedForm.PrintOn(Color.Black, "Id di tutte le istanze caricati correttamente");
+
+            if (res == null) {
+                //TODO: aggiungere file di testo a parte in cui vengono salvati gli ultimi id e caricare quello
+                AssociatedForm.PrintOn(Color.Red, "Non è stato possibile connetrsi al db. Inserire l'id manualmente");
+                AssociatedForm.SetComboWriteableState(true);
+            } else if (res.Length == 0) {
+                AssociatedForm.PrintOn(Color.Red, "Non sono presenti seriali. Inserire prima modelli di valvola");
+            } else {
+                AssociatedForm.PrintOn(Color.Black, "Id di tutte le istanze caricati correttamente");
+                AssociatedForm.SetComboWriteableState(false); //nel caso in cui prima fosse stato cambiato ora viene ripristinato
+                AssociatedForm.SetItemsCombo(res);
+            }
         }
 
 
