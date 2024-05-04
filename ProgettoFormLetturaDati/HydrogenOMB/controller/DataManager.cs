@@ -86,6 +86,8 @@ namespace HydrogenOMB {
             AssociatedForm.SetStateOfValveDataInput(true);
             AssociatedForm.ResetValveIdField();
 
+            SPortReader.ResetTestField();
+
             if (Settings.Instance.OpenInExplorer) {
                 string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
                 Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");

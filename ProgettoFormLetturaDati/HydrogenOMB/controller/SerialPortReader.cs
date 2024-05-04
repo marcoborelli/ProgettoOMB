@@ -29,11 +29,13 @@ namespace HydrogenOMB {
         }
         /*fine properties*/
 
-
-        public void StartPort() {
+        public void ResetTestField() {
             Started = false;
             IsOpening = true;
+        }
 
+        public void StartPort() {
+            ResetTestField();
             Port.Open(); //Begin communications
         }
 
