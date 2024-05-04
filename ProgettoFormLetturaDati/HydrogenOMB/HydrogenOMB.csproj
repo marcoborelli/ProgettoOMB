@@ -94,6 +94,7 @@
     <Compile Include="controller\SerialPortReader.cs" />
     <Compile Include="controller\DataManager.cs" />
     <Compile Include="controller\Settings.cs" />
+    <Compile Include="model\Test.cs" />
     <Compile Include="model\ValveFamily.cs" />
     <Compile Include="model\ValveInstance.cs" />
     <Compile Include="model\ValveModel.cs" />
