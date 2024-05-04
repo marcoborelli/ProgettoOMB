@@ -63,5 +63,9 @@ namespace HydrogenOMB {
         public void SetItemsCombo(string[] items) {
             cbValveInstance.Items.AddRange(items);
         }
+
+        public void SetComboWriteableState(bool isWriteable) {
+            cbValveInstance.DropDownStyle = isWriteable ? ComboBoxStyle.Simple : ComboBoxStyle.DropDownList;
+        }
     }
 }
