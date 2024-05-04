@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace HydrogenOMB {
     public class DataManager : IDataManager {
@@ -12,6 +13,7 @@ namespace HydrogenOMB {
 
         private readonly char Separator; //separatore del record ricevuto sulla porta seriale
         string[] campi = new string[] { "angle", "pair" };
+        private List <OMBRecord> TestData { get; set; }
 
 
         public DataManager(Form1 form) {
@@ -24,6 +26,8 @@ namespace HydrogenOMB {
             string portName = PublicData.IsWindows() ? Settings.Instance.PortNameOnWin : Settings.Instance.PortNameOnLinux;
             SPortReader = new SerialPortReader(portName, Settings.Instance.PortBaud, this);
             SPortReader.StartPort();
+
+            TestData = new List<OMBRecord>();
 
             LoadComboBoxItems();
         }
@@ -92,6 +96,10 @@ namespace HydrogenOMB {
                 string fileMan = PublicData.IsWindows() ? "explorer.exe" : "xdg-open";
                 Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
             }
+
+            Test t = new Test(PublicData.Instance.ValveSerialNumber, TestData);
+            ApiRequester.Instance.AddNewTest(t);
+            TestData.Clear();
         }
 
         public void OnData(string row, bool isOpening) {
@@ -99,6 +107,7 @@ namespace HydrogenOMB {
 
             if (rec != null) { //se e' null e' perche' i gradi hanno superato il max
                 ExcManager.Write(rec); //per stampare su file excel
+                TestData.Add(rec);
             }
         }
 
