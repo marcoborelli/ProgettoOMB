@@ -35,7 +35,7 @@ namespace HydrogenOMB {
         public async Task LoadComboBoxItems() {
             string[] res = await ApiRequester.Instance.GetAllInstances();
             AssociatedForm.SetItemsCombo(res);
-            AssociatedForm.PrintOn(Color.Beige, DateTime.Now, "Id di tutte le istanze caricati correttamente");
+            AssociatedForm.PrintOn(Color.Black, "Id di tutte le istanze caricati correttamente");
         }
 
 
@@ -61,20 +61,20 @@ namespace HydrogenOMB {
             AssociatedForm.SetStateOfValveDataInput(false);
             PublicData.Instance.ValveSerialNumber = AssociatedForm.GetValveId();
 
-            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Inizio misurazione");
+            AssociatedForm.PrintOn(Color.Black, "Inizio misurazione");
         }
 
         public void OnEndOpen() {
-            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Apertura valvola terminata, inzio chiusura...");
+            AssociatedForm.PrintOn(Color.Black, "Apertura valvola terminata, inzio chiusura...");
         }
 
         public void OnStop() {
-            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Misurazione terminata con successo");
+            AssociatedForm.PrintOn(Color.Black, "Misurazione terminata con successo");
             StartNewExcelFile();
         }
 
         public void OnForcedStop() {
-            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Misurazione fermata");
+            AssociatedForm.PrintOn(Color.Black, "Misurazione fermata");
             StartNewExcelFile();
         }
 
@@ -86,7 +86,7 @@ namespace HydrogenOMB {
         public void OnEndArrayClose() {
             ExcManager.Close(); //chiudo e salvo il file di excel
 
-            AssociatedForm.PrintOn(Color.Green, DateTime.Now, "File excel creato correttamente!\n");
+            AssociatedForm.PrintOn(Color.Green, "File excel creato correttamente!\n");
             AssociatedForm.SetStateOfValveDataInput(true);
             AssociatedForm.ResetValveIdField();
 
@@ -114,7 +114,7 @@ namespace HydrogenOMB {
 
         private void StartNewExcelFile() {
             ExcManager.StartNewFile();
-            AssociatedForm.PrintOn(Color.Black, DateTime.Now, "Creazione file excel...");
+            AssociatedForm.PrintOn(Color.Black, "Creazione file excel...");
             ExcManager.ChangeWorkSheet((uint)eWorksheet.OpenValveData);
         }
 
