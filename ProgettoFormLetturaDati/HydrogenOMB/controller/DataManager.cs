@@ -13,7 +13,9 @@ namespace HydrogenOMB {
 
         private readonly char Separator; //separatore del record ricevuto sulla porta seriale
         string[] campi = new string[] { "angle", "pair" };
+
         private List <OMBRecord> TestData { get; set; }
+        private DateTime StartTime { get; set; }
 
 
         public DataManager(Form1 form) {
@@ -72,7 +74,10 @@ namespace HydrogenOMB {
             AssociatedForm.SetStateOfValveDataInput(false);
             PublicData.Instance.ValveSerialNumber = AssociatedForm.GetValveId();
 
+            StartTime = DateTime.Now;
+
             AssociatedForm.PrintOn(Color.Black, "Inizio misurazione");
+            ApiRequester.Instance.GetInstanceData(PublicData.Instance.ValveSerialNumber);
         }
 
         public void OnEndOpen() {
@@ -108,7 +113,7 @@ namespace HydrogenOMB {
                 Process.Start(fileMan, $"{AppDomain.CurrentDomain.BaseDirectory}{PublicData.Instance.OutputDirectory}");
             }
 
-            Test t = new Test(PublicData.Instance.ValveSerialNumber, TestData);
+            Test t = new Test(StartTime, PublicData.Instance.ValveSerialNumber, TestData);
             ApiRequester.Instance.AddNewTest(t);
             TestData.Clear();
         }
