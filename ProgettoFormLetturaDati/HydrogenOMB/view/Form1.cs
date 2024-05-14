@@ -37,6 +37,7 @@ namespace HydrogenOMB {
             this.Invoke(new MethodInvoker(delegate {
                 richTextBoxAvvisi.SelectionColor = col;
                 richTextBoxAvvisi.AppendText($"{now.TimeOfDay.Hours}:{now.TimeOfDay.Minutes}:{now.TimeOfDay.Seconds}: {mess}\n");
+                richTextBoxAvvisi.Focus();
             }));
         }
 
